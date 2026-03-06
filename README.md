@@ -10,6 +10,7 @@
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 [![Platform: Windows](https://img.shields.io/badge/Platform-Windows-blue?logo=windows)](https://www.microsoft.com/windows)
+[![Ko-fi](https://img.shields.io/badge/Buy%20me%20a%20coffee-Ko--fi-FF5E5B?logo=ko-fi&logoColor=white)](https://ko-fi.com/vestra)
 
 </div>
 
@@ -142,6 +143,12 @@ Key fields per card:
 
 MIT License — free to use, modify, and distribute.
 
+### ❤️ Support
+
+Vestra is free and open-source. If it saves you time or helps your investing workflow, consider buying me a coffee!
+
+[![Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/vestra)
+
 ---
 
 ---
@@ -216,6 +223,14 @@ python -m widget.main
 | `bg_tint` | 自訂背景色（hex 顏色碼）|
 | `chart_accent` | 自訂座標軸與文字色（hex 顏色碼）|
 | `qty` / `cost` | 持倉數量與成本（損益模擬）|
+
+---
+
+### ❤️ 支持作者
+
+Vestra 完全免費開源。如果你覺得好用，歡迎請作者喝杯咖啡！☕
+
+[![Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/vestra)
 
 ---
 
