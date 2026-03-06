@@ -1,0 +1,23 @@
+# Vestra — Stock Desktop Widget
+# Install with: pip install -r requirements.txt
+
+# Data
+yfinance>=0.2.30
+pandas>=2.0
+numpy>=1.24
+
+# Chart rendering
+matplotlib>=3.7
+
+# Taiwan stock feed (optional — needed for real-time TW data)
+fugle-marketdata>=1.0; sys_platform == 'win32'
+
+# Crypto feed
+requests>=2.28
+
+# System tray icon (optional)
+pystray>=0.19
+pillow>=10.0
+
+# Desktop notifications (optional — for price alerts)
+plyer>=2.1
