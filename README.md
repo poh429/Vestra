@@ -1,6 +1,8 @@
 <div align="center">
 
-# 🌌 Vestra — Stock Desktop Widget
+<img src="screenshots/logo.png" width="200" alt="Vestra Logo" />
+
+# Vestra — Stock Desktop Widget
 
 **A sleek, always-on-top desktop stock widget for power investors**  
 **優雅的桌面股票看板，專為重度投資者打造**
@@ -32,7 +34,7 @@
 
 ### 🖥 Demo
 
-> Screenshots go here — add your own from the `screenshots/` folder
+![Vestra on Desktop](screenshots/demo.png)
 
 ---
 
@@ -165,7 +167,7 @@ MIT License — free to use, modify, and distribute.
 
 #### 1. 下載專案
 ```bash
-git clone https://github.com/YOUR_USERNAME/Vestra.git
+git clone https://github.com/poh429/Vestra.git
 cd Vestra
 ```
 
