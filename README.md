@@ -37,6 +37,8 @@
 
 ![Vestra on Desktop](screenshots/demo.png)
 
+![Manager Panel](screenshots/manage.jpg)
+
 ---
 
 ### 🚀 Quick Start
