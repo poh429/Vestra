@@ -157,11 +157,6 @@ class CardWindow(tk.Toplevel):
         if hasattr(self.master, "_cfg"):
             acrylic_mode = self.master._cfg.get("acrylic_mode", "off")
 
-        if acrylic_mode == "off":
-            self.configure(bg=theme.BG)
-            self.attributes("-alpha", self._cfg.get("alpha", 0.93))
-            return
-
         try:
             import ctypes
 
@@ -183,13 +178,15 @@ class CardWindow(tk.Toplevel):
                     ("SizeOfData", ctypes.c_size_t),
                 ]
 
-            # AccentState 4 = ACCENT_ENABLE_ACRYLICBLURBEHIND
-            # GradientColor AABBGGRR — low AA = more transparent/blurry tint
-            tint = 0x44_12_12_1a  # ~27% dark blue-grey tint
             acc = _ACCENT()
-            acc.AccentState   = 4
-            acc.AccentFlags   = 2      # draw on all edges
-            acc.GradientColor = tint
+            if acrylic_mode == "off":
+                acc.AccentState   = 0  # ACCENT_DISABLED
+                acc.AccentFlags   = 0
+                acc.GradientColor = 0
+            else:
+                acc.AccentState   = 4  # ACCENT_ENABLE_ACRYLICBLURBEHIND
+                acc.AccentFlags   = 2  # draw on all edges
+                acc.GradientColor = 0x44_12_12_1a  # tint
 
             wca = _WCA_DATA()
             wca.Attribute   = 19      # WCA_ACCENT_POLICY
@@ -198,9 +195,12 @@ class CardWindow(tk.Toplevel):
 
             ctypes.windll.user32.SetWindowCompositionAttribute(hwnd, ctypes.byref(wca))
 
-            # Use background close to tint color so widgets blend in
-            self.configure(bg="#12121a")
-            self.attributes("-alpha", 0.92)
+            if acrylic_mode == "off":
+                self.configure(bg=theme.BG)
+                self.attributes("-alpha", self._cfg.get("alpha", 0.93))
+            else:
+                self.configure(bg="#12121a")
+                self.attributes("-alpha", 0.92)
         except Exception:
             pass   # silently ignored on unsupported systems
 
