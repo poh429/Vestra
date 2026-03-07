@@ -760,9 +760,15 @@ class ManagerPanel(tk.Toplevel):
                 messagebox.showwarning("錯誤", "請輸入代號！", parent=dlg); return
             # Use auto-detected sym from lookup if available
             norm_sym, _ = guess_category(sym)
+            
+            if cat_v.get() == "Crypto":
+                # Ensure Crypto symbols have a quote currency pair (Binance/yfinance require it)
+                if not norm_sym.endswith("USDT") and not norm_sym.endswith("USD") and not norm_sym.endswith("BTC"):
+                    norm_sym += "USDT"
+
             entry = {
                 "symbol":    norm_sym,
-                "label":     lbl_v.get().strip() or norm_sym,
+                "label":     lbl_v.get().strip() or sym,  # Use raw sym if label is empty instead of "ETHUSDT"
                 "category":  cat_v.get(),
                 "display":   disp_v.get(),
                 "pos_x": 200, "pos_y": 200,
@@ -770,6 +776,13 @@ class ManagerPanel(tk.Toplevel):
             }
             if cat_v.get() == "Crypto":
                 entry["base_currency"] = "USDT"
+            
+            # Check if symbol already exists to prevent duplicates
+            for existing in self._cfg.get("watchlist", []):
+                if existing["symbol"] == norm_sym:
+                    messagebox.showwarning("提示", f"已存在標的: {norm_sym}", parent=dlg)
+                    return
+
             self._cfg.setdefault("watchlist", []).append(entry)
             self._save()
             self._rebuild_list()
