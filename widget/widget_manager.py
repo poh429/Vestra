@@ -41,6 +41,15 @@ class WidgetManager(tk.Tk):
         self.withdraw()               # root is invisible
         self.title("StockWidgetRoot")
 
+        # Set universal application icon
+        icon_path = os.path.join(os.path.dirname(__file__), "assets", "logo_nobackground.png")
+        if os.path.exists(icon_path):
+            try:
+                img = tk.PhotoImage(file=icon_path)
+                self.iconphoto(True, img)
+            except Exception:
+                pass
+
         self._cfg: dict = {}
         self._cards: Dict[str, CardWindow] = {}   # symbol.upper() → CardWindow
         # price-update listeners per symbol

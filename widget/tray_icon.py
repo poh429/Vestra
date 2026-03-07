@@ -12,7 +12,15 @@ from pystray import MenuItem as Item, Menu
 
 
 def _make_icon(size: int = 64) -> Image.Image:
-    """Draw a simple stock-chart icon in the widget accent color."""
+    """Load custom Vestra logo if available, else draw a simple stock-chart fallback."""
+    import os
+    icon_path = os.path.join(os.path.dirname(__file__), "assets", "logo_nobackground.png")
+    if os.path.exists(icon_path):
+        try:
+            return Image.open(icon_path).resize((size, size), Image.Resampling.LANCZOS)
+        except Exception:
+            pass
+
     img = Image.new("RGBA", (size, size), (0, 0, 0, 0))
     d   = ImageDraw.Draw(img)
 

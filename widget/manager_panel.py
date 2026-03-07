@@ -112,6 +112,16 @@ class ManagerPanel(tk.Toplevel):
         self._brightness_timer = None
 
         self.title("◈ Stock Widget 管理")
+        
+        # Set custom window icon
+        icon_path = os.path.join(os.path.dirname(__file__), "assets", "logo_nobackground.png")
+        if os.path.exists(icon_path):
+            try:
+                img = tk.PhotoImage(file=icon_path)
+                self.iconphoto(False, img)
+            except Exception:
+                pass
+                
         self.resizable(True, True)
         self.minsize(640, 480)
         self.configure(bg=theme.BG)
@@ -130,9 +140,28 @@ class ManagerPanel(tk.Toplevel):
         tbar = tk.Frame(self, bg=theme.BG2, height=40)
         tbar.pack(fill="x")
         tbar.pack_propagate(False)
-        tk.Label(tbar, text="◈  Stock Widget 管理",
-                 font=("Segoe UI", 12, "bold"),
-                 fg=theme.ACCENT, bg=theme.BG2).pack(side="left", padx=12)
+        
+        # Load and resize logo for title bar
+        self._title_img = None
+        icon_path = os.path.join(os.path.dirname(__file__), "assets", "logo_nobackground.png")
+        if os.path.exists(icon_path):
+            try:
+                from PIL import Image, ImageTk
+                pil_img = Image.open(icon_path).resize((24, 24), Image.Resampling.LANCZOS)
+                self._title_img = ImageTk.PhotoImage(pil_img)
+            except Exception:
+                pass
+
+        if self._title_img:
+            tk.Label(tbar, image=self._title_img, bg=theme.BG2).pack(side="left", padx=(12, 6))
+            tk.Label(tbar, text="Stock Widget 管理",
+                     font=("Segoe UI", 12, "bold"),
+                     fg=theme.ACCENT, bg=theme.BG2).pack(side="left")
+        else:
+            tk.Label(tbar, text="◈  Stock Widget 管理",
+                     font=("Segoe UI", 12, "bold"),
+                     fg=theme.ACCENT, bg=theme.BG2).pack(side="left", padx=12)
+
         tk.Button(tbar, text="✕", command=self.destroy,
                   bg=theme.BG2, fg=theme.FG_DIM,
                   activebackground=theme.DOWN, activeforeground=theme.FG,
