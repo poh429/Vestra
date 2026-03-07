@@ -218,7 +218,12 @@ class ChartCard(tk.Frame):
         # EPS
         tk.Label(bar, text="EPS", **label_opts).pack(side="left", padx=(0, 1))
         self._fund_eps_lbl = tk.Label(bar, text="…", **value_opts)
-        self._fund_eps_lbl.pack(side="left")
+        self._fund_eps_lbl.pack(side="left", padx=(0, 8))
+
+        # Target Price
+        tk.Label(bar, text="Target", **label_opts).pack(side="left", padx=(0, 1))
+        self._fund_target_lbl = tk.Label(bar, text="…", **value_opts)
+        self._fund_target_lbl.pack(side="left")
 
     def _fetch_fundamentals(self):
         """Background thread: fetch fundamentals via yfinance and update labels."""
@@ -236,9 +241,13 @@ class ChartCard(tk.Frame):
             info = yf.Ticker(sym).info
 
             mkt_cap  = info.get("marketCap")
-            pe       = info.get("trailingPE")
-            eps      = info.get("trailingEps")
-            currency = info.get("currency", "")
+            
+            # Prioritize Forward estimates (Analyst Consensus), fallback to Trailing (History)
+            pe  = info.get("forwardPE")  or info.get("trailingPE")
+            eps = info.get("forwardEps") or info.get("trailingEps")
+            
+            target_px = info.get("targetMeanPrice")
+            currency  = info.get("currency", "")
 
             def _fmt_cap(v, cur):
                 if v is None:
@@ -255,6 +264,7 @@ class ChartCard(tk.Frame):
             cap_val, cap_unit = _fmt_cap(mkt_cap, currency)
             pe_str  = f"{pe:.1f}" if pe is not None else "N/A"
             eps_str = f"{eps:.2f}" if eps is not None else "N/A"
+            target_str = f"{target_px:.2f}" if target_px is not None else "N/A"
 
             def _update():
                 try:
@@ -266,6 +276,8 @@ class ChartCard(tk.Frame):
                         self._fund_pe_lbl.config(text=pe_str)
                     if self._fund_eps_lbl and self._fund_eps_lbl.winfo_exists():
                         self._fund_eps_lbl.config(text=eps_str)
+                    if hasattr(self, "_fund_target_lbl") and self._fund_target_lbl and self._fund_target_lbl.winfo_exists():
+                        self._fund_target_lbl.config(text=target_str)
                 except Exception:
                     pass
 
