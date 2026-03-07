@@ -31,7 +31,7 @@ DISPLAYS    = ["ticker", "chart"]
 # ── Custom Toggle Switch ──────────────────────────────────────────────────────
 class ToggleSwitch(tk.Canvas):
     def __init__(self, parent, variable=None, command=None, *args, **kwargs):
-        super().__init__(parent, width=44, height=24, bg=theme.BG, highlightthickness=0, *args, **kwargs)
+        super().__init__(parent, width=52, height=28, bg=theme.BG, highlightthickness=0, *args, **kwargs)
         self.var = variable if variable else tk.BooleanVar(value=False)
         self.command = command
         
@@ -39,12 +39,12 @@ class ToggleSwitch(tk.Canvas):
         self.var.trace_add("write", lambda *a: self.update_view())
         
         # Draw base capsule
-        self.bg_id = self.create_oval(2, 2, 22, 22, fill=theme.BG3, outline="")
-        self.bg_id2 = self.create_oval(22, 2, 42, 22, fill=theme.BG3, outline="")
-        self.bg_rect = self.create_rectangle(12, 2, 32, 22, fill=theme.BG3, outline="")
+        self.bg_id = self.create_oval(2, 2, 26, 26, fill=theme.BG3, outline="")
+        self.bg_id2 = self.create_oval(26, 2, 50, 26, fill=theme.BG3, outline="")
+        self.bg_rect = self.create_rectangle(14, 2, 38, 26, fill=theme.BG3, outline="")
         
         # Draw thumb
-        self.thumb = self.create_oval(4, 4, 20, 20, fill=theme.FG_DIM, outline="")
+        self.thumb = self.create_oval(4, 4, 24, 24, fill=theme.FG_DIM, outline="")
         
         self.update_view()
 
@@ -59,13 +59,13 @@ class ToggleSwitch(tk.Canvas):
         bg_color = theme.UP if state else theme.BG3
         thumb_color = "#ffffff" if state else theme.FG_DIM
         # Animate positions natively (simple jump for now, we can animate later if needed)
-        x_offset = 20 if state else 0
+        x_offset = 24 if state else 0
         
         self.itemconfig(self.bg_id, fill=bg_color)
         self.itemconfig(self.bg_id2, fill=bg_color)
         self.itemconfig(self.bg_rect, fill=bg_color)
         self.itemconfig(self.thumb, fill=thumb_color)
-        self.coords(self.thumb, 4 + x_offset, 4, 20 + x_offset, 20)
+        self.coords(self.thumb, 4 + x_offset, 4, 24 + x_offset, 24)
 
 # ── Style Configuration ──────────────────────────────────────────────────────
 def setup_ttk_styles():
@@ -80,7 +80,7 @@ def setup_ttk_styles():
     style.configure("Modern.TNotebook.Tab", 
                     background=theme.BG2, 
                     foreground=theme.FG_DIM,
-                    padding=[12, 6], 
+                    padding=[16, 10], 
                     borderwidth=0,
                     font=theme.FONT_SMALL)
                     
@@ -123,7 +123,7 @@ class ManagerPanel(tk.Toplevel):
                 pass
                 
         self.resizable(True, True)
-        self.minsize(640, 480)
+        self.minsize(720, 540)
         self.configure(bg=theme.BG)
         self.attributes("-topmost", True)
         self.overrideredirect(True)
@@ -131,7 +131,7 @@ class ManagerPanel(tk.Toplevel):
         setup_ttk_styles()
 
         self._build()
-        self.geometry("760x540")
+        self.geometry("860x600")
         self._select_first()
 
     # ── Layout ────────────────────────────────────────────────────────────────
@@ -253,11 +253,11 @@ class ManagerPanel(tk.Toplevel):
                       activebackground=theme.ACCENT,
                       activeforeground=theme.FG,
                       font=theme.FONT_SMALL, bd=0, relief="flat",
-                      anchor="w", padx=12, pady=6,
-                      cursor="hand2").pack(fill="x", padx=6, pady=2)
+                      anchor="w", padx=16, pady=8,
+                      cursor="hand2").pack(fill="x", padx=8, pady=4)
 
         tk.Frame(self._sidebar, bg=theme.BORDER, height=1).pack(
-            fill="x", padx=6, pady=8)
+            fill="x", padx=8, pady=12)
 
         # ── Brightness slider ────────────────────────────────────────────
         bright_frame = tk.Frame(self._sidebar, bg=theme.BG2)
@@ -402,12 +402,12 @@ class ManagerPanel(tk.Toplevel):
         cat   = item.get("category", "")
 
         # ── Header ────────────────────────────────────────────────
-        hdr = tk.Frame(self._right, bg=theme.BG, pady=12)
-        hdr.pack(fill="x", padx=16)
+        hdr = tk.Frame(self._right, bg=theme.BG, pady=24)
+        hdr.pack(fill="x", padx=24)
 
-        tk.Label(hdr, text=sym, font=("Consolas", 22, "bold"),
+        tk.Label(hdr, text=sym, font=("Segoe UI Variable Display", 28, "bold"),
                  fg=theme.FG, bg=theme.BG).pack(anchor="w")
-        tk.Label(hdr, text=label, font=("Segoe UI", 11),
+        tk.Label(hdr, text=label, font=("Segoe UI Variable Display", 13),
                  fg=theme.FG_DIM, bg=theme.BG).pack(anchor="w")
 
         tk.Frame(self._right, bg=theme.BORDER, height=1).pack(
@@ -429,10 +429,10 @@ class ManagerPanel(tk.Toplevel):
 
         def row(parent_tab, label_text, widget_factory, key):
             r = tk.Frame(parent_tab, bg=theme.BG)
-            r.pack(fill="x", pady=8)
-            tk.Label(r, text=label_text, font=theme.FONT_SMALL,
+            r.pack(fill="x", pady=12, padx=8)
+            tk.Label(r, text=label_text, font=theme.FONT,
                      fg=theme.FG_DIM, bg=theme.BG,
-                     width=16, anchor="w").pack(side="left")
+                     width=20, anchor="w").pack(side="left")
             w = widget_factory(r)
             w.pack(side="left", fill="x", expand=True)
             vars_[key] = w

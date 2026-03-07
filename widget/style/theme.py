@@ -27,13 +27,16 @@ CHART_UP    = "#00e676"
 CHART_DOWN  = "#ff4d4d"
 
 # ── Fonts (tkinter font tuples) ────────────────────────────────────────────
-FONT        = ("Segoe UI",    10)
-FONT_BOLD   = ("Segoe UI",    10, "bold")
-FONT_LARGE  = ("Segoe UI",    13, "bold")
-FONT_MONO   = ("Consolas",    12, "bold")
-FONT_MONO_L = ("Consolas",    18, "bold")
-FONT_SMALL  = ("Segoe UI",     8)
-FONT_TINY   = ("Segoe UI",     7)
+# Prefer 'Segoe UI Variable Display' on Windows 11 for much better scaling and smoothing. Fallback to 'Segoe UI'.
+_BASE_FONT = "Segoe UI Variable Display"
+
+FONT        = (_BASE_FONT, 11)
+FONT_BOLD   = (_BASE_FONT, 11, "bold")
+FONT_LARGE  = (_BASE_FONT, 14, "bold")
+FONT_MONO   = ("Consolas", 12, "bold")
+FONT_MONO_L = ("Consolas", 18, "bold")
+FONT_SMALL  = (_BASE_FONT,  9)
+FONT_TINY   = (_BASE_FONT,  8)
 
 # ── Sizes ─────────────────────────────────────────────────────────────────────
 CARD_PAD    = 10
