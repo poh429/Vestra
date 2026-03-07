@@ -200,12 +200,15 @@ class ChartCard(tk.Frame):
         bar.pack(fill="x", padx=4, pady=(0, 3))
 
         label_opts = dict(font=("Segoe UI", 7), fg=theme.FG_DIM, bg=theme.BG3)
+        number_opts = dict(font=("Segoe UI", 7), fg=theme.FG, bg=theme.BG3)
         value_opts = dict(font=("Segoe UI", 7, "bold"), fg=theme.FG, bg=theme.BG3)
 
         # Market Cap
         tk.Label(bar, text="Mkt Cap", **label_opts).pack(side="left", padx=(6, 1))
-        self._fund_mktcap_lbl = tk.Label(bar, text="…", **value_opts)
-        self._fund_mktcap_lbl.pack(side="left", padx=(0, 8))
+        self._fund_mktcap_lbl = tk.Label(bar, text="…", **number_opts)
+        self._fund_mktcap_lbl.pack(side="left", padx=(0, 0))
+        self._fund_mktcap_unit_lbl = tk.Label(bar, text="", **value_opts)
+        self._fund_mktcap_unit_lbl.pack(side="left", padx=(1, 8))
 
         # P/E
         tk.Label(bar, text="P/E", **label_opts).pack(side="left", padx=(0, 1))
@@ -239,24 +242,26 @@ class ChartCard(tk.Frame):
 
             def _fmt_cap(v, cur):
                 if v is None:
-                    return "N/A"
+                    return ("N/A", "")
                 cur_str = f" {cur}" if cur else ""
                 if v >= 1e12:
-                    return f"{v/1e12:.2f}T{cur_str}"
+                    return (f"{v/1e12:.2f}", f"T{cur_str}")
                 if v >= 1e9:
-                    return f"{v/1e9:.1f}B{cur_str}"
+                    return (f"{v/1e9:.1f}", f"B{cur_str}")
                 if v >= 1e6:
-                    return f"{v/1e6:.0f}M{cur_str}"
-                return f"{v}{cur_str}"
+                    return (f"{v/1e6:.0f}", f"M{cur_str}")
+                return (f"{v}", f"{cur_str}")
 
-            cap_str = _fmt_cap(mkt_cap, currency)
+            cap_val, cap_unit = _fmt_cap(mkt_cap, currency)
             pe_str  = f"{pe:.1f}" if pe is not None else "N/A"
             eps_str = f"{eps:.2f}" if eps is not None else "N/A"
 
             def _update():
                 try:
                     if self._fund_mktcap_lbl and self._fund_mktcap_lbl.winfo_exists():
-                        self._fund_mktcap_lbl.config(text=cap_str)
+                        self._fund_mktcap_lbl.config(text=cap_val)
+                    if self._fund_mktcap_unit_lbl and self._fund_mktcap_unit_lbl.winfo_exists():
+                        self._fund_mktcap_unit_lbl.config(text=cap_unit)
                     if self._fund_pe_lbl and self._fund_pe_lbl.winfo_exists():
                         self._fund_pe_lbl.config(text=pe_str)
                     if self._fund_eps_lbl and self._fund_eps_lbl.winfo_exists():
