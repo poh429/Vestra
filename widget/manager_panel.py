@@ -198,7 +198,13 @@ class ManagerPanel(tk.Toplevel):
         self._right.pack(side="left", fill="both", expand=True)
         self._build_welcome()
 
-    # ── Window Dragging ───────────────────────────────────────────────────────
+        # ── Resize Grip ────────────────────────────────────────────
+        self._grip = ttk.Sizegrip(self)
+        self._grip.place(relx=1.0, rely=1.0, anchor="se")
+        self._grip.bind("<Button-1>", self._start_resize)
+        self._grip.bind("<B1-Motion>", self._do_resize)
+
+    # ── Window Dragging & Resizing ────────────────────────────────────────────
 
     def _start_drag(self, event):
         self._drag_start_x = event.x
@@ -208,6 +214,19 @@ class ManagerPanel(tk.Toplevel):
         x = self.winfo_x() - self._drag_start_x + event.x
         y = self.winfo_y() - self._drag_start_y + event.y
         self.geometry(f"+{x}+{y}")
+
+    def _start_resize(self, event):
+        self._resize_start_x = event.x_root
+        self._resize_start_y = event.y_root
+        self._resize_start_w = self.winfo_width()
+        self._resize_start_h = self.winfo_height()
+
+    def _do_resize(self, event):
+        dx = event.x_root - self._resize_start_x
+        dy = event.y_root - self._resize_start_y
+        new_w = max(self.minsize()[0], self._resize_start_w + dx)
+        new_h = max(self.minsize()[1], self._resize_start_h + dy)
+        self.geometry(f"{new_w}x{new_h}")
 
     def _build_sidebar(self):
         for w in self._sidebar.winfo_children():
