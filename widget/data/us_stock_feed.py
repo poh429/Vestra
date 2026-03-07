@@ -73,6 +73,8 @@ class USStockFeed:
                 try:
                     t = tickers.tickers[sym]
                     info = t.fast_info
+                    full_info = t.info  # contains pre/post market
+                    
                     price      = float(info.last_price or 0)
                     prev_close = float(info.previous_close or price)
                     change     = price - prev_close
@@ -84,6 +86,10 @@ class USStockFeed:
                         "change_pct": change_pct,
                         "symbol":     sym,
                         "currency":   info.currency or "USD",
+                        "pre_price":  full_info.get("preMarketPrice"),
+                        "pre_change": full_info.get("preMarketChange"),
+                        "post_price": full_info.get("postMarketPrice"),
+                        "post_change":full_info.get("postMarketChange"),
                     }
                     self._cache[sym.upper()] = result
                     self.callback(sym, result)

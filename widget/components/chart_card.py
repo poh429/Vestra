@@ -173,6 +173,7 @@ class ChartCard(tk.Frame):
         self._price_lbl  = None
         self._change_lbl = None
         self._arrow_lbl  = None
+        self._ext_hours_lbl = None  # Built if show_header=True
         # Fundamental stat labels (populated async)
         self._fund_mktcap_lbl = None
         self._fund_pe_lbl     = None
@@ -273,20 +274,38 @@ class ChartCard(tk.Frame):
         hdr = tk.Frame(self, bg=theme.BG2)
         hdr.pack(fill="x", padx=8, pady=(8, 2))
 
-        self._arrow_lbl = tk.Label(hdr, text="●", font=theme.FONT_TINY,
-                                   fg=theme.NEUTRAL, bg=theme.BG2)
-        self._arrow_lbl.pack(side="left", padx=(0, 4))
-
+        # Left side: Label
         tk.Label(hdr, text=self.label, font=theme.FONT_BOLD,
                  fg=theme.FG, bg=theme.BG2).pack(side="left")
 
-        self._price_lbl = tk.Label(hdr, text="—", font=theme.FONT_MONO,
-                                   fg=theme.FG, bg=theme.BG2)
-        self._price_lbl.pack(side="right")
+        # Right side: Price, Change, Extended Hours
+        right_f = tk.Frame(hdr, bg=theme.BG2)
+        right_f.pack(side="right", fill="y")
 
-        self._change_lbl = tk.Label(hdr, text="", font=theme.FONT,
-                                    fg=theme.NEUTRAL, bg=theme.BG2)
-        self._change_lbl.pack(side="right", padx=(0, 6))
+        # Value frame for price/change
+        val_f = tk.Frame(right_f, bg=theme.BG2)
+        val_f.pack(anchor="e")
+
+        # Arrow
+        self._arrow_lbl = tk.Label(val_f, text="--", font=("Segoe UI", 12, "bold"),
+                                   bg=theme.BG2, fg=theme.FG_DIM)
+        self._arrow_lbl.pack(side="left", padx=(0, 2))
+
+        # Price
+        self._price_lbl = tk.Label(val_f, text="---", font=("Segoe UI", 12, "bold"),
+                                   bg=theme.BG2, fg=theme.FG)
+        self._price_lbl.pack(side="left", padx=(0, 5))
+
+        # Change & Pct
+        self._change_lbl = tk.Label(val_f, text="---", font=("Segoe UI", 8),
+                                    bg=theme.BG2, fg=theme.FG_DIM)
+        self._change_lbl.pack(side="left", pady=(3, 0))
+
+        # Extended Hours Label (Hidden by default)
+        self._ext_hours_lbl = tk.Label(right_f, text="", font=("Segoe UI", 8),
+                                       bg=theme.BG2, fg=theme.FG_DIM)
+        self._ext_hours_lbl.pack(anchor="e", pady=(0, 2))
+
     # ── Controls ──────────────────────────────────────────────────────────────
 
     def _build_controls(self):
@@ -628,6 +647,38 @@ class ChartCard(tk.Frame):
             self._change_lbl.config(text=f"{arrow} {sign}{pct:.2f}%", fg=color)
         if self._arrow_lbl:
             self._arrow_lbl.config(text=arrow, fg=color)
+
+        # Extended hours updates
+        if self._show_header and self._ext_hours_lbl:
+            pre_p = data.get("pre_price")
+            pre_c = data.get("pre_change")
+            post_p = data.get("post_price")
+            post_c = data.get("post_change")
+            
+            ext_text = ""
+            ext_color = theme.FG_DIM
+            
+            # Show pre-market if present, else post-market, ONLY if different from regular price
+            if pre_p is not None and pre_p != price:
+                ext_text = f"Pre: {pre_p:g}"
+                if pre_c is not None:
+                    ext_color = theme.UP if pre_c > 0 else (theme.DOWN if pre_c < 0 else theme.NEUTRAL)
+                    pct_c = (pre_c / (pre_p - pre_c) * 100) if (pre_p - pre_c) else 0.0
+                    sgn = "+" if pre_c > 0 else ""
+                    ext_text += f" {sgn}{pct_c:.2f}%"
+            elif post_p is not None and post_p != price:
+                ext_text = f"Post: {post_p:g}"
+                if post_c is not None:
+                    ext_color = theme.UP if post_c > 0 else (theme.DOWN if post_c < 0 else theme.NEUTRAL)
+                    pct_c = (post_c / (post_p - post_c) * 100) if (post_p - post_c) else 0.0
+                    sgn = "+" if post_c > 0 else ""
+                    ext_text += f" {sgn}{pct_c:.2f}%"
+
+            if ext_text:
+                self._ext_hours_lbl.config(text=ext_text, fg=ext_color)
+            else:
+                self._ext_hours_lbl.config(text="")
+
         # Bubble up to parent CardWindow (only arrow and color)
         if hasattr(self, '_header_cb') and self._header_cb:
             self._header_cb(arrow, color)
