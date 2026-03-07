@@ -29,22 +29,20 @@ DISPLAYS    = ["ticker", "chart"]
 
 
 # ── Custom Toggle Switch ──────────────────────────────────────────────────────
-class ToggleSwitch(tk.Canvas):
+class ToggleSwitch(tk.Label):
     def __init__(self, parent, variable=None, command=None, *args, **kwargs):
-        super().__init__(parent, width=52, height=28, bg=theme.BG, highlightthickness=0, *args, **kwargs)
+        super().__init__(parent, bd=0, bg=theme.BG, cursor="hand2", *args, **kwargs)
         self.var = variable if variable else tk.BooleanVar(value=False)
         self.command = command
+        
+        self.width = 52
+        self.height = 28
         
         self.bind("<Button-1>", self.toggle)
         self.var.trace_add("write", lambda *a: self.update_view())
         
-        # Draw base capsule
-        self.bg_id = self.create_oval(2, 2, 26, 26, fill=theme.BG3, outline="")
-        self.bg_id2 = self.create_oval(26, 2, 50, 26, fill=theme.BG3, outline="")
-        self.bg_rect = self.create_rectangle(14, 2, 38, 26, fill=theme.BG3, outline="")
-        
-        # Draw thumb
-        self.thumb = self.create_oval(4, 4, 24, 24, fill=theme.FG_DIM, outline="")
+        # We need to maintain references to avoid garbage collection
+        self._img_tk = None
         
         self.update_view()
 
@@ -53,19 +51,47 @@ class ToggleSwitch(tk.Canvas):
         if self.command:
             self.command()
 
-    def update_view(self):
-        state = self.var.get()
-        # Colors
+    def _render_image(self, state: bool) -> 'ImageTk.PhotoImage':
+        from PIL import Image, ImageDraw, ImageTk
+        
+        # Scale factor for anti-aliasing (draw large, shrink down)
+        scale = 4
+        w, h = self.width * scale, self.height * scale
+        
+        img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+        d = ImageDraw.Draw(img)
+        
         bg_color = theme.UP if state else theme.BG3
         thumb_color = "#ffffff" if state else theme.FG_DIM
-        # Animate positions natively (simple jump for now, we can animate later if needed)
-        x_offset = 24 if state else 0
         
-        self.itemconfig(self.bg_id, fill=bg_color)
-        self.itemconfig(self.bg_id2, fill=bg_color)
-        self.itemconfig(self.bg_rect, fill=bg_color)
-        self.itemconfig(self.thumb, fill=thumb_color)
-        self.coords(self.thumb, 4 + x_offset, 4, 24 + x_offset, 24)
+        # Draw background capsule
+        radius = h // 2
+        d.rounded_rectangle([0, 0, w, h], radius=radius, fill=bg_color)
+        
+        # Draw thumb
+        pad = 3 * scale
+        thumb_d = h - (pad * 2)
+        
+        # x position animated (0 or up to right side)
+        x_offset = w - thumb_d - (pad * 2) if state else 0
+        
+        thumb_rect = [pad + x_offset, pad, pad + x_offset + thumb_d, pad + thumb_d]
+        d.ellipse(thumb_rect, fill=thumb_color)
+        
+        # Resize down with high-quality resampling for smooth anti-aliased edges
+        img = img.resize((self.width, self.height), Image.Resampling.LANCZOS)
+        
+        # Create a background-colored rectangle so alpha blends with theme.BG
+        # Tkinter PhotoImage transparency can sometimes be finicky on Windows label
+        base = Image.new("RGBA", (self.width, self.height), theme.hex_to_rgb(theme.BG) + (255,))
+        base.paste(img, (0, 0), img)
+        
+        return ImageTk.PhotoImage(base)
+
+    def update_view(self):
+        state = self.var.get()
+        self._img_tk = self._render_image(state)
+        self.config(image=self._img_tk)
 
 # ── Style Configuration ──────────────────────────────────────────────────────
 def setup_ttk_styles():
