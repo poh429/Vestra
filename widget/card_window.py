@@ -104,6 +104,7 @@ class CardWindow(tk.Toplevel):
                                   font=theme.FONT_SMALL)
             color_menu.add_command(label="背景色調", command=self._pick_bg_tint)
             color_menu.add_command(label="圖表與文字色", command=self._pick_chart_accent)
+            color_menu.add_command(label="基本面文字色", command=self._pick_fund_color)
             color_menu.add_separator()
             color_menu.add_command(label="恢復預設", command=self._reset_color)
             self._ctx.add_cascade(label="🎨 顏色設定", menu=color_menu)
@@ -526,6 +527,14 @@ class CardWindow(tk.Toplevel):
         if hex_color:
             self._cfg["chart_accent"] = hex_color
             self.after(50, self._rebuild_all)
+            
+    def _pick_fund_color(self):
+        from tkinter import colorchooser
+        current = self._cfg.get("fund_color", theme.FG)
+        _, hex_color = colorchooser.askcolor(initialcolor=current, title="選擇基本面文字色", parent=self)
+        if hex_color:
+            self._cfg["fund_color"] = hex_color
+            self.after(50, self._rebuild_all)
                 
     def _reset_color(self):
         changed = False
@@ -534,6 +543,9 @@ class CardWindow(tk.Toplevel):
             changed = True
         if "chart_accent" in self._cfg:
             del self._cfg["chart_accent"]
+            changed = True
+        if "fund_color" in self._cfg:
+            del self._cfg["fund_color"]
             changed = True
         if changed:
             self.after(50, self._rebuild_all)

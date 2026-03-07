@@ -199,9 +199,11 @@ class ChartCard(tk.Frame):
         bar = tk.Frame(self, bg=theme.BG3)
         bar.pack(fill="x", padx=4, pady=(0, 3))
 
+        fund_color = self._cfg.get("fund_color", theme.FG)
+
         label_opts = dict(font=("Segoe UI", 7), fg=theme.FG_DIM, bg=theme.BG3)
-        number_opts = dict(font=("Segoe UI", 7), fg=theme.FG, bg=theme.BG3)
-        value_opts = dict(font=("Segoe UI", 7, "bold"), fg=theme.FG, bg=theme.BG3)
+        number_opts = dict(font=("Segoe UI", 7), fg=fund_color, bg=theme.BG3)
+        value_opts = dict(font=("Segoe UI", 7, "bold"), fg=fund_color, bg=theme.BG3)
 
         # Market Cap
         tk.Label(bar, text="Mkt Cap", **label_opts).pack(side="left", padx=(6, 1))
@@ -268,16 +270,17 @@ class ChartCard(tk.Frame):
 
             def _update():
                 try:
+                    c_color = self._cfg.get("fund_color", theme.FG)
                     if self._fund_mktcap_lbl and self._fund_mktcap_lbl.winfo_exists():
-                        self._fund_mktcap_lbl.config(text=cap_val)
+                        self._fund_mktcap_lbl.config(text=cap_val, fg=c_color)
                     if self._fund_mktcap_unit_lbl and self._fund_mktcap_unit_lbl.winfo_exists():
-                        self._fund_mktcap_unit_lbl.config(text=cap_unit)
+                        self._fund_mktcap_unit_lbl.config(text=cap_unit, fg=c_color)
                     if self._fund_pe_lbl and self._fund_pe_lbl.winfo_exists():
-                        self._fund_pe_lbl.config(text=pe_str)
+                        self._fund_pe_lbl.config(text=pe_str, fg=c_color)
                     if self._fund_eps_lbl and self._fund_eps_lbl.winfo_exists():
-                        self._fund_eps_lbl.config(text=eps_str)
+                        self._fund_eps_lbl.config(text=eps_str, fg=c_color)
                     if hasattr(self, "_fund_target_lbl") and self._fund_target_lbl and self._fund_target_lbl.winfo_exists():
-                        self._fund_target_lbl.config(text=target_str)
+                        self._fund_target_lbl.config(text=target_str, fg=c_color)
                 except Exception:
                     pass
 
