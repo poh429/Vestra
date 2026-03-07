@@ -126,6 +126,7 @@ class ManagerPanel(tk.Toplevel):
         self.minsize(640, 480)
         self.configure(bg=theme.BG)
         self.attributes("-topmost", True)
+        self.overrideredirect(True)
 
         setup_ttk_styles()
 
@@ -152,15 +153,26 @@ class ManagerPanel(tk.Toplevel):
             except Exception:
                 pass
 
+
+        lbl_img = None
         if self._title_img:
-            tk.Label(tbar, image=self._title_img, bg=theme.BG2).pack(side="left", padx=(12, 6))
-            tk.Label(tbar, text="Stock Widget 管理",
-                     font=("Segoe UI", 12, "bold"),
-                     fg=theme.ACCENT, bg=theme.BG2).pack(side="left")
+            lbl_img = tk.Label(tbar, image=self._title_img, bg=theme.BG2)
+            lbl_img.pack(side="left", padx=(12, 6))
+            lbl_txt = tk.Label(tbar, text="Stock Widget 管理",
+                               font=("Segoe UI", 12, "bold"),
+                               fg=theme.ACCENT, bg=theme.BG2)
+            lbl_txt.pack(side="left")
+            drag_elements = [tbar, lbl_img, lbl_txt]
         else:
-            tk.Label(tbar, text="◈  Stock Widget 管理",
-                     font=("Segoe UI", 12, "bold"),
-                     fg=theme.ACCENT, bg=theme.BG2).pack(side="left", padx=12)
+            lbl_txt = tk.Label(tbar, text="◈  Stock Widget 管理",
+                               font=("Segoe UI", 12, "bold"),
+                               fg=theme.ACCENT, bg=theme.BG2)
+            lbl_txt.pack(side="left", padx=12)
+            drag_elements = [tbar, lbl_txt]
+
+        for el in drag_elements:
+            el.bind("<Button-1>", self._start_drag)
+            el.bind("<B1-Motion>", self._do_drag)
 
         tk.Button(tbar, text="✕", command=self.destroy,
                   bg=theme.BG2, fg=theme.FG_DIM,
@@ -185,6 +197,17 @@ class ManagerPanel(tk.Toplevel):
         self._right = tk.Frame(body, bg=theme.BG)
         self._right.pack(side="left", fill="both", expand=True)
         self._build_welcome()
+
+    # ── Window Dragging ───────────────────────────────────────────────────────
+
+    def _start_drag(self, event):
+        self._drag_start_x = event.x
+        self._drag_start_y = event.y
+
+    def _do_drag(self, event):
+        x = self.winfo_x() - self._drag_start_x + event.x
+        y = self.winfo_y() - self._drag_start_y + event.y
+        self.geometry(f"+{x}+{y}")
 
     def _build_sidebar(self):
         for w in self._sidebar.winfo_children():
