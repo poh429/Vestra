@@ -116,6 +116,7 @@ class CardWindow(tk.Toplevel):
         lock_label = "🔓 解鎖移動" if self._locked else "🔒 鎖定位置"
         self._ctx.add_command(label=lock_label, command=self._toggle_lock)
         self._ctx.add_command(label="⟲ 重新載入圖表",  command=self._reload_chart)
+        self._ctx.add_command(label="🌐 投資人關係 (IR) 網站", command=self._open_ir)
         _mk_ctx_sep(self._ctx)
         self._ctx.add_command(label="✕ 關閉此卡片",    command=self._remove_self)
 
@@ -583,6 +584,16 @@ class CardWindow(tk.Toplevel):
             self._ctx.tk_popup(event.x_root, event.y_root)
         finally:
             self._ctx.grab_release()
+
+    def _open_ir(self):
+        import webbrowser
+        sym = self.symbol
+        if sym.endswith(".TW"):
+            query = f"{sym.replace('.TW', '')} 投資人關係"
+        else:
+            query = f"{sym} investor relations"
+        url = f"https://www.google.com/search?q={query}"
+        webbrowser.open(url)
 
     # ── Collapse / expand ─────────────────────────────────────────────────────
 
