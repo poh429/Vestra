@@ -20,6 +20,10 @@ class TickerTapeWindow(tk.Toplevel):
         else:
             self.configure(bg=theme.BG)
             canvas_bg = theme.BG
+            try:
+                self.tk.call("wm", "attributes", self._w, "-transparentcolor", "")
+            except Exception:
+                pass
             
         self.wm_attributes("-topmost", True)
         if not self._transparent:
@@ -122,7 +126,12 @@ class TickerTapeWindow(tk.Toplevel):
             self._canvas.configure(bg="#000001")
         else:
             self.configure(bg=theme.BG)
-            self.wm_attributes("-transparentcolor", "")
+            # Remove the transparentcolor attribute entirely to restore bg clickability
+            try:
+                # Need to use the raw Tcl call to delete an attribute sometimes
+                self.tk.call("wm", "attributes", self._w, "-transparentcolor", "")
+            except Exception:
+                self.wm_attributes("-transparentcolor", "")
             self.wm_attributes("-alpha", 0.95)
             self._canvas.configure(bg=theme.BG)
 
