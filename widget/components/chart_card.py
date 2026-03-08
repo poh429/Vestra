@@ -22,7 +22,11 @@ from matplotlib.patches import Rectangle
 import pandas as pd
 import numpy as np
 
+import threading
 from widget.style import theme
+from widget.data.history_loader import load_history_async
+
+_fund_lock = threading.Lock()
 
 # ── helpers ───────────────────────────────────────────────────────────────────
 
