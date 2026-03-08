@@ -208,8 +208,21 @@ class WidgetManager(tk.Tk):
                 self._ticker_window = None
                 self._show_cards()
                 
+            def _on_ticker_config(key, val):
+                self._cfg[key] = val
+                self._save_config()
+                
             watchlist = self._cfg.get("watchlist", [])
-            self._ticker_window = TickerTapeWindow(self, watchlist, on_close=_on_ticker_closed)
+            pos = self._cfg.get("ticker_pos", "top")
+            transparent = self._cfg.get("ticker_transparent", False)
+            
+            self._ticker_window = TickerTapeWindow(
+                self, watchlist,
+                position=pos,
+                transparent=transparent,
+                on_close=_on_ticker_closed,
+                on_config=_on_ticker_config
+            )
             
         else:
             # Manually closing ticker tape from tray

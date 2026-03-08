@@ -3,25 +3,39 @@ from typing import Dict, Any
 from widget.style import theme
 
 class TickerTapeWindow(tk.Toplevel):
-    def __init__(self, master, watchlist: list, on_close=None):
+    def __init__(self, master, watchlist: list, position="top", transparent=False, on_close=None, on_config=None):
         super().__init__(master)
         
         self.overrideredirect(True)
-        self.configure(bg=theme.BG)
+        self._transparent = transparent
+        self._position = position
+        self._on_close = on_close
+        self._on_config = on_config
+
+        if self._transparent:
+            # Fully transparent background via color-key
+            self.configure(bg="#000001")
+            self.wm_attributes("-transparentcolor", "#000001")
+            canvas_bg = "#000001"
+        else:
+            self.configure(bg=theme.BG)
+            canvas_bg = theme.BG
+            
         self.wm_attributes("-topmost", True)
-        # Apply slight transparency
-        self.wm_attributes("-alpha", 0.95)
+        if not self._transparent:
+            # Apply slight transparency only if not fully transparent
+            self.wm_attributes("-alpha", 0.95)
         
         # Screen width & Bar dimensions
-        # Position at the top, slightly padded or at very top (0)
         self.screen_w = self.winfo_screenwidth()
+        self.screen_h = self.winfo_screenheight()
         self.bar_h = 32
-        self.geometry(f"{self.screen_w}x{self.bar_h}+0+0")
         
-        self._on_close = on_close
+        y_pos = 0 if self._position == "top" else (self.screen_h - self.bar_h)
+        self.geometry(f"{self.screen_w}x{self.bar_h}+0+{y_pos}")
         
         self._canvas = tk.Canvas(
-            self, bg=theme.BG, height=self.bar_h, width=self.screen_w,
+            self, bg=canvas_bg, height=self.bar_h, width=self.screen_w,
             highlightthickness=0, borderwidth=0
         )
         self._canvas.pack(fill="both", expand=True)
@@ -74,8 +88,42 @@ class TickerTapeWindow(tk.Toplevel):
 
     def _context_menu(self, event):
         ctx = tk.Menu(self, tearoff=0, bg=theme.BG_L3, fg=theme.FG)
+        
+        pos_label = "📍 改為顯示在上方" if self._position == "bottom" else "📍 改為顯示在下方 (工作列)"
+        ctx.add_command(label=pos_label, command=self._toggle_position)
+        
+        trans_label = "⬛ 改為黑底背景" if self._transparent else "🔲 改為去背透明"
+        ctx.add_command(label=trans_label, command=self._toggle_transparent)
+        
+        ctx.add_separator()
         ctx.add_command(label="✕ 關閉跑馬燈 (返回卡片模式)", command=self.close)
         ctx.tk_popup(event.x_root, event.y_root)
+
+    def _toggle_position(self):
+        new_pos = "bottom" if self._position == "top" else "top"
+        if self._on_config:
+            self._on_config("ticker_pos", new_pos)
+            
+        y_pos = 0 if new_pos == "top" else (self.screen_h - self.bar_h)
+        self.geometry(f"{self.screen_w}x{self.bar_h}+0+{y_pos}")
+        self._position = new_pos
+
+    def _toggle_transparent(self):
+        new_trans = not self._transparent
+        if self._on_config:
+            self._on_config("ticker_transparent", new_trans)
+        
+        self._transparent = new_trans
+        if self._transparent:
+            self.configure(bg="#000001")
+            self.wm_attributes("-transparentcolor", "#000001")
+            self.wm_attributes("-alpha", 1.0) # Reset alpha
+            self._canvas.configure(bg="#000001")
+        else:
+            self.configure(bg=theme.BG)
+            self.wm_attributes("-transparentcolor", "")
+            self.wm_attributes("-alpha", 0.95)
+            self._canvas.configure(bg=theme.BG)
 
     def update_price(self, symbol: str, data: Dict[str, Any]):
         sym = symbol.upper()
