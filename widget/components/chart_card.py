@@ -152,6 +152,7 @@ class ChartCard(tk.Frame):
                  show_header: bool = True, show_volume: bool = False,
                  show_fundamentals: bool = False, **kw):
         self._base_color = kw.pop("base_color", None)
+        self._cfg = kw.pop("cfg", {})  # <--- Added to receive config
         super().__init__(parent, bg=theme.BG2,
                          highlightbackground=theme.BORDER,
                          highlightthickness=1, **kw)
@@ -240,7 +241,10 @@ class ChartCard(tk.Frame):
                 elif sym.endswith("USD") and "-" not in sym:
                     sym = sym[:-3] + "-USD"
 
-            info = yf.Ticker(sym).info
+            with _fund_lock:
+                import time
+                time.sleep(0.5)  # Stagger requests to avoid Yahoo Finance rate limits
+                info = yf.Ticker(sym).info
 
             mkt_cap  = info.get("marketCap")
             
@@ -408,7 +412,6 @@ class ChartCard(tk.Frame):
 
     def _load(self):
         """Kick off async history load."""
-        from widget.data.history_loader import load_history_async
         self._set_loading(True)
         load_history_async(
             self.symbol, self.category, self._tf,
