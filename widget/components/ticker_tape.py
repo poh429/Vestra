@@ -184,7 +184,7 @@ class TickerTapeWindow(tk.Toplevel):
                     self._base_x = self.screen_w
         else: # ltr
             if seamless:
-                if self._base_x > 0:
+                if self._base_x >= train_w:
                     self._base_x -= train_w
             else:
                 # Wait for entire train to exit right, then reset to left edge
