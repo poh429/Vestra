@@ -232,7 +232,7 @@ class ChartCard(tk.Frame):
         self._fund_eps_lbl.pack(side="left", padx=(0, 8))
 
         # Col 4
-        lbl4 = "Max Supply" if is_crypto else "Target"
+        lbl4 = "市佔(Dom)" if is_crypto else "Target"
         tk.Label(bar, text=lbl4, **label_opts).pack(side="left", padx=(0, 1))
         self._fund_target_lbl = tk.Label(bar, text="…", **value_opts) # Reused for Col 4
         self._fund_target_lbl.pack(side="left")
@@ -263,7 +263,19 @@ class ChartCard(tk.Frame):
             if is_crypto:
                 col2_val = info.get("volume24Hr") or info.get("volume")
                 col3_val = info.get("circulatingSupply")
-                col4_val = info.get("maxSupply") or info.get("totalSupply")
+                
+                # Fetch Dominance from CoinGecko globally
+                dom_val = None
+                try:
+                    import requests
+                    cg_data = requests.get("https://api.coingecko.com/api/v3/global", timeout=3).json()
+                    dom_dict = cg_data.get("data", {}).get("market_cap_percentage", {})
+                    base_coin = sym.split('-')[0].lower()
+                    if base_coin in dom_dict:
+                        dom_val = dom_dict[base_coin]
+                except Exception:
+                    pass
+                col4_val = dom_val
             else:
                 # Prioritize Forward estimates (Analyst Consensus), fallback to Trailing (History)
                 col2_val  = info.get("forwardPE")  or info.get("trailingPE")
@@ -291,8 +303,10 @@ class ChartCard(tk.Frame):
                 col3_val_str, col3_unit = _fmt_cap(col3_val, "")
                 col3_str = f"{col3_val_str}{col3_unit}" if col3_val_str != "N/A" else "N/A"
                 
-                col4_val_str, col4_unit = _fmt_cap(col4_val, "")
-                col4_str = f"{col4_val_str}{col4_unit}" if col4_val_str != "N/A" else "N/A"
+                if col4_val is not None:
+                    col4_str = f"{col4_val:.2f}%"
+                else:
+                    col4_str = "N/A"
             else:
                 col2_str  = f"{col2_val:.1f}" if col2_val is not None else "N/A"
                 col3_str = f"{col3_val:.2f}" if col3_val is not None else "N/A"
@@ -306,11 +320,11 @@ class ChartCard(tk.Frame):
                     if self._fund_mktcap_unit_lbl and self._fund_mktcap_unit_lbl.winfo_exists():
                         self._fund_mktcap_unit_lbl.config(text=cap_unit, fg=c_color)
                     if self._fund_pe_lbl and self._fund_pe_lbl.winfo_exists():
-                        self._fund_pe_lbl.config(text=pe_str, fg=c_color)
+                        self._fund_pe_lbl.config(text=col2_str, fg=c_color)
                     if self._fund_eps_lbl and self._fund_eps_lbl.winfo_exists():
-                        self._fund_eps_lbl.config(text=eps_str, fg=c_color)
+                        self._fund_eps_lbl.config(text=col3_str, fg=c_color)
                     if hasattr(self, "_fund_target_lbl") and self._fund_target_lbl and self._fund_target_lbl.winfo_exists():
-                        self._fund_target_lbl.config(text=target_str, fg=c_color)
+                        self._fund_target_lbl.config(text=col4_str, fg=c_color)
                 except Exception:
                     pass
 
