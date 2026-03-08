@@ -210,26 +210,31 @@ class ChartCard(tk.Frame):
         number_opts = dict(font=("Segoe UI", 7), fg=fund_color, bg=theme.BG3)
         value_opts = dict(font=("Segoe UI", 7, "bold"), fg=fund_color, bg=theme.BG3)
 
-        # Market Cap
+        is_crypto = (self.category == "Crypto")
+
+        # Market Cap (Universal)
         tk.Label(bar, text="Mkt Cap", **label_opts).pack(side="left", padx=(6, 1))
         self._fund_mktcap_lbl = tk.Label(bar, text="…", **number_opts)
         self._fund_mktcap_lbl.pack(side="left", padx=(0, 0))
         self._fund_mktcap_unit_lbl = tk.Label(bar, text="", **value_opts)
         self._fund_mktcap_unit_lbl.pack(side="left", padx=(1, 8))
 
-        # P/E
-        tk.Label(bar, text="P/E", **label_opts).pack(side="left", padx=(0, 1))
-        self._fund_pe_lbl = tk.Label(bar, text="…", **value_opts)
+        # Col 2
+        lbl2 = "Vol(24h)" if is_crypto else "P/E"
+        tk.Label(bar, text=lbl2, **label_opts).pack(side="left", padx=(0, 1))
+        self._fund_pe_lbl = tk.Label(bar, text="…", **value_opts) # Reused for Col 2
         self._fund_pe_lbl.pack(side="left", padx=(0, 8))
 
-        # EPS
-        tk.Label(bar, text="EPS", **label_opts).pack(side="left", padx=(0, 1))
-        self._fund_eps_lbl = tk.Label(bar, text="…", **value_opts)
+        # Col 3
+        lbl3 = "Circ Supply" if is_crypto else "EPS"
+        tk.Label(bar, text=lbl3, **label_opts).pack(side="left", padx=(0, 1))
+        self._fund_eps_lbl = tk.Label(bar, text="…", **value_opts) # Reused for Col 3
         self._fund_eps_lbl.pack(side="left", padx=(0, 8))
 
-        # Target Price
-        tk.Label(bar, text="Target", **label_opts).pack(side="left", padx=(0, 1))
-        self._fund_target_lbl = tk.Label(bar, text="…", **value_opts)
+        # Col 4
+        lbl4 = "Max Supply" if is_crypto else "Target"
+        tk.Label(bar, text=lbl4, **label_opts).pack(side="left", padx=(0, 1))
+        self._fund_target_lbl = tk.Label(bar, text="…", **value_opts) # Reused for Col 4
         self._fund_target_lbl.pack(side="left")
 
     def _fetch_fundamentals(self):
@@ -251,15 +256,21 @@ class ChartCard(tk.Frame):
                 info = yf.Ticker(sym).info
 
             mkt_cap  = info.get("marketCap")
-            
-            # Prioritize Forward estimates (Analyst Consensus), fallback to Trailing (History)
-            pe  = info.get("forwardPE")  or info.get("trailingPE")
-            eps = info.get("forwardEps") or info.get("trailingEps")
-            
-            target_px = info.get("targetMeanPrice")
             currency  = info.get("currency", "")
+            
+            is_crypto = (self.category == "Crypto")
+            
+            if is_crypto:
+                col2_val = info.get("volume24Hr") or info.get("volume")
+                col3_val = info.get("circulatingSupply")
+                col4_val = info.get("maxSupply") or info.get("totalSupply")
+            else:
+                # Prioritize Forward estimates (Analyst Consensus), fallback to Trailing (History)
+                col2_val  = info.get("forwardPE")  or info.get("trailingPE")
+                col3_val = info.get("forwardEps") or info.get("trailingEps")
+                col4_val = info.get("targetMeanPrice")
 
-            def _fmt_cap(v, cur):
+            def _fmt_cap(v, cur=""):
                 if v is None:
                     return ("N/A", "")
                 cur_str = f" {cur}" if cur else ""
@@ -269,12 +280,23 @@ class ChartCard(tk.Frame):
                     return (f"{v/1e9:.1f}", f"B{cur_str}")
                 if v >= 1e6:
                     return (f"{v/1e6:.0f}", f"M{cur_str}")
-                return (f"{v}", f"{cur_str}")
+                return (f"{v:,.0f}", f"{cur_str}")
 
             cap_val, cap_unit = _fmt_cap(mkt_cap, currency)
-            pe_str  = f"{pe:.1f}" if pe is not None else "N/A"
-            eps_str = f"{eps:.2f}" if eps is not None else "N/A"
-            target_str = f"{target_px:.2f}" if target_px is not None else "N/A"
+            
+            if is_crypto:
+                col2_val_str, col2_unit = _fmt_cap(col2_val, currency)
+                col2_str = f"{col2_val_str}{col2_unit}" if col2_val_str != "N/A" else "N/A"
+                
+                col3_val_str, col3_unit = _fmt_cap(col3_val, "")
+                col3_str = f"{col3_val_str}{col3_unit}" if col3_val_str != "N/A" else "N/A"
+                
+                col4_val_str, col4_unit = _fmt_cap(col4_val, "")
+                col4_str = f"{col4_val_str}{col4_unit}" if col4_val_str != "N/A" else "N/A"
+            else:
+                col2_str  = f"{col2_val:.1f}" if col2_val is not None else "N/A"
+                col3_str = f"{col3_val:.2f}" if col3_val is not None else "N/A"
+                col4_str = f"{col4_val:.2f}" if col4_val is not None else "N/A"
 
             def _update():
                 try:

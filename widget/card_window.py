@@ -632,6 +632,9 @@ class CardWindow(tk.Toplevel):
         self._resize_start_y = event.y_root
         self._resize_start_w = self.winfo_width()
         self._resize_start_h = self.winfo_height()
+        # Cache original position to perfectly anchor the top-left corner
+        self._resize_anchor_x = self.winfo_x()
+        self._resize_anchor_y = self.winfo_y()
 
     def _on_resize(self, event):
         MIN_W, MAX_W = 220, 700
@@ -641,8 +644,10 @@ class CardWindow(tk.Toplevel):
         new_w = max(MIN_W, min(MAX_W, self._resize_start_w + dw))
         new_h = max(MIN_H, min(MAX_H, self._resize_start_h + dh))
         
-        # Omit 'x' and 'y' to prevent DPI scaling fractional drift on Windows
-        self.geometry(f"{new_w}x{new_h}")
+        # Re-apply the initial X/Y coordinates to prevent fractional value UI drift
+        x = self._resize_anchor_x
+        y = self._resize_anchor_y
+        self.geometry(f"{new_w}x{new_h}+{x}+{y}")
 
     def _on_resize_end(self, event):
         self._cfg["card_width"] = self.winfo_width()
