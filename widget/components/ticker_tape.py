@@ -3,12 +3,13 @@ from typing import Dict, Any
 from widget.style import theme
 
 class TickerTapeWindow(tk.Toplevel):
-    def __init__(self, master, watchlist: list, position="top", transparent=False, on_close=None, on_config=None):
+    def __init__(self, master, watchlist: list, position="top", transparent=False, direction="rtl", on_close=None, on_config=None):
         super().__init__(master)
         
         self.overrideredirect(True)
         self._transparent = transparent
         self._position = position
+        self._direction = direction
         self._on_close = on_close
         self._on_config = on_config
 
@@ -63,8 +64,8 @@ class TickerTapeWindow(tk.Toplevel):
         self._speed = 1.5           # Pixels to move per frame
         self._running = True
         
-        # Start X position far offscreen to the right so it scrolls in nicely
-        self._base_x = self.screen_w
+        # Start X position far offscreen so it scrolls in nicely
+        self._base_x = self.screen_w if self._direction == "rtl" else -self.screen_w
         
         self._init_canvas()
         self._animate()
@@ -87,36 +88,38 @@ class TickerTapeWindow(tk.Toplevel):
     def _format_text(self, item):
         return f"{item['symbol']}   {item['price']}  ({item['change_pct']})"
 
-    def _toggle_position(self):
-        new_pos = "bottom" if self._position == "top" else "top"
-        if self._on_config:
-            self._on_config("ticker_pos", new_pos)
-            
+    def set_position(self, new_pos: str):
+        self._position = new_pos
         y_pos = 0 if new_pos == "top" else (self.screen_h - self.bar_h)
         self.geometry(f"{self.screen_w}x{self.bar_h}+0+{y_pos}")
-        self._position = new_pos
-
-    def _toggle_transparent(self):
-        new_trans = not self._transparent
-        if self._on_config:
-            self._on_config("ticker_transparent", new_trans)
         
+    def set_transparent(self, new_trans: bool):
         self._transparent = new_trans
         if self._transparent:
             self.configure(bg="#000001")
             self.wm_attributes("-transparentcolor", "#000001")
-            self.wm_attributes("-alpha", 1.0) # Reset alpha
+            self.wm_attributes("-alpha", 1.0)
             self._canvas.configure(bg="#000001")
         else:
             self.configure(bg=theme.BG)
-            # Remove the transparentcolor attribute entirely to restore bg clickability
             try:
-                # Need to use the raw Tcl call to delete an attribute sometimes
                 self.tk.call("wm", "attributes", self._w, "-transparentcolor", "")
             except Exception:
                 self.wm_attributes("-transparentcolor", "")
             self.wm_attributes("-alpha", 0.95)
             self._canvas.configure(bg=theme.BG)
+            
+    def set_direction(self, new_dir: str):
+        self._direction = new_dir
+        # Reset base_x when direction changes so it enters from correct edge
+        total_count = len(self._texts)
+        train_w = total_count * self._item_spacing
+        seamless = train_w >= self.screen_w
+
+        if self._direction == "rtl":
+            self._base_x = self.screen_w if not seamless else 0
+        else:
+            self._base_x = -train_w if not seamless else 0
 
     def update_price(self, symbol: str, data: Dict[str, Any]):
         sym = symbol.upper()
@@ -165,24 +168,39 @@ class TickerTapeWindow(tk.Toplevel):
             self.after(30, self._animate)
             return
             
-        # Move everything to the left
-        self._base_x -= self._speed
+        train_w = total_count * self._item_spacing
+        seamless = train_w >= self.screen_w
+        speed_delta = -self._speed if self._direction == "rtl" else self._speed
+        self._base_x += speed_delta
         
-        # If the leading item goes too far off left, we shift it to the back
-        # Which effectively means we push the 'base_x' forward by one unit 
-        # to keep the illusion seamless
-        if self._base_x < -self._item_spacing * total_count:
-            self._base_x += self._item_spacing * total_count
+        # Handle wrap logic for the train
+        if self._direction == "rtl":
+            if seamless:
+                if self._base_x < -train_w:
+                    self._base_x += train_w
+            else:
+                # Wait for entire train to exit left, then reset to right edge
+                if self._base_x + train_w < 0:
+                    self._base_x = self.screen_w
+        else: # ltr
+            if seamless:
+                if self._base_x > 0:
+                    self._base_x -= train_w
+            else:
+                # Wait for entire train to exit right, then reset to left edge
+                if self._base_x > self.screen_w:
+                    self._base_x = -train_w
 
         y = self.bar_h // 2
         for i, tid in enumerate(self._texts):
-            # calculate logical X position
             x = self._base_x + (i * self._item_spacing)
             
-            # If the item falls off the left side of the screen, wrap it to the right 
-            # side of the train
-            if x < -self._item_spacing:
-                x += total_count * self._item_spacing
+            # For seamless modes, smoothly wrap individual items when they go off screen
+            if seamless:
+                if self._direction == "rtl" and x < -self._item_spacing:
+                    x += train_w
+                elif self._direction == "ltr" and x > self.screen_w:
+                    x -= train_w
                 
             self._canvas.coords(tid, x, y)
             

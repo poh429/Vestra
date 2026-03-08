@@ -215,11 +215,13 @@ class WidgetManager(tk.Tk):
             watchlist = self._cfg.get("watchlist", [])
             pos = self._cfg.get("ticker_pos", "top")
             transparent = self._cfg.get("ticker_transparent", False)
+            direction = self._cfg.get("ticker_direction", "rtl")
             
             self._ticker_window = TickerTapeWindow(
                 self, watchlist,
                 position=pos,
                 transparent=transparent,
+                direction=direction,
                 on_close=_on_ticker_closed,
                 on_config=_on_ticker_config
             )
@@ -323,7 +325,7 @@ class WidgetManager(tk.Tk):
                 self._cfg["ticker_pos"] = new_pos
                 self._save_config()
                 if self._ticker_window:
-                    self._ticker_window._toggle_position()
+                    self._ticker_window.set_position(new_pos)
 
             def _toggle_ticker_trans():
                 current = self._cfg.get("ticker_transparent", False)
@@ -331,13 +333,22 @@ class WidgetManager(tk.Tk):
                 self._cfg["ticker_transparent"] = new_trans
                 self._save_config()
                 if self._ticker_window:
-                    self._ticker_window._toggle_transparent()
+                    self._ticker_window.set_transparent(new_trans)
+                    
+            def _toggle_ticker_dir():
+                current = self._cfg.get("ticker_direction", "rtl")
+                new_dir = "ltr" if current == "rtl" else "rtl"
+                self._cfg["ticker_direction"] = new_dir
+                self._save_config()
+                if self._ticker_window:
+                    self._ticker_window.set_direction(new_dir)
 
             icon_img = __import__("widget.tray_icon", fromlist=["_make_icon"])._make_icon()
             menu = pystray.Menu(
                 Item("🏃‍♂️ 跑馬燈模式",  lambda i, it: self.after(0, self.toggle_ticker_mode), checked=lambda item: self._is_ticker_mode),
                 Item("📍 跑馬燈顯示於下方", lambda i, it: self.after(0, _toggle_ticker_pos), checked=lambda item: self._cfg.get("ticker_pos") == "bottom"),
                 Item("🔲 跑馬燈去背背景", lambda i, it: self.after(0, _toggle_ticker_trans), checked=lambda item: self._cfg.get("ticker_transparent", False)),
+                Item("↩️ 跑馬燈反向流動", lambda i, it: self.after(0, _toggle_ticker_dir), checked=lambda item: self._cfg.get("ticker_direction") == "ltr"),
                 pystray.Menu.SEPARATOR,
                 Item("◈ 顯示全部",   lambda i, it: self.after(0, self.show_all), default=True),
                 Item("隱藏全部",     lambda i, it: self.after(0, self.hide_all)),
