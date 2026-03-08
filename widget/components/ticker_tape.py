@@ -69,10 +69,6 @@ class TickerTapeWindow(tk.Toplevel):
         self._init_canvas()
         self._animate()
         
-        # Context menu
-        self.bind("<Button-3>", self._context_menu)
-        self._canvas.bind("<Button-3>", self._context_menu)
-        
     def _init_canvas(self):
         self._canvas.delete("all")
         self._texts.clear()
@@ -90,19 +86,6 @@ class TickerTapeWindow(tk.Toplevel):
 
     def _format_text(self, item):
         return f"{item['symbol']}   {item['price']}  ({item['change_pct']})"
-
-    def _context_menu(self, event):
-        ctx = tk.Menu(self, tearoff=0, bg=theme.BG_L3, fg=theme.FG)
-        
-        pos_label = "📍 改為顯示在上方" if self._position == "bottom" else "📍 改為顯示在下方 (工作列)"
-        ctx.add_command(label=pos_label, command=self._toggle_position)
-        
-        trans_label = "⬛ 改為黑底背景" if self._transparent else "🔲 改為去背透明"
-        ctx.add_command(label=trans_label, command=self._toggle_transparent)
-        
-        ctx.add_separator()
-        ctx.add_command(label="✕ 關閉跑馬燈 (返回卡片模式)", command=self.close)
-        ctx.tk_popup(event.x_root, event.y_root)
 
     def _toggle_position(self):
         new_pos = "bottom" if self._position == "top" else "top"
