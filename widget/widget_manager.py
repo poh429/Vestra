@@ -55,6 +55,10 @@ class WidgetManager(tk.Tk):
         # price-update listeners per symbol
         self._listeners: Dict[str, List[Callable]] = {}
         self._feeds = []
+        
+        # Ticker Tape State
+        self._is_ticker_mode = False
+        self._ticker_window = None
 
         self._load_config()
         # Apply saved brightness before building cards
@@ -162,6 +166,14 @@ class WidgetManager(tk.Tk):
         """Route a price update to all registered listeners for this symbol."""
         import tkinter as tk
         dead = []
+        
+        # Push to Ticker Tape if active
+        if self._is_ticker_mode and self._ticker_window:
+            try:
+                self._ticker_window.update_price(symbol, data)
+            except Exception as e:
+                print(f"[Manager] TickerTape update error: {e}")
+
         for cb in list(self._listeners.get(symbol.upper(), [])):
             try:
                 cb(data)
@@ -176,6 +188,39 @@ class WidgetManager(tk.Tk):
                 cb for cb in self._listeners.get(symbol.upper(), [])
                 if cb not in dead
             ]
+
+    # ── View Modes & Layout ───────────────────────────────────────────────────
+
+    def toggle_ticker_mode(self):
+        """Switch between layout of individual cards and horizontal Ticker Tape."""
+        self._is_ticker_mode = not self._is_ticker_mode
+        
+        if self._is_ticker_mode:
+            # Hide individual cards
+            for card in self._cards.values():
+                card.withdraw()
+            
+            # Spawn ticker tape
+            from widget.components.ticker_tape import TickerTapeWindow
+            
+            def _on_ticker_closed():
+                self._is_ticker_mode = False
+                self._ticker_window = None
+                self._show_cards()
+                
+            watchlist = self._cfg.get("watchlist", [])
+            self._ticker_window = TickerTapeWindow(self, watchlist, on_close=_on_ticker_closed)
+            
+        else:
+            # Manually closing ticker tape from tray
+            if self._ticker_window:
+                self._ticker_window.close()  # This will trigger _show_cards
+                self._ticker_window = None
+
+    def _show_cards(self):
+        """Helper to restore cards."""
+        for card in self._cards.values():
+            card.deiconify()
 
     # ── Global layout ─────────────────────────────────────────────────────────
 
@@ -261,6 +306,8 @@ class WidgetManager(tk.Tk):
 
             icon_img = __import__("widget.tray_icon", fromlist=["_make_icon"])._make_icon()
             menu = pystray.Menu(
+                Item("🏃‍♂️ 跑馬燈模式",  lambda i, it: self.after(0, self.toggle_ticker_mode)),
+                pystray.Menu.SEPARATOR,
                 Item("◈ 顯示全部",   lambda i, it: self.after(0, self.show_all), default=True),
                 Item("隱藏全部",     lambda i, it: self.after(0, self.hide_all)),
                 pystray.Menu.SEPARATOR,
