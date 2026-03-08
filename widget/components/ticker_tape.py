@@ -67,6 +67,7 @@ class TickerTapeWindow(tk.Toplevel):
         
         # Context menu
         self.bind("<Button-3>", self._context_menu)
+        self._canvas.bind("<Button-3>", self._context_menu)
         
     def _init_canvas(self):
         self._canvas.delete("all")
