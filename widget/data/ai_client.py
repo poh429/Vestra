@@ -40,9 +40,9 @@ def stream_ai_summary(symbol: str, news_text: str):
         "X-Title": "Vestra Stock Widget"
     }
     
-    # We use a free fast model or fallback to gemini flash
+    # We use a free fast model or fallback
     data = {
-        "model": "google/gemini-2.5-flash-free",
+        "model": "openrouter/free",
         "messages": [{"role": "user", "content": prompt}],
         "stream": True,
         "max_tokens": 500,
@@ -52,10 +52,11 @@ def stream_ai_summary(symbol: str, news_text: str):
     try:
         # Fallback list of models in case one is restricted or offline
         models_to_try = [
-            "google/gemini-2.0-flash-lite-preview-02-05:free",
-            "google/gemini-2.0-pro-exp-02-05:free",
-            "meta-llama/llama-3-8b-instruct:free",
-            "mistralai/mistral-7b-instruct:free"
+            "openrouter/free",
+            "meta-llama/llama-3.3-70b-instruct:free",
+            "google/gemma-3-27b-it:free",
+            "qwen/qwen3-coder:free",
+            "mistralai/mistral-small-3.1-24b-instruct:free"
         ]
         
         response = None
