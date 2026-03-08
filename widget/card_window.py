@@ -413,7 +413,8 @@ class CardWindow(tk.Toplevel):
                 show_volume=self._cfg.get("show_volume", False),
                 show_header=False,   # CardWindow has its own header
                 base_color=self._cfg.get("chart_accent"),
-                show_fundamentals=self._cfg.get("show_fundamentals", False)
+                show_fundamentals=self._cfg.get("show_fundamentals", False),
+                cfg=self._cfg
             )
             # Wire callback so ChartCard pushes price updates up to our header
             self._card._header_cb = self._on_chart_price
@@ -631,6 +632,9 @@ class CardWindow(tk.Toplevel):
         self._resize_start_y = event.y_root
         self._resize_start_w = self.winfo_width()
         self._resize_start_h = self.winfo_height()
+        # Cache original position to prevent drifting
+        self._resize_start_win_x = self.winfo_x()
+        self._resize_start_win_y = self.winfo_y()
 
     def _on_resize(self, event):
         MIN_W, MAX_W = 220, 700
@@ -639,8 +643,10 @@ class CardWindow(tk.Toplevel):
         dh = event.y_root - self._resize_start_y
         new_w = max(MIN_W, min(MAX_W, self._resize_start_w + dw))
         new_h = max(MIN_H, min(MAX_H, self._resize_start_h + dh))
-        x = self.winfo_x()
-        y = self.winfo_y()
+        
+        # Use initial anchor point to perfectly hold the top-left corner
+        x = self._resize_start_win_x
+        y = self._resize_start_win_y
         self.geometry(f"{new_w}x{new_h}+{x}+{y}")
 
     def _on_resize_end(self, event):
