@@ -117,6 +117,7 @@ class CardWindow(tk.Toplevel):
         self._ctx.add_command(label=lock_label, command=self._toggle_lock)
         self._ctx.add_command(label="⟲ 重新載入圖表",  command=self._reload_chart)
         self._ctx.add_command(label="🌐 投資人關係 (IR) 網站", command=self._open_ir)
+        self._ctx.add_command(label="🤖 AI 深度情報分析", command=self._show_ai_dialog)
         _mk_ctx_sep(self._ctx)
         self._ctx.add_command(label="✕ 關閉此卡片",    command=self._remove_self)
 
@@ -206,6 +207,15 @@ class CardWindow(tk.Toplevel):
         except Exception:
             pass   # silently ignored on unsupported systems
 
+    def _show_ai_dialog(self):
+        try:
+            from widget.data.news_fetcher import fetch_recent_news
+            from widget.data.ai_client import stream_ai_summary
+            from widget.components.ai_dialog import show_ai_dialog
+            
+            show_ai_dialog(self, self.symbol, fetch_recent_news, stream_ai_summary)
+        except Exception as e:
+            print(f"[AI Dialog] error: {e}")
 
     # ── UI ────────────────────────────────────────────────────────────────────
 
