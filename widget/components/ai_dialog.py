@@ -1,7 +1,7 @@
 import sys
 import threading
 import tkinter as tk
-from widget import theme
+from widget.style import theme
 import webbrowser
 
 class AIDialog(tk.Toplevel):
@@ -35,13 +35,13 @@ class AIDialog(tk.Toplevel):
 
     def _build_ui(self):
         # Header area
-        hdr = tk.Frame(self.frame, bg=theme.BG_HDR)
+        hdr = tk.Frame(self.frame, bg=theme.BG2)
         hdr.pack(fill="x", side="top")
         
-        lbl = tk.Label(hdr, text=f"🤖 AI 情報分析 - {self.symbol}", font=theme.FONT_BOLD, fg=theme.FG_HDR, bg=theme.BG_HDR)
+        lbl = tk.Label(hdr, text=f"🤖 AI 情報分析 - {self.symbol}", font=theme.FONT_BOLD, fg=theme.FG, bg=theme.BG2)
         lbl.pack(side="left", padx=10, pady=8)
         
-        close_btn = tk.Label(hdr, text="✕", font=theme.FONT, fg=theme.FG_DIM, bg=theme.BG_HDR, cursor="hand2")
+        close_btn = tk.Label(hdr, text="✕", font=theme.FONT, fg=theme.FG_DIM, bg=theme.BG2, cursor="hand2")
         close_btn.pack(side="right", padx=10, pady=8)
         close_btn.bind("<Button-1>", lambda e: self.destroy())
         close_btn.bind("<Enter>", lambda e: close_btn.config(fg="#FF4444"))
@@ -52,11 +52,11 @@ class AIDialog(tk.Toplevel):
         self.text_area.pack(fill="both", expand=True)
         
         # Action bar at bottom
-        self.action_bar = tk.Frame(self.frame, bg=theme.BG_HDR, pady=10)
+        self.action_bar = tk.Frame(self.frame, bg=theme.BG2, pady=10)
         self.action_bar.pack(fill="x", side="bottom")
         
         # Fallback button
-        self.btn_fallback = tk.Label(self.action_bar, text="🌐 打開瀏覽器詢問 Gemini (已複製指令)", font=("Segoe UI", 10, "bold"), fg=theme.FG_HDR, bg=theme.ACCENT, padx=12, pady=6, cursor="hand2")
+        self.btn_fallback = tk.Label(self.action_bar, text="🌐 打開瀏覽器詢問 Gemini (已複製指令)", font=("Segoe UI", 10, "bold"), fg=theme.FG, bg=theme.ACCENT, padx=12, pady=6, cursor="hand2")
         self.btn_fallback.pack(pady=5)
         
         self.btn_fallback.bind("<Button-1>", self._on_fallback_clicked)
