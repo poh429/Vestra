@@ -28,6 +28,7 @@
 - 🤖 **AI Deep Analysis (Perplexity)** — Automated multi-perspective financial news & risk analysis
 - 💬 **PTT Sentiment (Perplexity)** — Real-time community sentiment tracking for Taiwan stocks
 - 🧠 **AI Fallback (Gemini)** — Instant backup analysis with automated clipboard prompt copy
+- 📺 **Ticker Tape Mode** — Scrolling price bar for continuous market monitoring
 - 📉 **RSI & Volume overlay** — Optional RSI indicator and volume bar overlay
 - 💼 **P&L simulation** — Enter your average cost and quantity to track unrealized P&L in real time
 - 🔔 **Price alerts** — Set above/below threshold alerts with desktop notifications
@@ -131,6 +132,16 @@ Key fields per card:
 
 ---
 
+### 📖 Usage Guide
+
+- **Right-Click Menu**: Access internal/external AI analysis, IR websites, and chart style customization (Line/K-bar/OHLC).
+- **Double-Click Header**: Instantly toggle between "Mini Mode" (just the price) and "Regular Mode" (with chart).
+- **Custom Tinting**: Use the right-click menu to pick custom background and chart accent colors for each stock.
+- **Ticker Tape**: Enable the Ticker Tape via the tray menu to keep an eye on your entire watchlist in a scrolling bar.
+- **Lock/Unlock**: If you cannot move the card, check the "Fixed Position" setting in the Manager Panel.
+
+---
+
 ### 🛠 Tech Stack
 
 | Layer | Technology |
@@ -148,9 +159,12 @@ Key fields per card:
 
 MIT License — free to use, modify, and distribute.
 
-### ❤️ Support
+### ✉️ Contact & Support
 
-Vestra is free and open-source. If it saves you time or helps your investing workflow, consider buying me a coffee!
+Vestra is free and open-source. For feedback or collaboration, reach out via email:  
+**Email**: [asd31139423@gmail.com](mailto:asd31139423@gmail.com)
+
+If Vestra saves you time or helps your investing workflow, consider supporting the project!
 
 [![Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/vestra)
 
@@ -170,6 +184,7 @@ Vestra is free and open-source. If it saves you time or helps your investing wor
 - 🤖 **AI 深度分析 (Perplexity)** — 自動化多維度財報新聞與風險分析
 - 💬 **PTT 輿情分析 (Perplexity)** — 針對台股社群動態的即時聲量與情緒追蹤
 - 🧠 **AI 備案分析 (Gemini)** — 內建自動指令複製與一鍵跳轉備份分析
+- 📺 **跑馬燈報價模式** — 底部滾動報價列，讓你在大螢幕底部持續監控市場
 - 📉 **RSI 與成交量** — 可開啟 RSI 指標與成交量疊加圖
 - 💼 **損益模擬** — 輸入持倉成本與股數，即時追蹤未實現損益
 - 🔔 **價格警報** — 設定上下限觸發桌面通知
@@ -234,9 +249,22 @@ python -m widget.main
 
 ---
 
-### ❤️ 支持作者
+### 📖 使用教學
 
-Vestra 完全免費開源。如果你覺得好用，歡迎請作者喝杯咖啡！☕
+- **右鍵功能選單**：點擊卡片任何位置，即可開啟 AI 分析、查看 IR 網站、或更換圖表模式。
+- **雙擊標題列**：快速切換「縮小模式」與「完整圖表模式」，幫你節省桌面空間。
+- **自訂配色**：透過右鍵選單的「顏色設定」，可以自由調整每張卡片的背景與線條顏色。
+- **跑馬燈模式**：從右下角系統匣圖示點選「顯示跑馬燈」，讓即時報價在螢幕邊緣滾動顯示。
+- **鎖定功能**：若無法拖曳卡片，請檢查管理面板中的「固定位置（Lock）」選項是否開啟。
+
+---
+
+### ✉️ 聯絡與支持
+
+Vestra 為完全開放原始碼專案，如有功能建議或合作意向，歡迎透過郵件聯繫：  
+**Email**: [asd31139423@gmail.com](mailto:asd31139423@gmail.com)
+
+如果你覺得這個專案有幫助，歡迎請作者喝杯咖啡！☕
 
 [![Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/vestra)
 
