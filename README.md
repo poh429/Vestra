@@ -39,9 +39,17 @@
 
 ### 🖥 Demo
 
-![Vestra on Desktop](screenshots/demo.png)
+| Main Widget View | Ticker Tape Mode |
+|:---:|:---:|
+| ![Vestra on Desktop](screenshots/demo.png) | ![Ticker Tape](screenshots/scrolling_light.png) |
 
-![Manager Panel](screenshots/manage.jpg)
+| Management Panel | Right-Click AI Menu |
+|:---:|:---:|
+| ![Manager Panel](screenshots/management_ui.png) | ![Stock Detail Function](screenshots/stock_detail_function.png) |
+
+| System Tray Settings |
+|:---:|
+| ![Tray Icon Settings](screenshots/icon_setting.png) |
 
 ---
 
@@ -136,9 +144,9 @@ Key fields per card:
 
 - **Right-Click Menu**: Access internal/external AI analysis, IR websites, and chart style customization (Line/K-bar/OHLC).
 - **Double-Click Header**: Instantly toggle between "Mini Mode" (just the price) and "Regular Mode" (with chart).
-- **Custom Tinting**: Use the right-click menu to pick custom background and chart accent colors for each stock.
-- **Ticker Tape**: Enable the Ticker Tape via the tray menu to keep an eye on your entire watchlist in a scrolling bar.
-- **Lock/Unlock**: If you cannot move the card, check the "Fixed Position" setting in the Manager Panel.
+- **Custom Tinting**: Use the right-click menu to pick custom background and chart accent colors for each stock. See ![AI & Detail Functions](screenshots/stock_detail_function.png).
+- **Ticker Tape**: Enable the Ticker Tape via the tray menu to keep an eye on your entire watchlist in a scrolling bar. See ![Ticker Tape](screenshots/scrolling_light.png).
+- **Lock/Unlock**: If you cannot move the card, check the "Fixed Position" setting in the Manager Panel. See ![Management UI](screenshots/management_ui.png).
 
 ---
 
@@ -253,9 +261,9 @@ python -m widget.main
 
 - **右鍵功能選單**：點擊卡片任何位置，即可開啟 AI 分析、查看 IR 網站、或更換圖表模式。
 - **雙擊標題列**：快速切換「縮小模式」與「完整圖表模式」，幫你節省桌面空間。
-- **自訂配色**：透過右鍵選單的「顏色設定」，可以自由調整每張卡片的背景與線條顏色。
-- **跑馬燈模式**：從右下角系統匣圖示點選「顯示跑馬燈」，讓即時報價在螢幕邊緣滾動顯示。
-- **鎖定功能**：若無法拖曳卡片，請檢查管理面板中的「固定位置（Lock）」選項是否開啟。
+- **自訂配色**：透過右鍵選單的「顏色設定」，可以自由調整每張卡片的背景與線條顏色。參考 ![功能選單](screenshots/stock_detail_function.png)。
+- **跑馬燈模式**：從右下角系統匣圖示點選「顯示跑馬燈」，讓即時報價在螢幕邊緣滾動顯示。參考 ![跑馬燈](screenshots/scrolling_light.png)。
+- **鎖定功能**：若無法拖曳卡片，請檢查管理面板中的「固定位置（Lock）」選項是否開啟。參考 ![管理介面](screenshots/management_ui.png)。
 
 ---
 
