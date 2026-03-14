@@ -29,6 +29,7 @@
 - 💬 **PTT Sentiment (Perplexity)** — Real-time community sentiment tracking for Taiwan stocks
 - 🧠 **AI Fallback (Gemini)** — Instant backup analysis with automated clipboard prompt copy
 - 📺 **Ticker Tape Mode** — Scrolling price bar for continuous market monitoring
+- 🔴 **Stock Status Tags** — Visual indicators for "Notice" or "Disposition" status for Taiwan stocks. See ![Stock Status](screenshots/alert_stock_icon.png)
 - 📉 **RSI & Volume overlay** — Optional RSI indicator and volume bar overlay
 - 💼 **P&L simulation** — Enter your average cost and quantity to track unrealized P&L in real time
 - 🔔 **Price alerts** — Set above/below threshold alerts with desktop notifications
@@ -43,13 +44,13 @@
 |:---:|:---:|
 | ![Vestra on Desktop](screenshots/demo.png) | ![Ticker Tape](screenshots/scrolling_light.png) |
 
-| Management Panel | Right-Click AI Menu |
+| Stock Status (Notice/Disp) | Management Panel |
 |:---:|:---:|
-| ![Manager Panel](screenshots/management_ui.png) | ![Stock Detail Function](screenshots/stock_detail_function.png) |
+| ![Stock Status Info](screenshots/alert_stock_icon.png) | ![Manager Panel](screenshots/management_ui.png) |
 
-| System Tray Settings |
-|:---:|
-| ![Tray Icon Settings](screenshots/icon_setting.png) |
+| Right-Click AI Menu | System Tray Settings |
+|:---:|:---:|
+| ![Stock Detail Function](screenshots/stock_detail_function.png) | ![Tray Icon Settings](screenshots/icon_setting.png) |
 
 ---
 
@@ -192,7 +193,8 @@ If Vestra saves you time or helps your investing workflow, consider supporting t
 - 🤖 **AI 深度分析 (Perplexity)** — 自動化多維度財報新聞與風險分析
 - 💬 **PTT 輿情分析 (Perplexity)** — 針對台股社群動態的即時聲量與情緒追蹤
 - 🧠 **AI 備案分析 (Gemini)** — 內建自動指令複製與一鍵跳轉備份分析
-- 📺 **跑馬燈報價模式** — 底部滾動報價列，讓你在大螢幕底部持續監控市場
+- 📺 **跑馬燈報報價模式** — 底部滾動報價列，讓你在大螢幕底部持續監控市場
+- 🔴 **處置/注意股標籤** — 自動偵測並顯示台股警示狀態。參考 ![資訊標籤](screenshots/alert_stock_icon.png)
 - 📉 **RSI 與成交量** — 可開啟 RSI 指標與成交量疊加圖
 - 💼 **損益模擬** — 輸入持倉成本與股數，即時追蹤未實現損益
 - 🔔 **價格警報** — 設定上下限觸發桌面通知
