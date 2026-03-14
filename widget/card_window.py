@@ -118,6 +118,7 @@ class CardWindow(tk.Toplevel):
         self._ctx.add_command(label="⟲ 重新載入圖表",  command=self._reload_chart)
         self._ctx.add_command(label="🌐 投資人關係 (IR) 網站", command=self._open_ir)
         self._ctx.add_command(label="🤖 AI 深度情報分析", command=self._show_ai_dialog)
+        self._ctx.add_command(label="💬 PTT 輿情分析", command=self._show_ptt_sentiment_dialog)
         _mk_ctx_sep(self._ctx)
         self._ctx.add_command(label="✕ 關閉此卡片",    command=self._remove_self)
 
@@ -216,6 +217,26 @@ class CardWindow(tk.Toplevel):
             show_ai_dialog(self, self.symbol, fetch_recent_news, stream_ai_summary)
         except Exception as e:
             print(f"[AI Dialog] error: {e}")
+
+    def _show_ptt_sentiment_dialog(self):
+        try:
+            from widget.data.ai_client import stream_ptt_sentiment_summary
+            from widget.data.ptt_sentiment import fetch_ptt_sentiment
+            from widget.components.ai_dialog import show_ai_dialog
+
+            def fetch_ptt_bundle(_symbol):
+                return fetch_ptt_sentiment(self.symbol, self.label)
+
+            show_ai_dialog(
+                self,
+                self.symbol,
+                fetch_ptt_bundle,
+                stream_ptt_sentiment_summary,
+                dialog_title="PTT 輿情分析",
+                context_label="PTT Stock 版近 30 天討論",
+            )
+        except Exception as e:
+            print(f"[PTT Dialog] error: {e}")
 
     # ── UI ────────────────────────────────────────────────────────────────────
 
