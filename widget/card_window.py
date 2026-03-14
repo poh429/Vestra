@@ -9,8 +9,12 @@ Features:
  • Saves its own position to config on drag-release
 """
 
+import ctypes
+import threading
+import time
 import tkinter as tk
 from tkinter import messagebox
+import re
 from typing import Callable, Optional
 
 from widget.style import theme
@@ -20,6 +24,14 @@ from widget.style import theme
 
 def _mk_ctx_sep(menu: tk.Menu):
     menu.add_separator()
+
+
+VK_CONTROL = 0x11
+VK_ENTER = 0x0D
+VK_TAB = 0x09
+VK_V = 0x56
+KEYEVENTF_KEYUP = 0x0002
+ALPHAMEMO_FREE_URL = "https://www.alphamemo.ai/free-transcripts"
 
 
 class CardWindow(tk.Toplevel):
@@ -117,8 +129,11 @@ class CardWindow(tk.Toplevel):
         self._ctx.add_command(label=lock_label, command=self._toggle_lock)
         self._ctx.add_command(label="⟲ 重新載入圖表",  command=self._reload_chart)
         self._ctx.add_command(label="🌐 投資人關係 (IR) 網站", command=self._open_ir)
-        self._ctx.add_command(label="🤖 AI 深度情報分析", command=self._show_ai_dialog)
-        self._ctx.add_command(label="💬 PTT 輿情分析", command=self._show_ptt_sentiment_dialog)
+        self._ctx.add_command(label="🤖 AI 深度分析 (Perplexity)", command=self._open_perplexity)
+        self._ctx.add_command(label="💬 PTT 輿情分析 (Perplexity)", command=self._open_ptt_perplexity)
+        self._ctx.add_command(label="🧠 AI 備案分析 (Gemini)", command=self._open_gemini)
+        if self._supports_alphamemo():
+            self._ctx.add_command(label="📝 法說會逐字稿 (AlphaMemo)", command=self._open_alpha_memo)
         _mk_ctx_sep(self._ctx)
         self._ctx.add_command(label="✕ 關閉此卡片",    command=self._remove_self)
 
@@ -208,35 +223,77 @@ class CardWindow(tk.Toplevel):
         except Exception:
             pass   # silently ignored on unsupported systems
 
-    def _show_ai_dialog(self):
+    def _open_perplexity(self):
         try:
-            from widget.data.news_fetcher import fetch_recent_news
-            from widget.data.ai_client import stream_ai_summary
-            from widget.components.ai_dialog import show_ai_dialog
+            import urllib.parse
+            import webbrowser
+            sym = self.symbol
+            q = f"請幫我分析 {sym} 過去一週的最新新聞與情報，列出3點近期利多動能、3點潛在利空風險，並給出一句話的短線總結判定。"
+                
+            url = "https://www.perplexity.ai/search?q=" + urllib.parse.quote(q)
+            webbrowser.open(url)
+        except Exception as e:
+            print(f"[AI] error linking to perplexity: {e}")
+
+    def _open_ptt_perplexity(self):
+        try:
+            import urllib.parse
+            import webbrowser
+            sym = self.symbol
+            name = self._extract_chinese_name(self.label) or sym
+            q = f"請幫我搜尋 PTT Stock 板上「最近 30 天內」對「{name} ({sym})」的討論與輿情。請確保只分析近一個月的貼文，忽略過時資訊，並總結網友的主要觀點、看多或看空的理由以及社群情緒。"
+                
+            url = "https://www.perplexity.ai/search?q=" + urllib.parse.quote(q)
+            webbrowser.open(url)
+        except Exception as e:
+            print(f"[AI] error linking to perplexity ptt: {e}")
+
+    def _open_gemini(self):
+        try:
+            import webbrowser
+            from widget.data.alphamemo_launcher import _copy_to_clipboard
+            sym = self.symbol
+            q = f"請幫我分析 {sym} 過去一週的最新新聞與情報，列出3點近期利多動能、3點潛在利空風險，並給出一句話的短線總結判定。"
             
-            show_ai_dialog(self, self.symbol, fetch_recent_news, stream_ai_summary)
+            # Using the copy trick to make it easier for the user
+            _copy_to_clipboard(q)
+            webbrowser.open("https://gemini.google.com/app")
         except Exception as e:
-            print(f"[AI Dialog] error: {e}")
+            print(f"[AI] error linking to gemini: {e}")
 
-    def _show_ptt_sentiment_dialog(self):
+    def _open_alpha_memo(self):
         try:
-            from widget.data.ai_client import stream_ptt_sentiment_summary
-            from widget.data.ptt_sentiment import fetch_ptt_sentiment
-            from widget.components.ai_dialog import show_ai_dialog
-
-            def fetch_ptt_bundle(_symbol):
-                return fetch_ptt_sentiment(self.symbol, self.label)
-
-            show_ai_dialog(
-                self,
-                self.symbol,
-                fetch_ptt_bundle,
-                stream_ptt_sentiment_summary,
-                dialog_title="PTT 輿情分析",
-                context_label="PTT Stock 版近 30 天討論",
-            )
+            from widget.data.alphamemo_launcher import open_alphamemo_with_query
+            query = self.symbol
+            if "(" in self.label and ")" in self.label:
+                query = self.label.split("(")[0].strip()
+                
+            threading.Thread(
+                target=open_alphamemo_with_query,
+                args=(query,),
+                daemon=True,
+            ).start()
         except Exception as e:
-            print(f"[PTT Dialog] error: {e}")
+            print(f"[AlphaMemo] launcher error: {e}")
+
+    def _extract_chinese_name(self, label: str) -> str:
+        if not label:
+            return ""
+        import re
+        matches = re.findall(r"[\u4e00-\u9fff]+", label)
+        if matches:
+            return "".join(matches)
+        return ""
+
+    def _supports_alphamemo(self) -> bool:
+        if self.category == "Crypto":
+            return False
+        sym = self.symbol.upper().strip()
+        if sym.isdigit() and len(sym) >= 4:
+            return True
+        if sym.endswith(".TW") or sym.endswith(".TWO"):
+            return True
+        return False
 
     # ── UI ────────────────────────────────────────────────────────────────────
 

@@ -182,6 +182,8 @@ class ChartCard(tk.Frame):
         # Fundamental stat labels (populated async)
         self._fund_mktcap_lbl = None
         self._fund_pe_lbl     = None
+        self._fund_pb_lbl     = None
+        self._fund_peg_lbl    = None
         self._fund_eps_lbl    = None
 
         self.bind("<<ChartLoaded>>", lambda e: self._render())
@@ -204,6 +206,11 @@ class ChartCard(tk.Frame):
         bar = tk.Frame(self, bg=theme.BG3)
         bar.pack(fill="x", padx=4, pady=(0, 3))
 
+        row1 = tk.Frame(bar, bg=theme.BG3)
+        row2 = tk.Frame(bar, bg=theme.BG3)
+        row1.pack(fill="x", pady=(2, 0))
+        row2.pack(fill="x", pady=(0, 2))
+
         fund_color = self._cfg.get("fund_color", theme.FG)
 
         label_opts = dict(font=("Segoe UI", 7), fg=theme.FG_DIM, bg=theme.BG3)
@@ -212,30 +219,43 @@ class ChartCard(tk.Frame):
 
         is_crypto = (self.category == "Crypto")
 
-        # Market Cap (Universal)
-        tk.Label(bar, text="Mkt Cap", **label_opts).pack(side="left", padx=(6, 1))
-        self._fund_mktcap_lbl = tk.Label(bar, text="…", **number_opts)
+        # Market Cap (Universal) - Row 1
+        tk.Label(row1, text="Mkt Cap", **label_opts).pack(side="left", padx=(6, 1))
+        self._fund_mktcap_lbl = tk.Label(row1, text="…", **number_opts)
         self._fund_mktcap_lbl.pack(side="left", padx=(0, 0))
-        self._fund_mktcap_unit_lbl = tk.Label(bar, text="", **value_opts)
+        self._fund_mktcap_unit_lbl = tk.Label(row1, text="", **value_opts)
         self._fund_mktcap_unit_lbl.pack(side="left", padx=(1, 8))
 
-        # Col 2
+        # Col 2 - Row 1
         lbl2 = "Vol(24h)" if is_crypto else "P/E"
-        tk.Label(bar, text=lbl2, **label_opts).pack(side="left", padx=(0, 1))
-        self._fund_pe_lbl = tk.Label(bar, text="…", **value_opts) # Reused for Col 2
+        tk.Label(row1, text=lbl2, **label_opts).pack(side="left", padx=(0, 1))
+        self._fund_pe_lbl = tk.Label(row1, text="…", **value_opts) # Reused for Col 2
         self._fund_pe_lbl.pack(side="left", padx=(0, 8))
 
-        # Col 3
-        lbl3 = "Circ Supply" if is_crypto else "EPS"
-        tk.Label(bar, text=lbl3, **label_opts).pack(side="left", padx=(0, 1))
-        self._fund_eps_lbl = tk.Label(bar, text="…", **value_opts) # Reused for Col 3
-        self._fund_eps_lbl.pack(side="left", padx=(0, 8))
+        # Col 3 - Row 1
+        lbl3 = "Circ Supply" if is_crypto else "P/B"
+        tk.Label(row1, text=lbl3, **label_opts).pack(side="left", padx=(0, 1))
+        self._fund_pb_lbl = tk.Label(row1, text="…", **value_opts) # Reused for Col 3
+        self._fund_pb_lbl.pack(side="left", padx=(0, 8))
 
-        # Col 4
-        lbl4 = "市佔(Dom)" if is_crypto else "Target"
-        tk.Label(bar, text=lbl4, **label_opts).pack(side="left", padx=(0, 1))
-        self._fund_target_lbl = tk.Label(bar, text="…", **value_opts) # Reused for Col 4
-        self._fund_target_lbl.pack(side="left")
+        # Col 4 - Row 2
+        lbl4 = "市佔(Dom)" if is_crypto else "PEG"
+        tk.Label(row2, text=lbl4, **label_opts).pack(side="left", padx=(6, 1))
+        self._fund_peg_lbl = tk.Label(row2, text="…", **value_opts) # Reused for Col 4
+        self._fund_peg_lbl.pack(side="left", padx=(0, 8))
+
+        # Col 5 - Row 2 (Hide for Crypto)
+        if not is_crypto:
+            tk.Label(row2, text="EPS", **label_opts).pack(side="left", padx=(0, 1))
+            self._fund_eps_lbl = tk.Label(row2, text="…", **value_opts)
+            self._fund_eps_lbl.pack(side="left", padx=(0, 8))
+
+            tk.Label(row2, text="Target", **label_opts).pack(side="left", padx=(0, 1))
+            self._fund_target_lbl = tk.Label(row2, text="…", **value_opts)
+            self._fund_target_lbl.pack(side="left")
+        else:
+            self._fund_eps_lbl = None
+            self._fund_target_lbl = None
 
     def _fetch_fundamentals(self):
         """Background thread: fetch fundamentals via yfinance and update labels."""
@@ -276,11 +296,15 @@ class ChartCard(tk.Frame):
                 except Exception:
                     pass
                 col4_val = dom_val
+                col5_val = None
+                col6_val = None
             else:
                 # Prioritize Forward estimates (Analyst Consensus), fallback to Trailing (History)
                 col2_val  = info.get("forwardPE")  or info.get("trailingPE")
-                col3_val = info.get("forwardEps") or info.get("trailingEps")
-                col4_val = info.get("targetMeanPrice")
+                col3_val = info.get("priceToBook")
+                col4_val = info.get("pegRatio") or info.get("trailingPegRatio")
+                col5_val = info.get("forwardEps") or info.get("trailingEps")
+                col6_val = info.get("targetMeanPrice")
 
             def _fmt_cap(v, cur=""):
                 if v is None:
@@ -307,10 +331,14 @@ class ChartCard(tk.Frame):
                     col4_str = f"{col4_val:.2f}%"
                 else:
                     col4_str = "N/A"
+                col5_str = "N/A"
+                col6_str = "N/A"
             else:
                 col2_str  = f"{col2_val:.1f}" if col2_val is not None else "N/A"
-                col3_str = f"{col3_val:.2f}" if col3_val is not None else "N/A"
-                col4_str = f"{col4_val:.2f}" if col4_val is not None else "N/A"
+                col3_str  = f"{col3_val:.2f}" if col3_val is not None else "N/A"
+                col4_str  = f"{col4_val:.2f}" if col4_val is not None else "N/A"
+                col5_str  = f"{col5_val:.2f}" if col5_val is not None else "N/A"
+                col6_str  = f"{col6_val:.2f}" if col6_val is not None else "N/A"
 
             def _update():
                 try:
@@ -321,10 +349,14 @@ class ChartCard(tk.Frame):
                         self._fund_mktcap_unit_lbl.config(text=cap_unit, fg=c_color)
                     if self._fund_pe_lbl and self._fund_pe_lbl.winfo_exists():
                         self._fund_pe_lbl.config(text=col2_str, fg=c_color)
+                    if hasattr(self, "_fund_pb_lbl") and self._fund_pb_lbl and self._fund_pb_lbl.winfo_exists():
+                        self._fund_pb_lbl.config(text=col3_str, fg=c_color)
+                    if hasattr(self, "_fund_peg_lbl") and self._fund_peg_lbl and self._fund_peg_lbl.winfo_exists():
+                        self._fund_peg_lbl.config(text=col4_str, fg=c_color)
                     if self._fund_eps_lbl and self._fund_eps_lbl.winfo_exists():
-                        self._fund_eps_lbl.config(text=col3_str, fg=c_color)
+                        self._fund_eps_lbl.config(text=col5_str, fg=c_color)
                     if hasattr(self, "_fund_target_lbl") and self._fund_target_lbl and self._fund_target_lbl.winfo_exists():
-                        self._fund_target_lbl.config(text=col4_str, fg=c_color)
+                        self._fund_target_lbl.config(text=col6_str, fg=c_color)
                 except Exception:
                     pass
 

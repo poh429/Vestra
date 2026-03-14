@@ -24,7 +24,10 @@
 - 🕯 **Interactive chart** — Line, K-bar, and OHLC chart modes with crosshair hover tooltip
 - 🗂 **Multi-asset watchlist** — Monitor TW stocks, US stocks, ETFs, and Crypto simultaneously
 - 🎨 **Full color customization** — Independently customize background tint and chart accent colors per card
-- 📊 **Fundamental data** — Inline Market Cap, P/E, and EPS below the chart
+- 📊 **Fundamental data** — Inline Market Cap, P/E, P/B, PEG, and EPS (Cleaned view for Crypto)
+- 🤖 **AI Deep Analysis (Perplexity)** — Automated multi-perspective financial news & risk analysis
+- 💬 **PTT Sentiment (Perplexity)** — Real-time community sentiment tracking for Taiwan stocks
+- 🧠 **AI Fallback (Gemini)** — Instant backup analysis with automated clipboard prompt copy
 - 📉 **RSI & Volume overlay** — Optional RSI indicator and volume bar overlay
 - 💼 **P&L simulation** — Enter your average cost and quantity to track unrealized P&L in real time
 - 🔔 **Price alerts** — Set above/below threshold alerts with desktop notifications
@@ -163,7 +166,10 @@ Vestra is free and open-source. If it saves you time or helps your investing wor
 - 🕯 **互動式圖表** — 折線、K棒、OHLC 三種圖表模式，支援滑鼠十字游標與價格氣泡
 - 🗂 **多資產看板** — 同時監控台股、美股、ETF、加密貨幣
 - 🎨 **完整顏色自訂** — 每張卡片可獨立調整背景色調與圖表文字色
-- 📊 **基本面資料** — 圖表下方即時顯示市值、本益比、EPS
+- 📊 **基本面資料** — 即時顯示市值、P/E、P/B、PEG、EPS（加密貨幣自動精簡顯示）
+- 🤖 **AI 深度分析 (Perplexity)** — 自動化多維度財報新聞與風險分析
+- 💬 **PTT 輿情分析 (Perplexity)** — 針對台股社群動態的即時聲量與情緒追蹤
+- 🧠 **AI 備案分析 (Gemini)** — 內建自動指令複製與一鍵跳轉備份分析
 - 📉 **RSI 與成交量** — 可開啟 RSI 指標與成交量疊加圖
 - 💼 **損益模擬** — 輸入持倉成本與股數，即時追蹤未實現損益
 - 🔔 **價格警報** — 設定上下限觸發桌面通知
