@@ -162,11 +162,11 @@ Vestra is free and open-source. If it saves you time or helps your investing wor
 
 ### ✨ 功能特色
 
-- 📈 **即時報價** — 台股（Fugle API）、美股 / ETF、加密貨幣（yfinance）
+- 📈 **即時報價** — 台股、美股 / ETF、加密貨幣
 - 🕯 **互動式圖表** — 折線、K棒、OHLC 三種圖表模式，支援滑鼠十字游標與價格氣泡
 - 🗂 **多資產看板** — 同時監控台股、美股、ETF、加密貨幣
 - 🎨 **完整顏色自訂** — 每張卡片可獨立調整背景色調與圖表文字色
-- 📊 **基本面資料** — 即時顯示市值、P/E、P/B、PEG、EPS（加密貨幣自動精簡顯示）
+- 📊 **基本面資料** — 即時顯示市值、P/E、P/B、PEG、EPS
 - 🤖 **AI 深度分析 (Perplexity)** — 自動化多維度財報新聞與風險分析
 - 💬 **PTT 輿情分析 (Perplexity)** — 針對台股社群動態的即時聲量與情緒追蹤
 - 🧠 **AI 備案分析 (Gemini)** — 內建自動指令複製與一鍵跳轉備份分析
