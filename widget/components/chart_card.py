@@ -24,6 +24,7 @@ import numpy as np
 
 import threading
 from widget.style import theme
+from widget.data.fundamental_fetcher import FundamentalFetcher
 from widget.data.history_loader import load_history_async
 
 _fund_lock = threading.Lock()
@@ -185,6 +186,7 @@ class ChartCard(tk.Frame):
         self._fund_pb_lbl     = None
         self._fund_peg_lbl    = None
         self._fund_eps_lbl    = None
+        self._fund_target_lbl = None
 
         self.bind("<<ChartLoaded>>", lambda e: self._render())
 
@@ -258,8 +260,59 @@ class ChartCard(tk.Frame):
             self._fund_target_lbl = None
 
     def _fetch_fundamentals(self):
-        """Background thread: fetch fundamentals via yfinance and update labels."""
+        """Background thread: fetch inline fallback fundamentals and update labels."""
         try:
+            with _fund_lock:
+                import time
+                time.sleep(0.5)
+                payload = FundamentalFetcher().get_inline_fundamentals(self.symbol, self.category)
+
+            cap_val, cap_unit = self._fmt_cap(payload.get("market_cap"), payload.get("currency", ""))
+            is_crypto = (self.category == "Crypto")
+            if is_crypto:
+                vol_val, vol_unit = self._fmt_cap(payload.get("pe"), payload.get("currency", ""))
+                supply_val, supply_unit = self._fmt_cap(payload.get("pb"))
+                col2_str = f"{vol_val}{vol_unit}" if vol_val != "N/A" else "N/A"
+                col3_str = f"{supply_val}{supply_unit}" if supply_val != "N/A" else "N/A"
+                peg = payload.get("peg")
+                col4_str = f"{peg:.2f}%" if peg is not None else "N/A"
+                col5_str = "N/A"
+                col6_str = "N/A"
+            else:
+                pe = payload.get("pe")
+                pb = payload.get("pb")
+                peg = payload.get("peg")
+                eps = payload.get("eps")
+                target = payload.get("target")
+                col2_str = f"{pe:.1f}" if pe is not None else "N/A"
+                col3_str = f"{pb:.2f}" if pb is not None else "N/A"
+                col4_str = f"{peg:.2f}" if peg is not None else "N/A"
+                col5_str = f"{eps:.2f}" if eps is not None else "N/A"
+                col6_str = f"{target:.2f}" if target is not None else "N/A"
+
+            def _update():
+                try:
+                    c_color = self._cfg.get("fund_color", theme.FG)
+                    if self._fund_mktcap_lbl and self._fund_mktcap_lbl.winfo_exists():
+                        self._fund_mktcap_lbl.config(text=cap_val, fg=c_color)
+                    if self._fund_mktcap_unit_lbl and self._fund_mktcap_unit_lbl.winfo_exists():
+                        self._fund_mktcap_unit_lbl.config(text=cap_unit, fg=c_color)
+                    if self._fund_pe_lbl and self._fund_pe_lbl.winfo_exists():
+                        self._fund_pe_lbl.config(text=col2_str, fg=c_color)
+                    if hasattr(self, "_fund_pb_lbl") and self._fund_pb_lbl and self._fund_pb_lbl.winfo_exists():
+                        self._fund_pb_lbl.config(text=col3_str, fg=c_color)
+                    if hasattr(self, "_fund_peg_lbl") and self._fund_peg_lbl and self._fund_peg_lbl.winfo_exists():
+                        self._fund_peg_lbl.config(text=col4_str, fg=c_color)
+                    if self._fund_eps_lbl and self._fund_eps_lbl.winfo_exists():
+                        self._fund_eps_lbl.config(text=col5_str, fg=c_color)
+                    if hasattr(self, "_fund_target_lbl") and self._fund_target_lbl and self._fund_target_lbl.winfo_exists():
+                        self._fund_target_lbl.config(text=col6_str, fg=c_color)
+                except Exception:
+                    pass
+
+            self.after(0, _update)
+            return
+
             import yfinance as yf
             sym = self.symbol
             if self.category == "台股" and not sym.endswith(".TW"):
@@ -365,6 +418,56 @@ class ChartCard(tk.Frame):
             print(f"[Fundamentals] fetch error {self.symbol}: {e}")
 
     # ── Header ────────────────────────────────────────────────────────────────
+
+    @staticmethod
+    def _fmt_cap(v, cur=""):
+        if v is None:
+            return ("N/A", "")
+        cur_str = f" {cur}" if cur else ""
+        if v >= 1e12:
+            return (f"{v/1e12:.2f}", f"T{cur_str}")
+        if v >= 1e9:
+            return (f"{v/1e9:.1f}", f"B{cur_str}")
+        if v >= 1e6:
+            return (f"{v/1e6:.0f}", f"M{cur_str}")
+        return (f"{v:,.0f}", f"{cur_str}")
+
+    def update_research(self, snapshot):
+        if not self._show_fundamentals or snapshot is None:
+            return
+
+        def _apply():
+            try:
+                default_color = self._cfg.get("fund_color", theme.FG)
+                if self._fund_mktcap_lbl and self._fund_mktcap_lbl.winfo_exists():
+                    cap_val, cap_unit = self._fmt_cap(snapshot.market_cap, snapshot.currency or "")
+                    self._fund_mktcap_lbl.config(text=cap_val, fg=default_color)
+                    self._fund_mktcap_unit_lbl.config(text=cap_unit, fg=default_color)
+                if self._fund_pe_lbl and self._fund_pe_lbl.winfo_exists() and snapshot.forward_pe is not None:
+                    pe_color = theme.ACCENT if snapshot.valuation_mode == "FWD_PE" else default_color
+                    self._fund_pe_lbl.config(text=f"{snapshot.forward_pe:.1f}", fg=pe_color)
+                if self._fund_pb_lbl and self._fund_pb_lbl.winfo_exists() and snapshot.pb is not None:
+                    pb_color = theme.ACCENT if snapshot.valuation_mode == "PB" else default_color
+                    self._fund_pb_lbl.config(text=f"{snapshot.pb:.2f}", fg=pb_color)
+                if self._fund_peg_lbl and self._fund_peg_lbl.winfo_exists() and snapshot.peg is not None:
+                    self._fund_peg_lbl.config(text=f"{snapshot.peg:.2f}", fg=default_color)
+                if self._fund_eps_lbl and self._fund_eps_lbl.winfo_exists() and snapshot.forward_eps is not None:
+                    self._fund_eps_lbl.config(text=f"{snapshot.forward_eps:.2f}", fg=default_color)
+                if self._fund_target_lbl and self._fund_target_lbl.winfo_exists() and snapshot.target_mean_price is not None:
+                    text = f"{snapshot.target_mean_price:.2f}"
+                    color = default_color
+                    if snapshot.target_revision_proxy_pct is not None:
+                        sign = "+" if snapshot.target_revision_proxy_pct >= 0 else ""
+                        text = f"{text} ({sign}{snapshot.target_revision_proxy_pct:.1f}%)"
+                        if snapshot.target_revision_proxy_pct > 0:
+                            color = theme.UP
+                        elif snapshot.target_revision_proxy_pct < 0:
+                            color = theme.DOWN
+                    self._fund_target_lbl.config(text=text, fg=color)
+            except Exception:
+                pass
+
+        self.after(0, _apply)
 
     def _build_header(self):
         hdr = tk.Frame(self, bg=theme.BG2)

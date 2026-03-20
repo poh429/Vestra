@@ -10,6 +10,7 @@ Features:
 """
 
 import ctypes
+import queue
 import threading
 import time
 import tkinter as tk
@@ -64,6 +65,9 @@ class CardWindow(tk.Toplevel):
         self._mode    = item_cfg.get("chart_mode", "Line")
         
         self._last_ticker_data = {}
+        self._last_research = None
+        self._research_queue: "queue.Queue[object]" = queue.Queue()
+        self._research_stop = threading.Event()
 
         # Holdings — P&L simulation
         self._qty  = float(item_cfg.get("qty",  0))   # number of shares/units held
@@ -84,6 +88,8 @@ class CardWindow(tk.Toplevel):
         self._setup_window()
         self._build_ui()
         on_price_update(self.symbol.upper(), self._on_ticker_update)
+        self._start_research_worker()
+        self.after(100, self._drain_research_queue)
 
     # ── Window setup ──────────────────────────────────────────────────────────
 
@@ -587,6 +593,38 @@ class CardWindow(tk.Toplevel):
         elif hasattr(self._card, "update_data"):
             self._card.update_data(data)
 
+    def _start_research_worker(self):
+        if self.category == "Crypto":
+            return
+
+        def _run():
+            from widget.research.engine import ResearchEngine
+
+            engine = ResearchEngine()
+            while not self._research_stop.is_set():
+                try:
+                    snapshot = engine.refresh(self.symbol.upper(), self.category)
+                    if snapshot is not None:
+                        self._research_queue.put(snapshot)
+                except Exception:
+                    pass
+                self._research_stop.wait(3600)
+
+        threading.Thread(target=_run, daemon=True).start()
+
+    def _drain_research_queue(self):
+        try:
+            while True:
+                snapshot = self._research_queue.get_nowait()
+                self._last_research = snapshot
+                if hasattr(self._card, "update_research"):
+                    self._card.update_research(snapshot)
+        except queue.Empty:
+            pass
+        finally:
+            if not self._research_stop.is_set() and self.winfo_exists():
+                self.after(1000, self._drain_research_queue)
+
     # ── Context menu actions ──────────────────────────────────────────────────
 
     def _toggle_fundamentals(self):
@@ -601,6 +639,8 @@ class CardWindow(tk.Toplevel):
         self._build_ui()
         if self._last_ticker_data:
             self._on_ticker_update(self._last_ticker_data)
+        if self._last_research and hasattr(self._card, "update_research"):
+            self._card.update_research(self._last_research)
 
     def _pick_bg_tint(self):
         from tkinter import colorchooser
@@ -665,6 +705,7 @@ class CardWindow(tk.Toplevel):
             self._card._load()
 
     def _remove_self(self):
+        self._research_stop.set()
         self._on_remove(self.symbol)
         self.destroy()
 
@@ -746,3 +787,7 @@ class CardWindow(tk.Toplevel):
 
     def set_alpha(self, alpha: float):
         self.attributes("-alpha", max(0.1, min(1.0, alpha)))
+
+    def destroy(self):
+        self._research_stop.set()
+        super().destroy()
