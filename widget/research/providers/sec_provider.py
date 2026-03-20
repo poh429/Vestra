@@ -27,7 +27,7 @@ class SECProvider(ResearchProvider):
             return False
         if symbol.endswith(".TW") or symbol.endswith(".TWO"):
             return False
-        return symbol.isalpha()
+        return self._normalize_ticker_key(symbol).isalpha()
 
     def fetch(self, symbol: str, category: str) -> Optional[ResearchSnapshot]:
         try:
@@ -54,17 +54,19 @@ class SECProvider(ResearchProvider):
 
     def _resolve_cik(self, ticker: str) -> Optional[str]:
         ticker = ticker.upper()
-        if ticker in self._cik_cache:
-            return self._cik_cache[ticker]
+        ticker_key = self._normalize_ticker_key(ticker)
+        if ticker_key in self._cik_cache:
+            return self._cik_cache[ticker_key]
 
         try:
             response = requests.get(_TICKERS_URL, headers=_HEADERS, timeout=10)
             if response.status_code != 200:
                 return None
             for entry in response.json().values():
-                if entry.get("ticker", "").upper() == ticker:
+                entry_ticker = entry.get("ticker", "").upper()
+                if self._normalize_ticker_key(entry_ticker) == ticker_key:
                     cik = str(entry["cik_str"])
-                    self._cik_cache[ticker] = cik
+                    self._cik_cache[ticker_key] = cik
                     return cik
         except Exception:
             return None
@@ -159,3 +161,7 @@ class SECProvider(ResearchProvider):
                 best = entry
                 best_rank = sort_key
         return best
+
+    @staticmethod
+    def _normalize_ticker_key(symbol: str) -> str:
+        return symbol.upper().replace(".", "").replace("-", "")

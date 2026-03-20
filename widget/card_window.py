@@ -66,8 +66,11 @@ class CardWindow(tk.Toplevel):
         
         self._last_ticker_data = {}
         self._last_research = None
+        self._last_fundamentals = None
         self._research_queue: "queue.Queue[object]" = queue.Queue()
         self._research_stop = threading.Event()
+        from widget.research.engine import ResearchEngine
+        self._research_engine = ResearchEngine()
 
         # Holdings — P&L simulation
         self._qty  = float(item_cfg.get("qty",  0))   # number of shares/units held
@@ -88,6 +91,7 @@ class CardWindow(tk.Toplevel):
         self._setup_window()
         self._build_ui()
         on_price_update(self.symbol.upper(), self._on_ticker_update)
+        self._apply_cached_fundamentals()
         self._start_research_worker()
         self.after(100, self._drain_research_queue)
 
@@ -344,6 +348,7 @@ class CardWindow(tk.Toplevel):
             for child in self.winfo_children():
                 child.destroy()
             self._build_ui()
+            self._apply_cached_fundamentals()
             # Feed current price data into the new UI
             if self._last_ticker_data:
                 self._on_ticker_update(self._last_ticker_data)
@@ -598,27 +603,53 @@ class CardWindow(tk.Toplevel):
             return
 
         def _run():
-            from widget.research.engine import ResearchEngine
-
-            engine = ResearchEngine()
             while not self._research_stop.is_set():
                 try:
-                    snapshot = engine.refresh(self.symbol.upper(), self.category)
-                    if snapshot is not None:
-                        self._research_queue.put(snapshot)
+                    snapshot, payload, source = self._research_engine.refresh_display_data(
+                        self.symbol.upper(),
+                        self.category,
+                    )
+                    if snapshot is not None or payload is not None:
+                        self._research_queue.put(
+                            {
+                                "snapshot": snapshot,
+                                "fundamentals": payload,
+                                "source": source,
+                            }
+                        )
                 except Exception:
                     pass
                 self._research_stop.wait(3600)
 
         threading.Thread(target=_run, daemon=True).start()
 
+    def _apply_cached_fundamentals(self):
+        snapshot, payload, _ = self._research_engine.get_cached_display_data(self.symbol.upper())
+        if snapshot is not None:
+            self._last_research = snapshot
+        if payload is not None:
+            self._last_fundamentals = payload
+        self._apply_research_payload(snapshot=snapshot, payload=payload)
+
+    def _apply_research_payload(self, snapshot=None, payload=None):
+        if self._display != "chart" or not getattr(self, "_card", None):
+            return
+        if snapshot is not None and hasattr(self._card, "update_research"):
+            self._card.update_research(snapshot)
+        elif payload is not None and hasattr(self._card, "apply_fundamental_payload"):
+            self._card.apply_fundamental_payload(payload)
+
     def _drain_research_queue(self):
         try:
             while True:
-                snapshot = self._research_queue.get_nowait()
-                self._last_research = snapshot
-                if hasattr(self._card, "update_research"):
-                    self._card.update_research(snapshot)
+                item = self._research_queue.get_nowait()
+                snapshot = item.get("snapshot")
+                payload = item.get("fundamentals")
+                if snapshot is not None:
+                    self._last_research = snapshot
+                if payload is not None:
+                    self._last_fundamentals = payload
+                self._apply_research_payload(snapshot=snapshot, payload=payload)
         except queue.Empty:
             pass
         finally:
@@ -637,10 +668,13 @@ class CardWindow(tk.Toplevel):
             w.destroy()
         self._setup_window()
         self._build_ui()
+        self._apply_cached_fundamentals()
         if self._last_ticker_data:
             self._on_ticker_update(self._last_ticker_data)
         if self._last_research and hasattr(self._card, "update_research"):
             self._card.update_research(self._last_research)
+        elif self._last_fundamentals and hasattr(self._card, "apply_fundamental_payload"):
+            self._card.apply_fundamental_payload(self._last_fundamentals)
 
     def _pick_bg_tint(self):
         from tkinter import colorchooser

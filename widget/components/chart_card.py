@@ -22,12 +22,8 @@ from matplotlib.patches import Rectangle
 import pandas as pd
 import numpy as np
 
-import threading
 from widget.style import theme
-from widget.data.fundamental_fetcher import FundamentalFetcher
 from widget.data.history_loader import load_history_async
-
-_fund_lock = threading.Lock()
 
 # ── helpers ───────────────────────────────────────────────────────────────────
 
@@ -168,6 +164,7 @@ class ChartCard(tk.Frame):
         self.show_rsi    = show_rsi
         self.show_volume = show_volume
         self.show_fundamentals = show_fundamentals
+        self._show_fundamentals = show_fundamentals
         self._show_header = show_header
 
         self._df: Optional[pd.DataFrame] = None
@@ -197,9 +194,6 @@ class ChartCard(tk.Frame):
         if show_fundamentals:
             self._build_fundamentals()
         self._load()
-        if show_fundamentals:
-            import threading
-            threading.Thread(target=self._fetch_fundamentals, daemon=True).start()
 
     # ── Fundamental Stats Bar ─────────────────────────────────────────────────
 
@@ -260,7 +254,8 @@ class ChartCard(tk.Frame):
             self._fund_target_lbl = None
 
     def _fetch_fundamentals(self):
-        """Background thread: fetch inline fallback fundamentals and update labels."""
+        """Deprecated in Phase 4A. Fundamentals are applied by CardWindow."""
+        return
         try:
             with _fund_lock:
                 import time
@@ -432,42 +427,81 @@ class ChartCard(tk.Frame):
             return (f"{v/1e6:.0f}", f"M{cur_str}")
         return (f"{v:,.0f}", f"{cur_str}")
 
+    def apply_fundamental_payload(self, payload: Optional[dict]):
+        if not self._show_fundamentals or not payload:
+            return
+
+        try:
+            default_color = self._cfg.get("fund_color", theme.FG)
+            cap_val, cap_unit = self._fmt_cap(payload.get("market_cap"), payload.get("currency", ""))
+            is_crypto = (self.category == "Crypto")
+
+            if is_crypto:
+                vol_val, vol_unit = self._fmt_cap(payload.get("pe"), payload.get("currency", ""))
+                supply_val, supply_unit = self._fmt_cap(payload.get("pb"))
+                pe_text = f"{vol_val}{vol_unit}" if vol_val != "N/A" else "N/A"
+                pb_text = f"{supply_val}{supply_unit}" if supply_val != "N/A" else "N/A"
+                peg = payload.get("peg")
+                peg_text = f"{peg:.2f}%" if peg is not None else "N/A"
+                eps_text = None
+                target_text = None
+                target_color = default_color
+            else:
+                pe = payload.get("pe")
+                pb = payload.get("pb")
+                peg = payload.get("peg")
+                eps = payload.get("eps")
+                target = payload.get("target")
+                pe_text = f"{pe:.1f}" if pe is not None else None
+                pb_text = f"{pb:.2f}" if pb is not None else None
+                peg_text = f"{peg:.2f}" if peg is not None else None
+                eps_text = f"{eps:.2f}" if eps is not None else None
+                target_text = f"{target:.2f}" if target is not None else None
+                target_color = default_color
+                target_revision = payload.get("target_revision_proxy_pct")
+                if target_text and target_revision is not None:
+                    sign = "+" if target_revision >= 0 else ""
+                    target_text = f"{target_text} ({sign}{target_revision:.1f}%)"
+                    if target_revision > 0:
+                        target_color = theme.UP
+                    elif target_revision < 0:
+                        target_color = theme.DOWN
+
+            if self._fund_mktcap_lbl and self._fund_mktcap_lbl.winfo_exists():
+                self._fund_mktcap_lbl.config(text=cap_val, fg=default_color)
+            if self._fund_mktcap_unit_lbl and self._fund_mktcap_unit_lbl.winfo_exists():
+                self._fund_mktcap_unit_lbl.config(text=cap_unit, fg=default_color)
+            if self._fund_pe_lbl and self._fund_pe_lbl.winfo_exists() and pe_text is not None:
+                pe_color = theme.ACCENT if payload.get("valuation_mode") == "FWD_PE" else default_color
+                self._fund_pe_lbl.config(text=pe_text, fg=pe_color)
+            if self._fund_pb_lbl and self._fund_pb_lbl.winfo_exists() and pb_text is not None:
+                pb_color = theme.ACCENT if payload.get("valuation_mode") == "PB" else default_color
+                self._fund_pb_lbl.config(text=pb_text, fg=pb_color)
+            if self._fund_peg_lbl and self._fund_peg_lbl.winfo_exists() and peg_text is not None:
+                self._fund_peg_lbl.config(text=peg_text, fg=default_color)
+            if self._fund_eps_lbl and self._fund_eps_lbl.winfo_exists() and eps_text is not None:
+                self._fund_eps_lbl.config(text=eps_text, fg=default_color)
+            if self._fund_target_lbl and self._fund_target_lbl.winfo_exists() and target_text is not None:
+                self._fund_target_lbl.config(text=target_text, fg=target_color)
+        except Exception:
+            pass
+
     def update_research(self, snapshot):
         if not self._show_fundamentals or snapshot is None:
             return
-
-        def _apply():
-            try:
-                default_color = self._cfg.get("fund_color", theme.FG)
-                if self._fund_mktcap_lbl and self._fund_mktcap_lbl.winfo_exists():
-                    cap_val, cap_unit = self._fmt_cap(snapshot.market_cap, snapshot.currency or "")
-                    self._fund_mktcap_lbl.config(text=cap_val, fg=default_color)
-                    self._fund_mktcap_unit_lbl.config(text=cap_unit, fg=default_color)
-                if self._fund_pe_lbl and self._fund_pe_lbl.winfo_exists() and snapshot.forward_pe is not None:
-                    pe_color = theme.ACCENT if snapshot.valuation_mode == "FWD_PE" else default_color
-                    self._fund_pe_lbl.config(text=f"{snapshot.forward_pe:.1f}", fg=pe_color)
-                if self._fund_pb_lbl and self._fund_pb_lbl.winfo_exists() and snapshot.pb is not None:
-                    pb_color = theme.ACCENT if snapshot.valuation_mode == "PB" else default_color
-                    self._fund_pb_lbl.config(text=f"{snapshot.pb:.2f}", fg=pb_color)
-                if self._fund_peg_lbl and self._fund_peg_lbl.winfo_exists() and snapshot.peg is not None:
-                    self._fund_peg_lbl.config(text=f"{snapshot.peg:.2f}", fg=default_color)
-                if self._fund_eps_lbl and self._fund_eps_lbl.winfo_exists() and snapshot.forward_eps is not None:
-                    self._fund_eps_lbl.config(text=f"{snapshot.forward_eps:.2f}", fg=default_color)
-                if self._fund_target_lbl and self._fund_target_lbl.winfo_exists() and snapshot.target_mean_price is not None:
-                    text = f"{snapshot.target_mean_price:.2f}"
-                    color = default_color
-                    if snapshot.target_revision_proxy_pct is not None:
-                        sign = "+" if snapshot.target_revision_proxy_pct >= 0 else ""
-                        text = f"{text} ({sign}{snapshot.target_revision_proxy_pct:.1f}%)"
-                        if snapshot.target_revision_proxy_pct > 0:
-                            color = theme.UP
-                        elif snapshot.target_revision_proxy_pct < 0:
-                            color = theme.DOWN
-                    self._fund_target_lbl.config(text=text, fg=color)
-            except Exception:
-                pass
-
-        self.after(0, _apply)
+        self.apply_fundamental_payload(
+            {
+                "market_cap": snapshot.market_cap,
+                "currency": snapshot.currency or "",
+                "pe": snapshot.forward_pe if snapshot.forward_pe is not None else snapshot.trailing_pe,
+                "pb": snapshot.pb,
+                "peg": snapshot.peg,
+                "eps": snapshot.forward_eps if snapshot.forward_eps is not None else snapshot.trailing_eps,
+                "target": snapshot.target_mean_price,
+                "valuation_mode": snapshot.valuation_mode,
+                "target_revision_proxy_pct": snapshot.target_revision_proxy_pct,
+            }
+        )
 
     def _build_header(self):
         hdr = tk.Frame(self, bg=theme.BG2)

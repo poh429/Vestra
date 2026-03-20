@@ -50,3 +50,10 @@ def test_sec_provider_returns_none_when_companyfacts_have_no_supported_fields():
     provider = SECProvider()
     snapshot = provider._build_snapshot_from_companyfacts("AAPL", {"facts": {"us-gaap": {}}})
     assert snapshot is None
+
+
+def test_sec_provider_supports_punctuated_class_suffix_tickers():
+    provider = SECProvider()
+    assert provider.supports("BRK.B", "US") is True
+    assert provider.supports("BRK-B", "US") is True
+    assert provider.supports("BF.B", "US") is True

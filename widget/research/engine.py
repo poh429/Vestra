@@ -5,6 +5,7 @@ from __future__ import annotations
 import threading
 from typing import Optional
 
+from widget.data.fundamental_fetcher import FundamentalFetcher
 from widget.research.models import ResearchSnapshot
 from widget.research.providers.base import ResearchProvider
 from widget.research.providers.sec_provider import SECProvider
@@ -17,10 +18,12 @@ class ResearchEngine:
         self,
         providers: Optional[list[ResearchProvider]] = None,
         store: Optional[SnapshotStore] = None,
+        fallback_fetcher: Optional[FundamentalFetcher] = None,
         max_age_hours: int = 12,
     ):
         self._providers = providers or [YFinanceProvider(), SECProvider()]
         self._store = store or SnapshotStore()
+        self._fallback_fetcher = fallback_fetcher or FundamentalFetcher()
         self._max_age = max_age_hours
         self._locks: dict[str, threading.Lock] = {}
         self._global_lock = threading.Lock()
@@ -56,6 +59,34 @@ class ResearchEngine:
         cached = self._store.read(symbol)
         return self._enrich(cached) if cached else None
 
+    def get_cached_display_data(self, symbol: str) -> tuple[Optional[ResearchSnapshot], Optional[dict], str]:
+        cached = self.get_latest(symbol)
+        if cached is None:
+            return None, None, "empty"
+        return cached, self.snapshot_to_fundamentals(cached), "cache"
+
+    def refresh_display_data(self, symbol: str, category: str) -> tuple[Optional[ResearchSnapshot], Optional[dict], str]:
+        refreshed = self.refresh(symbol, category)
+        if refreshed is not None:
+            return refreshed, self.snapshot_to_fundamentals(refreshed), "research"
+
+        cached = self.get_latest(symbol)
+        if cached is not None:
+            return cached, self.snapshot_to_fundamentals(cached), "cache"
+
+        if self._fallback_fetcher is None:
+            return None, None, "empty"
+
+        try:
+            payload = self._fallback_fetcher.get_inline_fundamentals(symbol, category)
+        except Exception as exc:
+            print(f"[ResearchEngine] fallback failed for {symbol}: {exc}")
+            return None, None, "empty"
+
+        if self._has_display_values(payload):
+            return None, payload, "fallback"
+        return None, None, "empty"
+
     def _enrich(self, snap: Optional[ResearchSnapshot]) -> Optional[ResearchSnapshot]:
         if snap is None:
             return None
@@ -80,3 +111,28 @@ class ResearchEngine:
             if symbol not in self._locks:
                 self._locks[symbol] = threading.Lock()
             return self._locks[symbol]
+
+    @staticmethod
+    def snapshot_to_fundamentals(snap: ResearchSnapshot) -> dict:
+        pe = snap.forward_pe if snap.forward_pe is not None else snap.trailing_pe
+        eps = snap.forward_eps if snap.forward_eps is not None else snap.trailing_eps
+        return {
+            "market_cap": snap.market_cap,
+            "currency": snap.currency,
+            "pe": pe,
+            "pb": snap.pb,
+            "peg": snap.peg,
+            "eps": eps,
+            "target": snap.target_mean_price,
+            "valuation_mode": snap.valuation_mode,
+            "target_revision_proxy_pct": snap.target_revision_proxy_pct,
+        }
+
+    @staticmethod
+    def _has_display_values(payload: Optional[dict]) -> bool:
+        if not payload:
+            return False
+        return any(
+            payload.get(key) is not None
+            for key in ("market_cap", "pe", "pb", "peg", "eps", "target")
+        )
