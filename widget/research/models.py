@@ -38,6 +38,11 @@ class ResearchSnapshot:
     delta_forward_eps: Optional[float] = None
     delta_target_mean_price: Optional[float] = None
     target_revision_proxy_pct: Optional[float] = None
+    valuation_percentile: Optional[float] = None
+    valuation_bucket: str = "unknown"
+    cycle_stage: str = "unknown"
+    valuation_explanation: Optional[str] = None
+    interpretation_display: Optional[str] = None
 
     valuation_mode: str = "FWD_PE"
     provider: str = ""

@@ -71,3 +71,15 @@ def test_snapshot_store_freshness_uses_fetched_at():
 
     store.write(_snapshot("TSM", "2026-03-19", fetched_at=fresh))
     assert store.is_fresh("TSM", max_age_hours=12) is True
+
+
+def test_snapshot_store_returns_metric_history_in_date_order():
+    db_path = _db_path()
+    store = SnapshotStore(str(db_path))
+    store.write(_snapshot("TSM", "2026-03-17", pb=1.0))
+    store.write(_snapshot("TSM", "2026-03-18", pb=1.2))
+    store.write(_snapshot("TSM", "2026-03-19", pb=1.1))
+
+    history = store.get_metric_history("TSM", "pb")
+
+    assert history == [1.0, 1.2, 1.1]

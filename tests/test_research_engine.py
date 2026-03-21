@@ -36,16 +36,22 @@ def _db_path() -> Path:
 def test_research_engine_enriches_snapshot_deltas():
     db_path = _db_path()
     store = SnapshotStore(str(db_path))
-    store.write(
-        ResearchSnapshot(
-            symbol="META",
-            date="2026-03-18",
-            forward_pe=24.0,
-            pb=7.0,
-            forward_eps=20.0,
-            target_mean_price=500.0,
+    for date, forward_pe, pb, forward_eps, target in (
+        ("2026-03-15", 18.0, 6.2, 17.5, 470.0),
+        ("2026-03-16", 20.0, 6.5, 18.0, 480.0),
+        ("2026-03-17", 22.0, 6.8, 19.0, 490.0),
+        ("2026-03-18", 24.0, 7.0, 20.0, 500.0),
+    ):
+        store.write(
+            ResearchSnapshot(
+                symbol="META",
+                date=date,
+                forward_pe=forward_pe,
+                pb=pb,
+                forward_eps=forward_eps,
+                target_mean_price=target,
+            )
         )
-    )
 
     provider_snapshot = ResearchSnapshot(
         symbol="META",
@@ -67,6 +73,10 @@ def test_research_engine_enriches_snapshot_deltas():
     assert enriched.delta_forward_eps == 1.5
     assert enriched.delta_target_mean_price == 40.0
     assert round(enriched.target_revision_proxy_pct, 2) == 8.0
+    assert round(enriched.valuation_percentile, 1) == 100.0
+    assert enriched.valuation_bucket == "rich"
+    assert enriched.cycle_stage == "peak_risk"
+    assert enriched.valuation_explanation == "FWD PE looks rich vs history; peak_risk with multiple rising and targets drifting up."
 
 
 def test_research_engine_prefers_cached_display_data_without_fallback():
@@ -108,3 +118,41 @@ def test_research_engine_uses_fallback_only_when_research_empty():
     assert source == "fallback"
     assert payload["target"] == 80.0
     assert fallback.calls == 1
+
+
+def test_research_engine_uses_pb_percentile_for_cyclical_names():
+    db_path = _db_path()
+    store = SnapshotStore(str(db_path))
+    for date, pb in (
+        ("2026-03-15", 1.0),
+        ("2026-03-16", 1.1),
+        ("2026-03-17", 1.2),
+        ("2026-03-18", 1.3),
+        ("2026-03-19", 1.4),
+    ):
+        store.write(ResearchSnapshot(symbol="TSM", date=date, pb=pb, valuation_mode="PB"))
+
+    engine = ResearchEngine(providers=[], store=store, max_age_hours=12)
+    snapshot = engine.get_latest("TSM")
+
+    assert snapshot is not None
+    assert snapshot.valuation_mode == "PB"
+    assert snapshot.valuation_percentile == 100.0
+    assert snapshot.valuation_bucket == "rich"
+
+
+def test_research_engine_returns_none_percentile_when_history_is_short():
+    db_path = _db_path()
+    store = SnapshotStore(str(db_path))
+    store.write(ResearchSnapshot(symbol="ADBE", date="2026-03-17", forward_pe=20.0))
+    store.write(ResearchSnapshot(symbol="ADBE", date="2026-03-18", forward_pe=22.0))
+    store.write(ResearchSnapshot(symbol="ADBE", date="2026-03-19", forward_pe=24.0))
+
+    engine = ResearchEngine(providers=[], store=store, max_age_hours=12)
+    snapshot = engine.get_latest("ADBE")
+
+    assert snapshot is not None
+    assert snapshot.valuation_percentile is None
+    assert snapshot.valuation_bucket == "unknown"
+    assert snapshot.cycle_stage == "unknown"
+    assert snapshot.valuation_explanation is None
