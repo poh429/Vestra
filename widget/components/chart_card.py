@@ -459,6 +459,13 @@ class ChartCard(tk.Frame):
                 target_text = f"{target:.2f}" if target is not None else None
                 target_color = default_color
                 target_revision = payload.get("target_revision_proxy_pct")
+                valuation_percentile = payload.get("valuation_percentile")
+                if valuation_percentile is not None:
+                    percentile_text = f" ({valuation_percentile:.0f}%)"
+                    if payload.get("valuation_mode") == "PB" and pb_text:
+                        pb_text = f"{pb_text}{percentile_text}"
+                    elif pe_text:
+                        pe_text = f"{pe_text}{percentile_text}"
                 if target_text and target_revision is not None:
                     sign = "+" if target_revision >= 0 else ""
                     target_text = f"{target_text} ({sign}{target_revision:.1f}%)"
@@ -466,6 +473,9 @@ class ChartCard(tk.Frame):
                         target_color = theme.UP
                     elif target_revision < 0:
                         target_color = theme.DOWN
+                interpretation_display = payload.get("interpretation_display")
+                if target_text and interpretation_display:
+                    target_text = f"{target_text} | {interpretation_display}"
 
             if self._fund_mktcap_lbl and self._fund_mktcap_lbl.winfo_exists():
                 self._fund_mktcap_lbl.config(text=cap_val, fg=default_color)
@@ -500,6 +510,11 @@ class ChartCard(tk.Frame):
                 "target": snapshot.target_mean_price,
                 "valuation_mode": snapshot.valuation_mode,
                 "target_revision_proxy_pct": snapshot.target_revision_proxy_pct,
+                "valuation_percentile": snapshot.valuation_percentile,
+                "valuation_bucket": snapshot.valuation_bucket,
+                "cycle_stage": snapshot.cycle_stage,
+                "valuation_explanation": snapshot.valuation_explanation,
+                "interpretation_display": snapshot.interpretation_display,
             }
         )
 

@@ -178,6 +178,34 @@ class SnapshotStore:
                 payload[metric] = item
         return payload
 
+    def get_metric_history(
+        self,
+        symbol: str,
+        metric: str,
+        date: Optional[str] = None,
+        limit: Optional[int] = None,
+    ) -> list[float]:
+        if metric == "target_mean_price":
+            metric = "target_mean"
+        if metric not in _COLUMN_DEFS:
+            return []
+
+        sql = f"SELECT {metric} FROM snapshots WHERE symbol = ? AND {metric} IS NOT NULL"
+        params: list[object] = [symbol]
+        if date:
+            sql += " AND date <= ?"
+            params.append(date)
+        sql += " ORDER BY date DESC"
+        if limit:
+            sql += " LIMIT ?"
+            params.append(limit)
+
+        with self._connect() as conn:
+            rows = conn.execute(sql, tuple(params)).fetchall()
+        values = [row[0] for row in rows if row[0] is not None]
+        values.reverse()
+        return values
+
     def _connect(self) -> sqlite3.Connection:
         conn = sqlite3.connect(self._db_path)
         conn.row_factory = sqlite3.Row

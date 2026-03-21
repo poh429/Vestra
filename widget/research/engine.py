@@ -6,6 +6,13 @@ import threading
 from typing import Optional
 
 from widget.data.fundamental_fetcher import FundamentalFetcher
+from widget.research.interpretation import (
+    classify_cycle_stage,
+    classify_valuation_bucket,
+    compute_valuation_percentile,
+    render_interpretation_display,
+    render_valuation_explanation,
+)
 from widget.research.models import ResearchSnapshot
 from widget.research.providers.base import ResearchProvider
 from widget.research.providers.sec_provider import SECProvider
@@ -104,6 +111,7 @@ class ResearchEngine:
             payload["delta_target_mean_price"] = deltas["target_mean_price"]["delta"]
             payload["target_revision_proxy_pct"] = deltas["target_mean_price"]["delta_pct"]
 
+        payload.update(self._build_interpretation(payload))
         return ResearchSnapshot.from_dict(payload)
 
     def _get_lock(self, symbol: str) -> threading.Lock:
@@ -126,6 +134,11 @@ class ResearchEngine:
             "target": snap.target_mean_price,
             "valuation_mode": snap.valuation_mode,
             "target_revision_proxy_pct": snap.target_revision_proxy_pct,
+            "valuation_percentile": snap.valuation_percentile,
+            "valuation_bucket": snap.valuation_bucket,
+            "cycle_stage": snap.cycle_stage,
+            "valuation_explanation": snap.valuation_explanation,
+            "interpretation_display": snap.interpretation_display,
         }
 
     @staticmethod
@@ -136,3 +149,28 @@ class ResearchEngine:
             payload.get(key) is not None
             for key in ("market_cap", "pe", "pb", "peg", "eps", "target")
         )
+
+    def _build_interpretation(self, payload: dict) -> dict:
+        valuation_mode = payload.get("valuation_mode") or "FWD_PE"
+        metric = "pb" if valuation_mode == "PB" else "forward_pe"
+        current_value = payload.get(metric)
+        history = self._store.get_metric_history(payload["symbol"], metric, date=payload["date"], limit=252)
+        percentile = compute_valuation_percentile(history, current_value)
+        valuation_bucket = classify_valuation_bucket(percentile)
+
+        delta_value = payload.get("delta_pb") if valuation_mode == "PB" else payload.get("delta_forward_pe")
+        cycle_stage = classify_cycle_stage(percentile, delta_value, payload.get("target_revision_proxy_pct"))
+        return {
+            "valuation_percentile": percentile,
+            "valuation_bucket": valuation_bucket,
+            "cycle_stage": cycle_stage,
+            "valuation_explanation": render_valuation_explanation(
+                valuation_mode=valuation_mode,
+                percentile=percentile,
+                valuation_bucket=valuation_bucket,
+                delta_value=delta_value,
+                target_revision_proxy_pct=payload.get("target_revision_proxy_pct"),
+                cycle_stage=cycle_stage,
+            ),
+            "interpretation_display": render_interpretation_display(valuation_bucket, cycle_stage),
+        }
