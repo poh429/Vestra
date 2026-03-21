@@ -43,6 +43,11 @@ class ResearchSnapshot:
     cycle_stage: str = "unknown"
     valuation_explanation: Optional[str] = None
     interpretation_display: Optional[str] = None
+    interpretation_short_text: Optional[str] = None
+    research_meta_display: Optional[str] = None
+    research_status_display: Optional[str] = None
+    valuation_history_points: int = 0
+    detail_tooltips: dict[str, str] = field(default_factory=dict)
 
     valuation_mode: str = "FWD_PE"
     provider: str = ""

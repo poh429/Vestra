@@ -139,6 +139,8 @@ def test_research_engine_uses_pb_percentile_for_cyclical_names():
     assert snapshot.valuation_mode == "PB"
     assert snapshot.valuation_percentile == 100.0
     assert snapshot.valuation_bucket == "rich"
+    assert snapshot.interpretation_short_text == "Rich / Peak Risk · targets flat"
+    assert snapshot.research_meta_display == "03-21"
 
 
 def test_research_engine_returns_none_percentile_when_history_is_short():
@@ -156,3 +158,5 @@ def test_research_engine_returns_none_percentile_when_history_is_short():
     assert snapshot.valuation_bucket == "unknown"
     assert snapshot.cycle_stage == "unknown"
     assert snapshot.valuation_explanation is None
+    assert snapshot.research_status_display == "Limited history"
+    assert snapshot.detail_tooltips["percentile"] == "FWD PE percentile unavailable. Local history has 3 snapshot(s)."
