@@ -47,6 +47,9 @@ class ResearchSnapshot:
     research_meta_display: Optional[str] = None
     research_status_display: Optional[str] = None
     valuation_history_points: int = 0
+    research_delivery_state: str = ""
+    research_freshness_state: str = ""
+    research_debug_summary: Optional[str] = None
     detail_tooltips: dict[str, str] = field(default_factory=dict)
 
     valuation_mode: str = "FWD_PE"

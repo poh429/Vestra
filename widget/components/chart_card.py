@@ -564,7 +564,13 @@ class ChartCard(tk.Frame):
                 tooltip_map.get("valuation_mode"),
                 tooltip_map.get("percentile"),
             )
-            self._set_tooltip(meta_lbl, tooltip_map.get("meta", ""))
+            self._set_tooltip(
+                meta_lbl,
+                self._join_tooltip_lines(
+                    tooltip_map.get("meta"),
+                    tooltip_map.get("debug"),
+                ),
+            )
             self._set_tooltip(interp_lbl, tooltip_map.get("interpretation", ""))
             self._set_tooltip(
                 self._fund_target_lbl,
