@@ -7,6 +7,13 @@ from typing import Optional
 
 from widget.data.fundamental_fetcher import FundamentalFetcher
 from widget.research.interpretation import (
+    build_interpretation_short_text,
+    build_meta_tooltip,
+    build_mode_tooltip,
+    build_percentile_tooltip,
+    build_research_meta_display,
+    build_research_status,
+    build_target_tooltip,
     classify_cycle_stage,
     classify_valuation_bucket,
     compute_valuation_percentile,
@@ -139,6 +146,11 @@ class ResearchEngine:
             "cycle_stage": snap.cycle_stage,
             "valuation_explanation": snap.valuation_explanation,
             "interpretation_display": snap.interpretation_display,
+            "interpretation_short_text": snap.interpretation_short_text,
+            "research_meta_display": snap.research_meta_display,
+            "research_status_display": snap.research_status_display,
+            "valuation_history_points": snap.valuation_history_points,
+            "detail_tooltips": dict(snap.detail_tooltips or {}),
         }
 
     @staticmethod
@@ -155,22 +167,51 @@ class ResearchEngine:
         metric = "pb" if valuation_mode == "PB" else "forward_pe"
         current_value = payload.get(metric)
         history = self._store.get_metric_history(payload["symbol"], metric, date=payload["date"], limit=252)
+        history_points = len(history)
         percentile = compute_valuation_percentile(history, current_value)
         valuation_bucket = classify_valuation_bucket(percentile)
 
         delta_value = payload.get("delta_pb") if valuation_mode == "PB" else payload.get("delta_forward_pe")
         cycle_stage = classify_cycle_stage(percentile, delta_value, payload.get("target_revision_proxy_pct"))
+        status_display = build_research_status(current_value, history_points, percentile)
+        explanation = render_valuation_explanation(
+            valuation_mode=valuation_mode,
+            percentile=percentile,
+            valuation_bucket=valuation_bucket,
+            delta_value=delta_value,
+            target_revision_proxy_pct=payload.get("target_revision_proxy_pct"),
+            cycle_stage=cycle_stage,
+        )
         return {
+            "valuation_history_points": history_points,
             "valuation_percentile": percentile,
             "valuation_bucket": valuation_bucket,
             "cycle_stage": cycle_stage,
-            "valuation_explanation": render_valuation_explanation(
-                valuation_mode=valuation_mode,
-                percentile=percentile,
-                valuation_bucket=valuation_bucket,
-                delta_value=delta_value,
-                target_revision_proxy_pct=payload.get("target_revision_proxy_pct"),
-                cycle_stage=cycle_stage,
-            ),
+            "valuation_explanation": explanation,
             "interpretation_display": render_interpretation_display(valuation_bucket, cycle_stage),
+            "interpretation_short_text": build_interpretation_short_text(
+                valuation_bucket,
+                cycle_stage,
+                payload.get("target_revision_proxy_pct"),
+            ),
+            "research_meta_display": build_research_meta_display(
+                payload.get("provider", ""),
+                payload.get("date", ""),
+                payload.get("fetched_at", ""),
+                payload.get("quality_metadata", {}),
+            ),
+            "research_status_display": status_display,
+            "detail_tooltips": {
+                "valuation_mode": build_mode_tooltip(valuation_mode),
+                "percentile": build_percentile_tooltip(valuation_mode, percentile, history_points),
+                "target_revision": build_target_tooltip(payload.get("target_revision_proxy_pct")),
+                "meta": build_meta_tooltip(
+                    payload.get("provider", ""),
+                    payload.get("date", ""),
+                    payload.get("fetched_at", ""),
+                    payload.get("quality_metadata", {}),
+                    payload.get("source_metadata", {}),
+                ),
+                "interpretation": explanation or status_display or "Interpretation unavailable.",
+            },
         }

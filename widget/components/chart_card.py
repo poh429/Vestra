@@ -142,6 +142,47 @@ def _style_ax(ax, custom_color: str = None):
 
 # ── ChartCard widget ──────────────────────────────────────────────────────────
 
+class _HoverTip:
+    def __init__(self, owner):
+        self._owner = owner
+        self._tip = None
+
+    def show(self, widget, text: str):
+        self.hide()
+        if not text or not getattr(widget, "winfo_exists", lambda: False)():
+            return
+        tip = tk.Toplevel(self._owner)
+        tip.withdraw()
+        tip.overrideredirect(True)
+        tip.configure(bg=theme.BG3)
+        label = tk.Label(
+            tip,
+            text=text,
+            justify="left",
+            anchor="w",
+            wraplength=220,
+            font=("Segoe UI", 7),
+            fg=theme.FG,
+            bg=theme.BG3,
+            padx=6,
+            pady=4,
+        )
+        label.pack()
+        x = widget.winfo_rootx() + 10
+        y = widget.winfo_rooty() + widget.winfo_height() + 4
+        tip.geometry(f"+{x}+{y}")
+        tip.deiconify()
+        self._tip = tip
+
+    def hide(self):
+        if self._tip is not None:
+            try:
+                self._tip.destroy()
+            except Exception:
+                pass
+            self._tip = None
+
+
 class ChartCard(tk.Frame):
     """A card displaying an interactive chart with timeframe + mode controls."""
 
@@ -184,6 +225,9 @@ class ChartCard(tk.Frame):
         self._fund_peg_lbl    = None
         self._fund_eps_lbl    = None
         self._fund_target_lbl = None
+        self._fund_meta_lbl   = None
+        self._fund_interp_lbl = None
+        self._hover_tip = _HoverTip(self)
 
         self.bind("<<ChartLoaded>>", lambda e: self._render())
 
@@ -212,8 +256,15 @@ class ChartCard(tk.Frame):
         label_opts = dict(font=("Segoe UI", 7), fg=theme.FG_DIM, bg=theme.BG3)
         number_opts = dict(font=("Segoe UI", 7), fg=fund_color, bg=theme.BG3)
         value_opts = dict(font=("Segoe UI", 7, "bold"), fg=fund_color, bg=theme.BG3)
+        meta_opts = dict(font=("Segoe UI", 6), fg=theme.FG_DIM, bg=theme.BG3)
 
         is_crypto = (self.category == "Crypto")
+
+        self._fund_meta_lbl = tk.Label(row1, text="", anchor="e", **meta_opts)
+        self._fund_meta_lbl.pack(side="right", padx=(8, 6))
+
+        self._fund_interp_lbl = tk.Label(row2, text="", anchor="e", justify="right", wraplength=130, **meta_opts)
+        self._fund_interp_lbl.pack(side="right", padx=(8, 6))
 
         # Market Cap (Universal) - Row 1
         tk.Label(row1, text="Mkt Cap", **label_opts).pack(side="left", padx=(6, 1))
@@ -435,6 +486,10 @@ class ChartCard(tk.Frame):
             default_color = self._cfg.get("fund_color", theme.FG)
             cap_val, cap_unit = self._fmt_cap(payload.get("market_cap"), payload.get("currency", ""))
             is_crypto = (self.category == "Crypto")
+            tooltip_map = payload.get("detail_tooltips") or {}
+            meta_text = payload.get("research_meta_display") or ""
+            interp_text = ""
+            interp_color = theme.FG_DIM
 
             if is_crypto:
                 vol_val, vol_unit = self._fmt_cap(payload.get("pe"), payload.get("currency", ""))
@@ -473,9 +528,14 @@ class ChartCard(tk.Frame):
                         target_color = theme.UP
                     elif target_revision < 0:
                         target_color = theme.DOWN
-                interpretation_display = payload.get("interpretation_display")
-                if target_text and interpretation_display:
-                    target_text = f"{target_text} | {interpretation_display}"
+                interp_text = payload.get("interpretation_short_text") or payload.get("research_status_display") or ""
+                bucket = payload.get("valuation_bucket")
+                if bucket == "cheap":
+                    interp_color = theme.UP
+                elif bucket == "rich":
+                    interp_color = theme.DOWN
+                elif bucket == "neutral":
+                    interp_color = theme.ACCENT2
 
             if self._fund_mktcap_lbl and self._fund_mktcap_lbl.winfo_exists():
                 self._fund_mktcap_lbl.config(text=cap_val, fg=default_color)
@@ -493,6 +553,28 @@ class ChartCard(tk.Frame):
                 self._fund_eps_lbl.config(text=eps_text, fg=default_color)
             if self._fund_target_lbl and self._fund_target_lbl.winfo_exists() and target_text is not None:
                 self._fund_target_lbl.config(text=target_text, fg=target_color)
+            meta_lbl = getattr(self, "_fund_meta_lbl", None)
+            interp_lbl = getattr(self, "_fund_interp_lbl", None)
+            if meta_lbl and meta_lbl.winfo_exists():
+                meta_lbl.config(text=meta_text, fg=theme.FG_DIM)
+            if interp_lbl and interp_lbl.winfo_exists():
+                interp_lbl.config(text=interp_text, fg=interp_color)
+
+            valuation_tip = self._join_tooltip_lines(
+                tooltip_map.get("valuation_mode"),
+                tooltip_map.get("percentile"),
+            )
+            self._set_tooltip(meta_lbl, tooltip_map.get("meta", ""))
+            self._set_tooltip(interp_lbl, tooltip_map.get("interpretation", ""))
+            self._set_tooltip(
+                self._fund_target_lbl,
+                self._join_tooltip_lines(
+                    tooltip_map.get("target_revision"),
+                    tooltip_map.get("interpretation"),
+                ),
+            )
+            self._set_tooltip(self._fund_pe_lbl, valuation_tip)
+            self._set_tooltip(self._fund_pb_lbl, valuation_tip)
         except Exception:
             pass
 
@@ -515,8 +597,23 @@ class ChartCard(tk.Frame):
                 "cycle_stage": snapshot.cycle_stage,
                 "valuation_explanation": snapshot.valuation_explanation,
                 "interpretation_display": snapshot.interpretation_display,
+                "interpretation_short_text": snapshot.interpretation_short_text or snapshot.interpretation_display,
+                "research_meta_display": snapshot.research_meta_display,
+                "research_status_display": snapshot.research_status_display,
+                "valuation_history_points": snapshot.valuation_history_points,
+                "detail_tooltips": dict(snapshot.detail_tooltips or {}),
             }
         )
+
+    @staticmethod
+    def _join_tooltip_lines(*parts):
+        return "\n".join([part for part in parts if part])
+
+    def _set_tooltip(self, widget, text: str):
+        if widget is None or not hasattr(widget, "bind"):
+            return
+        widget.bind("<Enter>", lambda _event, w=widget, t=text: self._hover_tip.show(w, t) if t else self._hover_tip.hide())
+        widget.bind("<Leave>", lambda _event: self._hover_tip.hide())
 
     def _build_header(self):
         hdr = tk.Frame(self, bg=theme.BG2)

@@ -22,6 +22,7 @@ def _make_card():
     card._show_fundamentals = True
     card._cfg = {}
     card.category = "US"
+    card._hover_tip = type("Hover", (), {"show": lambda *args, **kwargs: None, "hide": lambda *args, **kwargs: None})()
     card._fund_mktcap_lbl = DummyLabel()
     card._fund_mktcap_unit_lbl = DummyLabel()
     card._fund_pe_lbl = DummyLabel()
@@ -29,6 +30,8 @@ def _make_card():
     card._fund_peg_lbl = DummyLabel()
     card._fund_eps_lbl = DummyLabel()
     card._fund_target_lbl = DummyLabel()
+    card._fund_meta_lbl = DummyLabel()
+    card._fund_interp_lbl = DummyLabel()
     return card
 
 
@@ -52,11 +55,38 @@ def test_chart_card_renders_interpretation_from_research_payload():
             cycle_stage="recovery",
             valuation_explanation="PB looks cheap vs history; recovery with multiple easing and targets drifting up.",
             interpretation_display="cheap / recovery",
+            interpretation_short_text="Cheap / Recovery · targets up",
         )
     )
 
     assert card._fund_pb_lbl.text == "1.40 (18%)"
-    assert card._fund_target_lbl.text == "220.00 (+4.0%) | cheap / recovery"
+    assert card._fund_target_lbl.text == "220.00 (+4.0%)"
+    assert card._fund_interp_lbl.text == "Cheap / Recovery · targets up"
+
+
+def test_chart_card_renders_meta_and_partial_history_status():
+    card = _make_card()
+
+    card.apply_fundamental_payload(
+        {
+            "market_cap": 1000.0,
+            "currency": "USD",
+            "pe": 12.0,
+            "pb": 3.0,
+            "peg": 1.2,
+            "eps": 4.5,
+            "target": 80.0,
+            "research_meta_display": "YF+SEC · 03-21 · mixed",
+            "research_status_display": "Limited history",
+            "detail_tooltips": {
+                "meta": "Sources: YF+SEC",
+                "interpretation": "Limited history",
+            },
+        }
+    )
+
+    assert card._fund_meta_lbl.text == "YF+SEC · 03-21 · mixed"
+    assert card._fund_interp_lbl.text == "Limited history"
 
 
 def test_chart_card_fallback_payload_stays_stable_without_interpretation_fields():
@@ -76,3 +106,5 @@ def test_chart_card_fallback_payload_stays_stable_without_interpretation_fields(
 
     assert card._fund_pe_lbl.text == "12.0"
     assert card._fund_target_lbl.text == "80.00"
+    assert card._fund_meta_lbl.text == ""
+    assert card._fund_interp_lbl.text == ""
