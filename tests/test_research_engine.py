@@ -77,6 +77,7 @@ def test_research_engine_enriches_snapshot_deltas():
     assert enriched.valuation_bucket == "rich"
     assert enriched.cycle_stage == "peak_risk"
     assert enriched.valuation_explanation == "FWD PE looks rich vs history; peak_risk with multiple rising and targets drifting up."
+    assert enriched.research_delivery_state == "live_research"
 
 
 def test_research_engine_prefers_cached_display_data_without_fallback():
@@ -102,6 +103,8 @@ def test_research_engine_prefers_cached_display_data_without_fallback():
     assert source == "cache"
     assert snapshot is not None
     assert payload["pe"] == 18.0
+    assert snapshot.research_delivery_state == "cache_hit"
+    assert payload["research_debug_summary"].startswith("cache_hit |")
     assert fallback.calls == 0
 
 
@@ -117,6 +120,8 @@ def test_research_engine_uses_fallback_only_when_research_empty():
     assert snapshot is None
     assert source == "fallback"
     assert payload["target"] == 80.0
+    assert payload["research_delivery_state"] == "fallback_used"
+    assert payload["research_debug_summary"] == "fallback_used | src=FB | no-sec | hist=0:no_history | fresh=unknown | asof=n/a"
     assert fallback.calls == 1
 
 
