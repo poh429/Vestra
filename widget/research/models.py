@@ -50,6 +50,9 @@ class ResearchSnapshot:
     research_delivery_state: str = ""
     research_freshness_state: str = ""
     research_debug_summary: Optional[str] = None
+    trust_label: Optional[str] = None
+    trust_detail_text: Optional[str] = None
+    trust_tooltip: Optional[str] = None
     detail_tooltips: dict[str, str] = field(default_factory=dict)
 
     valuation_mode: str = "FWD_PE"

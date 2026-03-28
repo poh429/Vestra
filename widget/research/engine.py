@@ -33,6 +33,12 @@ from widget.research.providers.base import ResearchProvider
 from widget.research.providers.sec_provider import SECProvider
 from widget.research.providers.yfinance_provider import YFinanceProvider
 from widget.research.snapshot_store import SnapshotStore
+from widget.research.trust import (
+    build_trust_detail,
+    build_trust_label,
+    build_trust_tooltip,
+    build_user_freshness_label,
+)
 
 
 class ResearchEngine:
@@ -162,6 +168,9 @@ class ResearchEngine:
             "research_delivery_state": snap.research_delivery_state,
             "research_freshness_state": snap.research_freshness_state,
             "research_debug_summary": snap.research_debug_summary,
+            "trust_label": snap.trust_label,
+            "trust_detail_text": snap.trust_detail_text,
+            "trust_tooltip": snap.trust_tooltip,
             "detail_tooltips": dict(snap.detail_tooltips or {}),
         }
 
@@ -255,6 +264,7 @@ class ResearchEngine:
             enriched_payload["research_delivery_state"] = build_delivery_state(source)
             enriched_payload["research_freshness_state"] = "unknown"
             enriched_payload["research_debug_summary"] = debug_summary
+            enriched_payload = self._apply_trust_cues(enriched_payload)
             detail_tooltips = dict(enriched_payload.get("detail_tooltips") or {})
             detail_tooltips["debug"] = debug_tooltip
             enriched_payload["detail_tooltips"] = detail_tooltips
@@ -286,9 +296,33 @@ class ResearchEngine:
         payload_dict["research_delivery_state"] = build_delivery_state(source)
         payload_dict["research_freshness_state"] = build_freshness_state(payload_dict.get("fetched_at", ""), self._max_age)
         payload_dict["research_debug_summary"] = debug_summary
+        payload_dict = self._apply_trust_cues(payload_dict)
         detail_tooltips = dict(payload_dict.get("detail_tooltips") or {})
         detail_tooltips["debug"] = debug_tooltip
         payload_dict["detail_tooltips"] = detail_tooltips
         decorated_snapshot = ResearchSnapshot.from_dict(payload_dict)
         enriched_payload = self.snapshot_to_fundamentals(decorated_snapshot)
         return decorated_snapshot, enriched_payload, source
+
+    def _apply_trust_cues(self, payload: dict) -> dict:
+        freshness_label = build_user_freshness_label(
+            payload.get("date", ""),
+            payload.get("fetched_at", ""),
+        )
+        history_state = "limited_history" if payload.get("research_status_display") == "Limited history" else (
+            "history_ready" if payload.get("valuation_percentile") is not None else "no_history"
+        )
+        has_signal = bool(payload.get("interpretation_short_text"))
+        has_sec = "sec" in str(payload.get("provider", "")).lower() or any(
+            "sec." in str(value).lower() for value in (payload.get("source_metadata") or {}).values()
+        )
+        delivery_state = payload.get("research_delivery_state", "")
+
+        trust_label = build_trust_label(delivery_state, history_state, has_signal)
+        trust_detail = build_trust_detail(freshness_label, history_state, has_sec, delivery_state)
+        trust_tooltip = build_trust_tooltip(trust_label, freshness_label, history_state, has_sec, delivery_state)
+
+        payload["trust_label"] = trust_label
+        payload["trust_detail_text"] = trust_detail
+        payload["trust_tooltip"] = trust_tooltip
+        return payload

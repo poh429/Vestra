@@ -263,8 +263,17 @@ class ChartCard(tk.Frame):
         self._fund_meta_lbl = tk.Label(row1, text="", anchor="e", **meta_opts)
         self._fund_meta_lbl.pack(side="right", padx=(8, 6))
 
-        self._fund_interp_lbl = tk.Label(row2, text="", anchor="e", justify="right", wraplength=130, **meta_opts)
+        self._fund_interp_lbl = tk.Label(row2, text="", anchor="e", justify="right", wraplength=200, **meta_opts)
         self._fund_interp_lbl.pack(side="right", padx=(8, 6))
+
+        # Thesis reason row — one-line short explanation (populated by CardWindow)
+        row_thesis = tk.Frame(bar, bg=theme.BG3)
+        row_thesis.pack(fill="x", pady=(0, 2))
+        self._thesis_reason_lbl = tk.Label(
+            row_thesis, text="", font=("Segoe UI", 6),
+            fg=theme.FG_DIM, bg=theme.BG3, anchor="w"
+        )
+        self._thesis_reason_lbl.pack(side="left", padx=(6, 0))
 
         # Market Cap (Universal) - Row 1
         tk.Label(row1, text="Mkt Cap", **label_opts).pack(side="left", padx=(6, 1))
@@ -303,6 +312,7 @@ class ChartCard(tk.Frame):
         else:
             self._fund_eps_lbl = None
             self._fund_target_lbl = None
+
 
     def _fetch_fundamentals(self):
         """Deprecated in Phase 4A. Fundamentals are applied by CardWindow."""
@@ -487,7 +497,7 @@ class ChartCard(tk.Frame):
             cap_val, cap_unit = self._fmt_cap(payload.get("market_cap"), payload.get("currency", ""))
             is_crypto = (self.category == "Crypto")
             tooltip_map = payload.get("detail_tooltips") or {}
-            meta_text = payload.get("research_meta_display") or ""
+            meta_text = payload.get("trust_detail_text") or payload.get("research_meta_display") or ""
             interp_text = ""
             interp_color = theme.FG_DIM
 
@@ -528,7 +538,12 @@ class ChartCard(tk.Frame):
                         target_color = theme.UP
                     elif target_revision < 0:
                         target_color = theme.DOWN
-                interp_text = payload.get("interpretation_short_text") or payload.get("research_status_display") or ""
+                interp_text = (
+                    payload.get("interpretation_short_text")
+                    or payload.get("trust_label")
+                    or payload.get("research_status_display")
+                    or ""
+                )
                 bucket = payload.get("valuation_bucket")
                 if bucket == "cheap":
                     interp_color = theme.UP
@@ -567,11 +582,18 @@ class ChartCard(tk.Frame):
             self._set_tooltip(
                 meta_lbl,
                 self._join_tooltip_lines(
+                    payload.get("trust_tooltip"),
                     tooltip_map.get("meta"),
                     tooltip_map.get("debug"),
                 ),
             )
-            self._set_tooltip(interp_lbl, tooltip_map.get("interpretation", ""))
+            self._set_tooltip(
+                interp_lbl,
+                self._join_tooltip_lines(
+                    payload.get("trust_tooltip"),
+                    tooltip_map.get("interpretation"),
+                ),
+            )
             self._set_tooltip(
                 self._fund_target_lbl,
                 self._join_tooltip_lines(
@@ -608,6 +630,9 @@ class ChartCard(tk.Frame):
                 "research_status_display": snapshot.research_status_display,
                 "valuation_history_points": snapshot.valuation_history_points,
                 "detail_tooltips": dict(snapshot.detail_tooltips or {}),
+                "trust_label": snapshot.trust_label,
+                "trust_detail_text": snapshot.trust_detail_text,
+                "trust_tooltip": snapshot.trust_tooltip,
             }
         )
 

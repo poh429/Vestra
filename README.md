@@ -20,11 +20,14 @@
 
 ### ✨ Features
 
+- 🧠 **Thesis Monitor (投資邏輯監控器)** — Evidence-based tracking of investment logic status (Intact, Delayed, Weakening, Broken).
+- 🔍 **Research Copilot** — Auto-prefill thesis evidence from multiples sources (Inventory, Margin, EPS, Target, Guidance).
 - 📈 **Live price feed** — Taiwan stocks (Fugle API), US stocks & ETFs, Crypto (yfinance)
 - 🕯 **Interactive chart** — Line, K-bar, and OHLC chart modes with crosshair hover tooltip
+- 📝 **AlphaMemo Integration** — Direct resolution of corporate earnings call transcripts via API.
 - 🗂 **Multi-asset watchlist** — Monitor TW stocks, US stocks, ETFs, and Crypto simultaneously
 - 🎨 **Full color customization** — Independently customize background tint and chart accent colors per card
-- 📊 **Fundamental data** — Inline Market Cap, P/E, P/B, PEG, and EPS (Cleaned view for Crypto)
+- 📊 **Fundamental Snapshot Store** — SQLite-backed persistence for historical basic data & trend analysis.
 - 🤖 **AI Deep Analysis (Perplexity)** — Automated multi-perspective financial news & risk analysis
 - 💬 **PTT Sentiment (Perplexity)** — Real-time community sentiment tracking for Taiwan stocks
 - 🧠 **AI Fallback (Gemini)** — Instant backup analysis with automated clipboard prompt copy
@@ -185,11 +188,14 @@ If Vestra saves you time or helps your investing workflow, consider supporting t
 
 ### ✨ 功能特色
 
+- 🧠 **Thesis Monitor (投資邏輯監控器)** — 基於證據的投資邏輯狀態追蹤（正常、延後、轉弱、失效），杜絕情緒性停損。
+- 🔍 **Research Copilot (研究副駕駛)** — 自動從多個資料源（庫存、毛利、EPS、目標價）預填證據，簡化研究流程。
 - 📈 **即時報價** — 台股、美股 / ETF、加密貨幣
 - 🕯 **互動式圖表** — 折線、K棒、OHLC 三種圖表模式，支援滑鼠十字游標與價格氣泡
+- 📝 **法說會逐字稿 (AlphaMemo)** — 整合 AlphaMemo API，一鍵跳轉最新的法說會紀錄。
 - 🗂 **多資產看板** — 同時監控台股、美股、ETF、加密貨幣
 - 🎨 **完整顏色自訂** — 每張卡片可獨立調整背景色調與圖表文字色
-- 📊 **基本面資料** — 即時顯示市值、P/E、P/B、PEG、EPS
+- 📊 **基本面快照庫 (Snapshot Store)** — 內建 SQLite 資料庫，持久化追蹤基本面趨勢與估值位階。
 - 🤖 **AI 深度分析 (Perplexity)** — 自動化多維度財報新聞與風險分析
 - 💬 **PTT 輿情分析 (Perplexity)** — 針對台股社群動態的即時聲量與情緒追蹤
 - 🧠 **AI 備案分析 (Gemini)** — 內建自動指令複製與一鍵跳轉備份分析

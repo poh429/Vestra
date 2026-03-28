@@ -72,6 +72,11 @@ class CardWindow(tk.Toplevel):
         from widget.research.engine import ResearchEngine
         self._research_engine = ResearchEngine()
 
+        # Thesis Monitor
+        from widget.research.thesis_store import ThesisStore
+        self._thesis_store = ThesisStore()
+        self._last_thesis_eval = None
+
         # Holdings — P&L simulation
         self._qty  = float(item_cfg.get("qty",  0))   # number of shares/units held
         self._cost = float(item_cfg.get("cost", 0))   # average cost per unit
@@ -144,6 +149,7 @@ class CardWindow(tk.Toplevel):
         self._ctx.add_command(label="🧠 AI 備案分析 (Gemini)", command=self._open_gemini)
         if self._supports_alphamemo():
             self._ctx.add_command(label="📝 法說會逐字稿 (AlphaMemo)", command=self._open_alpha_memo)
+        self._ctx.add_command(label="📋 設定投資邏輯", command=self._open_thesis_dialog)
         _mk_ctx_sep(self._ctx)
         self._ctx.add_command(label="✕ 關閉此卡片",    command=self._remove_self)
 
@@ -647,6 +653,7 @@ class CardWindow(tk.Toplevel):
                 payload = item.get("fundamentals")
                 if snapshot is not None:
                     self._last_research = snapshot
+                    self._evaluate_thesis(snapshot)
                 if payload is not None:
                     self._last_fundamentals = payload
                 self._apply_research_payload(snapshot=snapshot, payload=payload)
@@ -655,6 +662,141 @@ class CardWindow(tk.Toplevel):
         finally:
             if not self._research_stop.is_set() and self.winfo_exists():
                 self.after(1000, self._drain_research_queue)
+
+    # ── Thesis Monitor ────────────────────────────────────────────────────────
+
+    def _evaluate_thesis(self, snapshot):
+        """Run thesis evaluation when new research data arrives."""
+        try:
+            from widget.research.thesis_evaluator import evaluate_thesis
+            definition = self._thesis_store.load(self.symbol)
+            if definition is None:
+                self._last_thesis_eval = None
+                return
+            # Get previous snapshot for trend comparison
+            prev = self._research_engine._store.read_previous(self.symbol) if hasattr(self._research_engine._store, 'read_previous') else None
+            evaluation = evaluate_thesis(definition, snapshot, prev)
+            self._last_thesis_eval = evaluation
+            self._update_thesis_label(evaluation)
+        except Exception as e:
+            print(f"[ThesisMonitor] evaluation error for {self.symbol}: {e}")
+
+    def _update_thesis_label(self, evaluation):
+        """Merge thesis state into the existing interpretation display."""
+        if evaluation is None or not hasattr(self, '_card'):
+            return
+
+        card = self._card
+        colors = {
+            "intact": "#4CAF50",
+            "delayed": "#FFC107",
+            "weakening": "#FF9800",
+            "broken": "#F44336",
+        }
+
+        # 1. Merge thesis state into _fund_interp_lbl
+        #    Format: "估值偏低 · 復甦 · 邏輯延後"
+        interp_lbl = getattr(card, '_fund_interp_lbl', None)
+        if interp_lbl and interp_lbl.winfo_exists():
+            # Get existing valuation/cycle text parts
+            snap = self._last_research
+            parts = []
+            if snap:
+                bucket_zh = {"cheap": "估值偏低", "neutral": "估值中性", "rich": "估值偏貴"}.get(
+                    getattr(snap, 'valuation_bucket', ''), '')
+                cycle_zh = {"recovery": "復甦", "expansion": "擴張", "peak_risk": "峰值風險"}.get(
+                    getattr(snap, 'cycle_stage', ''), '')
+                if bucket_zh:
+                    parts.append(bucket_zh)
+                if cycle_zh:
+                    parts.append(cycle_zh)
+
+            # Add thesis state
+            thesis_zh = evaluation.state_label_zh
+            parts.append(f"邏輯{thesis_zh.replace('投資邏輯', '')}")
+
+            color = colors.get(evaluation.thesis_state, theme.FG_DIM)
+            interp_lbl.configure(text=" · ".join(parts), fg=color)
+
+        # 2. Show short reason in _thesis_reason_lbl
+        reason_lbl = getattr(card, '_thesis_reason_lbl', None)
+        if reason_lbl and reason_lbl.winfo_exists():
+            short_reason = evaluation.break_reason_primary or ""
+            if not short_reason and evaluation.thesis_state == "intact":
+                if evaluation.confirming_signals > 0:
+                    short_reason = evaluation.signal_details[0] if evaluation.signal_details else ""
+            reason_color = colors.get(evaluation.thesis_state, theme.FG_DIM)
+            reason_lbl.configure(text=short_reason, fg=reason_color)
+
+        # 3. Bind tooltip to both labels for full details
+        tooltip_lines = [evaluation.explanation]
+        tooltip_lines.append(f"行動偏向：{evaluation.action_label_zh}")
+        if evaluation.source_summary:
+            tooltip_lines.append(evaluation.source_summary)
+        if evaluation.signal_details:
+            tooltip_lines.append("訊號：" + "、".join(evaluation.signal_details))
+        tooltip_text = "\n".join(tooltip_lines)
+
+        for widget in (interp_lbl, reason_lbl):
+            if widget and widget.winfo_exists():
+                widget.bind("<Enter>", lambda e, t=tooltip_text: self._show_thesis_tooltip(e, t))
+                widget.bind("<Leave>", lambda e: self._hide_thesis_tooltip())
+
+    def _show_thesis_tooltip(self, event, text):
+        self._thesis_tip = tk.Toplevel(self)
+        self._thesis_tip.overrideredirect(True)
+        self._thesis_tip.attributes("-topmost", True)
+        self._thesis_tip.configure(bg="#2a2a3a")
+        lbl = tk.Label(
+            self._thesis_tip, text=text,
+            fg=theme.FG, bg="#2a2a3a",
+            font=theme.FONT_SMALL, justify="left",
+            wraplength=300, padx=8, pady=6
+        )
+        lbl.pack()
+        x = event.x_root + 12
+        y = event.y_root + 12
+        self._thesis_tip.geometry(f"+{x}+{y}")
+
+    def _hide_thesis_tooltip(self):
+        if hasattr(self, '_thesis_tip') and self._thesis_tip:
+            self._thesis_tip.destroy()
+            self._thesis_tip = None
+
+    def _open_thesis_dialog(self):
+        """Open the thesis definition dialog."""
+        try:
+            from widget.components.thesis_dialog import ThesisDialog
+            existing = self._thesis_store.load(self.symbol)
+
+            def on_save(defn):
+                self._thesis_store.save(self.symbol, defn)
+                # Re-evaluate immediately if we have research data
+                if self._last_research:
+                    self._evaluate_thesis(self._last_research)
+
+            def on_delete():
+                self._thesis_store.delete(self.symbol)
+                self._last_thesis_eval = None
+                # Clear the thesis-related labels
+                if hasattr(self, '_card'):
+                    reason_lbl = getattr(self._card, '_thesis_reason_lbl', None)
+                    if reason_lbl and reason_lbl.winfo_exists():
+                        reason_lbl.configure(text="", fg=theme.FG_DIM)
+
+            ThesisDialog(
+                self, self.symbol,
+                existing=existing,
+                on_save=on_save,
+                on_delete=on_delete,
+                store=self._get_snapshot_store(),
+            )
+        except Exception as e:
+            print(f"[ThesisMonitor] dialog error: {e}")
+
+    def _get_snapshot_store(self):
+        """Return the SnapshotStore from the research engine."""
+        return getattr(self._research_engine, '_store', None)
 
     # ── Context menu actions ──────────────────────────────────────────────────
 
