@@ -6,6 +6,7 @@ import threading
 from typing import Optional
 
 from widget.data.fundamental_fetcher import FundamentalFetcher
+from widget.research.filing_insights import derive_filing_insights
 from widget.research.interpretation import (
     build_interpretation_short_text,
     build_meta_tooltip,
@@ -171,6 +172,14 @@ class ResearchEngine:
             "trust_label": snap.trust_label,
             "trust_detail_text": snap.trust_detail_text,
             "trust_tooltip": snap.trust_tooltip,
+            "structure_change_state": snap.structure_change_state,
+            "narrative_shift_state": snap.narrative_shift_state,
+            "quality_change_state": snap.quality_change_state,
+            "filing_risk_signal": snap.filing_risk_signal,
+            "healthy_investment_vs_deterioration": snap.healthy_investment_vs_deterioration,
+            "validation_checklist": list(snap.validation_checklist or []),
+            "filing_evidence_summary": snap.filing_evidence_summary,
+            "filing_detail_tooltip": snap.filing_detail_tooltip,
             "detail_tooltips": dict(snap.detail_tooltips or {}),
         }
 
@@ -203,6 +212,8 @@ class ResearchEngine:
             target_revision_proxy_pct=payload.get("target_revision_proxy_pct"),
             cycle_stage=cycle_stage,
         )
+        previous = self._store.read_previous(payload["symbol"], payload["date"])
+        filing_payload = derive_filing_insights(payload, previous.to_dict() if previous else None)
         return {
             "valuation_history_points": history_points,
             "valuation_percentile": percentile,
@@ -225,6 +236,7 @@ class ResearchEngine:
             "research_delivery_state": "",
             "research_freshness_state": "",
             "research_debug_summary": None,
+            **filing_payload,
             "detail_tooltips": {
                 "valuation_mode": build_mode_tooltip(valuation_mode),
                 "percentile": build_percentile_tooltip(valuation_mode, percentile, history_points),
@@ -237,6 +249,7 @@ class ResearchEngine:
                     payload.get("source_metadata", {}),
                 ),
                 "interpretation": explanation or status_display or "Interpretation unavailable.",
+                "filing": filing_payload.get("filing_detail_tooltip", ""),
             },
         }
 

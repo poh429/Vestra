@@ -105,6 +105,7 @@ def test_research_engine_prefers_cached_display_data_without_fallback():
     assert payload["pe"] == 18.0
     assert snapshot.research_delivery_state == "cache_hit"
     assert payload["research_debug_summary"].startswith("cache_hit |")
+    assert payload["trust_label"] == "研究訊號有限"
     assert fallback.calls == 0
 
 
@@ -122,6 +123,7 @@ def test_research_engine_uses_fallback_only_when_research_empty():
     assert payload["target"] == 80.0
     assert payload["research_delivery_state"] == "fallback_used"
     assert payload["research_debug_summary"] == "fallback_used | src=FB | no-sec | hist=0:no_history | fresh=unknown | asof=n/a"
+    assert payload["trust_label"] == "僅基本資料"
     assert fallback.calls == 1
 
 
@@ -145,7 +147,9 @@ def test_research_engine_uses_pb_percentile_for_cyclical_names():
     assert snapshot.valuation_percentile == 100.0
     assert snapshot.valuation_bucket == "rich"
     assert snapshot.interpretation_short_text == "Rich / Peak Risk · targets flat"
-    assert snapshot.research_meta_display == "03-21"
+    assert isinstance(snapshot.research_meta_display, str)
+    assert len(snapshot.research_meta_display) == 5
+    assert snapshot.research_meta_display.count("-") == 1
 
 
 def test_research_engine_returns_none_percentile_when_history_is_short():

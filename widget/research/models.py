@@ -29,6 +29,11 @@ class ResearchSnapshot:
 
     inventory: Optional[float] = None
     capex: Optional[float] = None
+    revenue: Optional[float] = None
+    accounts_receivable: Optional[float] = None
+    gross_margin: Optional[float] = None
+    cfo: Optional[float] = None
+    fcf: Optional[float] = None
     book_value_equity: Optional[float] = None
     book_value_per_share: Optional[float] = None
     shares_outstanding: Optional[float] = None
@@ -53,6 +58,14 @@ class ResearchSnapshot:
     trust_label: Optional[str] = None
     trust_detail_text: Optional[str] = None
     trust_tooltip: Optional[str] = None
+    structure_change_state: str = "unknown"
+    narrative_shift_state: str = "unknown"
+    quality_change_state: str = "unknown"
+    filing_risk_signal: str = "none"
+    healthy_investment_vs_deterioration: str = "unknown"
+    validation_checklist: list[str] = field(default_factory=list)
+    filing_evidence_summary: Optional[str] = None
+    filing_detail_tooltip: Optional[str] = None
     detail_tooltips: dict[str, str] = field(default_factory=dict)
 
     valuation_mode: str = "FWD_PE"

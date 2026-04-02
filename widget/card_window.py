@@ -726,7 +726,8 @@ class CardWindow(tk.Toplevel):
                 if evaluation.confirming_signals > 0:
                     short_reason = evaluation.signal_details[0] if evaluation.signal_details else ""
             reason_color = colors.get(evaluation.thesis_state, theme.FG_DIM)
-            reason_lbl.configure(text=short_reason, fg=reason_color)
+            card._thesis_reason_text = short_reason
+            card._thesis_reason_color = reason_color
 
         # 3. Bind tooltip to both labels for full details
         tooltip_lines = [evaluation.explanation]
@@ -736,6 +737,9 @@ class CardWindow(tk.Toplevel):
         if evaluation.signal_details:
             tooltip_lines.append("訊號：" + "、".join(evaluation.signal_details))
         tooltip_text = "\n".join(tooltip_lines)
+        if reason_lbl and reason_lbl.winfo_exists():
+            card._thesis_reason_tooltip = tooltip_text
+            card._render_reason_row()
 
         for widget in (interp_lbl, reason_lbl):
             if widget and widget.winfo_exists():
