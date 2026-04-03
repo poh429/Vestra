@@ -13,6 +13,7 @@ from __future__ import annotations
 from typing import Optional
 
 from widget.research.models import ResearchSnapshot
+from widget.research.thesis_conditions import evaluate_thesis_conditions
 from widget.research.thesis_models import (
     ACTION_ADD_ON_CONFIRM,
     ACTION_EXIT,
@@ -25,6 +26,7 @@ from widget.research.thesis_models import (
     THESIS_BROKEN,
     THESIS_DELAYED,
     THESIS_INTACT,
+    THESIS_TEMPLATE_CONDITIONS,
     THESIS_WEAKENING,
     ThesisDefinition,
     ThesisEvaluation,
@@ -56,9 +58,10 @@ def evaluate_thesis(
             explanation="尚無研究資料，無法評估投資邏輯。",
         )
 
-    signals = _collect_signals(definition, current_snapshot, previous_snapshot)
+    signals, condition_results = _collect_signals(definition, current_snapshot, previous_snapshot)
+    signals = _augment_structured_condition_signals(definition, signals, condition_results)
     valuation_risk = _check_valuation_risk(current_snapshot)
-    return _resolve_state(definition, signals, valuation_risk)
+    return _resolve_state(definition, signals, valuation_risk, condition_results)
 
 
 # ── Signal Collection ────────────────────────────────────────────────────────
@@ -78,13 +81,18 @@ def _collect_signals(
     definition: ThesisDefinition,
     current: ResearchSnapshot,
     previous: Optional[ResearchSnapshot],
-) -> list[_Signal]:
+) -> tuple[list[_Signal], dict[str, dict]]:
     """Collect weakening / confirming signals from snapshot data.
 
     Only CORE EVIDENCE signals that directly address whether the thesis
     is being validated or refuted. Valuation risk is handled separately.
     """
     signals: list[_Signal] = []
+    condition_results = evaluate_thesis_conditions(current, previous)
+    template_conditions = THESIS_TEMPLATE_CONDITIONS.get(
+        definition.thesis_type,
+        THESIS_TEMPLATE_CONDITIONS.get("other", {"confirm": [], "break": []}),
+    )
 
     # ── 1. Inventory trend ────────────────────────────────────────────────
     if previous and current.inventory is not None and previous.inventory is not None:
@@ -198,7 +206,7 @@ def _collect_signals(
             "好消息不再推動股價（利多鈍化）", "price"
         ))
 
-    return signals
+    return signals, condition_results
 
 
 def _check_valuation_risk(snapshot: ResearchSnapshot) -> bool:
@@ -213,6 +221,41 @@ def _check_valuation_risk(snapshot: ResearchSnapshot) -> bool:
     )
 
 
+def _augment_structured_condition_signals(
+    definition: ThesisDefinition,
+    signals: list[_Signal],
+    condition_results: dict[str, dict],
+) -> list[_Signal]:
+    template_conditions = THESIS_TEMPLATE_CONDITIONS.get(
+        definition.thesis_type,
+        THESIS_TEMPLATE_CONDITIONS.get("other", {"confirm": [], "break": []}),
+    )
+    augmented = list(signals)
+
+    more_specific = condition_results.get("more_specific", {})
+    if more_specific.get("triggered") and "more_specific" in template_conditions.get("confirm", []):
+        augmented.append(_Signal(
+            "mgmt_specificity", "confirming",
+            more_specific.get("detail", "說法轉具體"), "guidance"
+        ))
+
+    capex_committed = condition_results.get("capex_committed", {})
+    if capex_committed.get("triggered") and "capex_committed" in template_conditions.get("confirm", []):
+        augmented.append(_Signal(
+            "capex_committed", "confirming",
+            capex_committed.get("detail", "資本投入已承諾"), "evidence"
+        ))
+
+    customer_cut = condition_results.get("customer_cut_orders_persistent", {})
+    if customer_cut.get("triggered") and "customer_cut_orders_persistent" in template_conditions.get("break", []):
+        augmented.append(_Signal(
+            "customer_cut_orders", "weakening",
+            customer_cut.get("detail", "客戶砍單跡象延續"), "numbers"
+        ))
+
+    return augmented
+
+
 # ── State Resolution ─────────────────────────────────────────────────────────
 
 
@@ -220,6 +263,7 @@ def _resolve_state(
     definition: ThesisDefinition,
     signals: list[_Signal],
     valuation_risk: bool,
+    condition_results: Optional[dict[str, dict]] = None,
 ) -> ThesisEvaluation:
     """Map collected signals to thesis state + action bias.
 
@@ -346,6 +390,7 @@ def _resolve_state(
         confirming_signals=n_conf,
         signal_details=details,
         source_summary=source_summary,
+        condition_results=condition_results or {},
     )
 
 
