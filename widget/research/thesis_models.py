@@ -205,6 +205,33 @@ THESIS_TEMPLATES = {
     },
 }
 
+THESIS_TEMPLATE_CONDITIONS = {
+    "industry_recovery": {
+        "confirm": ["more_specific", "capex_committed"],
+        "break": ["customer_cut_orders_persistent"],
+    },
+    "margin_recovery": {
+        "confirm": ["more_specific", "capex_committed"],
+        "break": ["customer_cut_orders_persistent"],
+    },
+    "new_product_ramp": {
+        "confirm": ["more_specific", "capex_committed"],
+        "break": ["customer_cut_orders_persistent"],
+    },
+    "market_share_gain": {
+        "confirm": ["more_specific"],
+        "break": ["customer_cut_orders_persistent"],
+    },
+    "capex_cycle": {
+        "confirm": ["capex_committed", "more_specific"],
+        "break": ["customer_cut_orders_persistent"],
+    },
+    "other": {
+        "confirm": [],
+        "break": [],
+    },
+}
+
 
 @dataclass
 class ThesisDefinition:
@@ -320,6 +347,8 @@ class ThesisEvaluation:
     signal_details: list[str] = field(default_factory=list)
     source_summary: str = ""  # e.g. "依據：庫存 + EPS 下修"
 
+    condition_results: dict[str, dict] = field(default_factory=dict)
+
     def to_dict(self) -> dict:
         return asdict(self)
 
@@ -379,4 +408,3 @@ class EvidenceSummary:
             if f.key == key:
                 return f
         return None
-
