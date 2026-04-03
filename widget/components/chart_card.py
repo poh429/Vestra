@@ -239,6 +239,43 @@ class ChartCard(tk.Frame):
             self._build_fundamentals()
         self._load()
 
+    @staticmethod
+    def _resolve_reason_row(
+        thesis_text: str = "",
+        thesis_tooltip: str = "",
+        filing_text: str = "",
+        filing_tooltip: str = "",
+    ) -> tuple[str, str]:
+        primary_text = thesis_text or filing_text or ""
+        tooltip_parts = []
+        if thesis_tooltip:
+            tooltip_parts.append(thesis_tooltip)
+        elif thesis_text:
+            tooltip_parts.append(thesis_text)
+        if filing_text and filing_text != primary_text:
+            tooltip_parts.append(f"Filing: {filing_text}")
+        if filing_tooltip:
+            tooltip_parts.append(filing_tooltip)
+        return primary_text, "\n".join([part for part in tooltip_parts if part])
+
+    def _render_reason_row(self):
+        reason_lbl = getattr(self, "_thesis_reason_lbl", None)
+        if not reason_lbl or not reason_lbl.winfo_exists():
+            return
+        thesis_text = getattr(self, "_thesis_reason_text", "") or ""
+        thesis_tooltip = getattr(self, "_thesis_reason_tooltip", "") or ""
+        filing_text = getattr(self, "_filing_reason_text", "") or ""
+        filing_tooltip = getattr(self, "_filing_reason_tooltip", "") or ""
+        display_text, tooltip_text = self._resolve_reason_row(
+            thesis_text=thesis_text,
+            thesis_tooltip=thesis_tooltip,
+            filing_text=filing_text,
+            filing_tooltip=filing_tooltip,
+        )
+        color = getattr(self, "_thesis_reason_color", None) or getattr(self, "_filing_reason_color", None) or theme.FG_DIM
+        reason_lbl.config(text=display_text, fg=color)
+        self._set_tooltip(reason_lbl, tooltip_text)
+
     # ── Fundamental Stats Bar ─────────────────────────────────────────────────
 
     def _build_fundamentals(self):
@@ -574,6 +611,10 @@ class ChartCard(tk.Frame):
                 meta_lbl.config(text=meta_text, fg=theme.FG_DIM)
             if interp_lbl and interp_lbl.winfo_exists():
                 interp_lbl.config(text=interp_text, fg=interp_color)
+            self._filing_reason_text = payload.get("filing_evidence_summary") or ""
+            self._filing_reason_tooltip = tooltip_map.get("filing", "")
+            self._filing_reason_color = theme.FG_DIM
+            self._render_reason_row()
 
             valuation_tip = self._join_tooltip_lines(
                 tooltip_map.get("valuation_mode"),
@@ -633,6 +674,14 @@ class ChartCard(tk.Frame):
                 "trust_label": snapshot.trust_label,
                 "trust_detail_text": snapshot.trust_detail_text,
                 "trust_tooltip": snapshot.trust_tooltip,
+                "structure_change_state": snapshot.structure_change_state,
+                "narrative_shift_state": snapshot.narrative_shift_state,
+                "quality_change_state": snapshot.quality_change_state,
+                "filing_risk_signal": snapshot.filing_risk_signal,
+                "healthy_investment_vs_deterioration": snapshot.healthy_investment_vs_deterioration,
+                "validation_checklist": list(snapshot.validation_checklist or []),
+                "filing_evidence_summary": snapshot.filing_evidence_summary,
+                "filing_detail_tooltip": snapshot.filing_detail_tooltip,
             }
         )
 
