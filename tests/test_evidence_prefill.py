@@ -67,7 +67,7 @@ class TestFullSnapshot:
 
         assert summary.symbol == "2330.TW"
         assert summary.thesis_type == "industry_recovery"
-        assert summary.data_quality == "high"
+        assert summary.data_quality == "partial"
         assert summary.snapshot_date == "2026-03-28"
         assert len(summary.fields) >= 4  # inventory, eps, target, valuation, cycle
 
@@ -103,14 +103,14 @@ class TestFullSnapshot:
         summary = collect_evidence("2330.TW", engine=_make_engine(snap))
         val = summary.field_by_key("valuation")
         assert val is not None
-        assert val.value == "偏低"
+        assert val.value == "便宜"
 
     def test_cycle_field(self):
         snap = _make_snapshot(cycle_stage="peak_risk")
         summary = collect_evidence("2330.TW", engine=_make_engine(snap))
         cyc = summary.field_by_key("cycle")
         assert cyc is not None
-        assert cyc.value == "峰值風險"
+        assert cyc.value == "高檔風險"
 
 
 # ── Partial Data Tests ───────────────────────────────────────────────────────
@@ -228,6 +228,43 @@ class TestTranscriptResolution:
         assert url is None
 
 
+# ── US Stock Tests ────────────────────────────────────────────────────────────
+
+class TestUSStocks:
+    @patch("widget.research.evidence_prefill._resolve_transcript", return_value="https://www.alphamemo.ai/free-transcripts/us-nvda-123")
+    def test_us_stock_resolution(self, mock_resolve):
+        """Test evidence collection for a US stock (e.g. NVDA)."""
+        snap = _make_snapshot(symbol="NVDA", delta_forward_eps=1.2, target_revision_proxy_pct=5.0)
+        store = _make_store(current=snap)
+        engine = _make_engine(snap)
+
+        summary = collect_evidence("NVDA", store=store, engine=engine)
+        assert summary.symbol == "NVDA"
+        assert summary.field_by_key("eps_delta").raw_value == 1.2
+        assert summary.transcript_url == "https://www.alphamemo.ai/free-transcripts/us-nvda-123"
+        # Check that it didn't crash on normalized = symbol.split(".")[0]
+        mock_resolve.assert_called_with("NVDA")
+
+
+
+# ── US Stock Tests ────────────────────────────────────────────────────────────
+
+class TestUSStocks:
+    @patch("widget.research.evidence_prefill._resolve_transcript", return_value="https://www.alphamemo.ai/free-transcripts/us-nvda-123")
+    def test_us_stock_resolution(self, mock_resolve):
+        """Test evidence collection for a US stock (e.g. NVDA)."""
+        snap = _make_snapshot(symbol="NVDA", delta_forward_eps=1.2, target_revision_proxy_pct=5.0)
+        store = _make_store(current=snap)
+        engine = _make_engine(snap)
+
+        summary = collect_evidence("NVDA", store=store, engine=engine)
+        assert summary.symbol == "NVDA"
+        assert summary.field_by_key("eps_delta").raw_value == 1.2
+        assert summary.transcript_url == "https://www.alphamemo.ai/free-transcripts/us-nvda-123"
+        # Check that it didn't crash on normalized = symbol.split(".")[0]
+        mock_resolve.assert_called_with("NVDA")
+
+
 # ── EvidenceSummary Model Tests ──────────────────────────────────────────────
 
 class TestEvidenceSummaryModel:
@@ -262,3 +299,177 @@ class TestPriorCompatibility:
         # New fields should have defaults
         assert restored.guidance_observations == []
         assert restored.evidence_observations == []
+
+
+class TestEvidenceSourceMetadata:
+    @patch("widget.research.evidence_prefill._resolve_transcript_detail", return_value=None)
+    def test_inventory_field_includes_snapshot_compare_and_sec_reference(self, _mock_resolve):
+        snap = _make_snapshot(
+            source_metadata={
+                "inventory": "sec.companyfacts.InventoryNet",
+                "inventory_source_label": "SEC",
+                "inventory_source_field": "InventoryNet",
+                "inventory_source_date": "2026-03-21",
+                "inventory_source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json",
+            },
+            quality_metadata={"inventory": "filed"},
+        )
+        store = _make_store(
+            current=snap,
+            delta_result={
+                "date": "2026-04-02",
+                "previous_date": "2026-03-21",
+                "current": 119.9,
+                "previous": 120.0,
+                "delta_pct": -0.08,
+            },
+        )
+
+        summary = collect_evidence("2330.TW", store=store, engine=_make_engine(snap))
+        field = summary.field_by_key("inventory_trend")
+
+        assert field is not None
+        assert field.source_label == "snapshot"
+        assert field.source_compare["previous_date"] == "2026-03-21"
+        assert field.source_compare["current_date"] == "2026-04-02"
+        assert field.source_reference["label"] == "SEC"
+        assert field.source_reference["field"] == "InventoryNet"
+        assert field.source_reference["date"] == "2026-03-21"
+
+    @patch("widget.research.evidence_prefill._resolve_transcript_detail", return_value=None)
+    def test_eps_field_includes_yfinance_verification_path(self, _mock_resolve):
+        snap = _make_snapshot(
+            symbol="NVDA",
+            source_metadata={"forward_eps": "yfinance.info.forwardEps"},
+            quality_metadata={"forward_eps": "estimated"},
+        )
+
+        summary = collect_evidence("NVDA", engine=_make_engine(snap))
+        field = summary.field_by_key("eps_delta")
+
+        assert field is not None
+        assert field.source_label == "yfinance"
+        assert field.source_field == "forwardEps"
+        assert field.source_date == snap.date
+        assert field.source_quality == "estimated"
+        assert "finance.yahoo.com/quote/NVDA/analysis/" in field.source_url
+
+    @patch(
+        "widget.research.evidence_prefill._resolve_transcript_detail",
+        return_value={
+            "url": "https://www.alphamemo.ai/free-transcripts/us-nvda-123",
+            "date": "2026-03-11",
+            "quality": "transcript",
+        },
+    )
+    def test_transcript_field_includes_verifiable_path(self, _mock_resolve):
+        summary = collect_evidence("NVDA", store=None, engine=None)
+        field = summary.field_by_key("transcript")
+
+        assert field is not None
+        assert field.source_label == "AlphaMemo"
+        assert field.source_field == "earnings transcript"
+        assert field.source_date == "2026-03-11"
+        assert field.source_quality == "transcript"
+        assert field.source_url.endswith("us-nvda-123")
+
+
+class TestTemplateAwareEvidence:
+    @patch(
+        "widget.research.evidence_prefill._resolve_transcript_detail",
+        return_value={
+            "url": "https://www.alphamemo.ai/free-transcripts/us-2317-123",
+            "date": "2026-03-11",
+            "quality": "transcript",
+        },
+    )
+    def test_industry_recovery_prioritizes_inventory_and_transcript(self, _mock_resolve):
+        snap = _make_snapshot(
+            gross_margin=0.32,
+            source_metadata={"filing_narrative_current": "visibility improving"},
+            narrative_shift_state="strengthening",
+        )
+        previous = _make_snapshot(gross_margin=0.29)
+        store = _make_store(
+            current=snap,
+            previous=previous,
+            delta_result={
+                "date": "2026-04-02",
+                "previous_date": "2026-03-21",
+                "current": 119.9,
+                "previous": 120.0,
+                "delta_pct": -0.08,
+            },
+        )
+
+        summary = collect_evidence("2330.TW", "industry_recovery", store, _make_engine(snap))
+
+        assert summary.panel_hint == "依「產業復甦」優先顯示相關證據"
+        assert summary.data_quality == "high"
+        assert [field.key for field in summary.fields[:3]] == [
+            "inventory_trend",
+            "gross_margin",
+            "transcript",
+        ]
+        assert "產業復甦：" in summary.summary_text
+
+    def test_new_product_ramp_surfaces_specificity_and_capex_first(self):
+        snap = _make_snapshot(
+            capex=-130.0,
+            structure_change_state="upgrading",
+            source_metadata={
+                "mentions_timeframe": True,
+                "mentions_scale_or_quantity": True,
+                "investment_linked_to_target_business": True,
+                "capacity_expansion_mentioned": True,
+            },
+        )
+        previous = _make_snapshot(capex=-100.0)
+        store = _make_store(current=snap, previous=previous)
+
+        summary = collect_evidence("2330.TW", "new_product_ramp", store, _make_engine(snap))
+
+        assert [field.key for field in summary.fields[:3]] == [
+            "more_specific",
+            "capex_committed",
+            "structure_change",
+        ]
+        assert "新產品放量：" in summary.summary_text
+        assert "說法更具體" in summary.summary_text
+
+    def test_market_share_gain_uses_structure_and_revenue_before_valuation(self):
+        snap = _make_snapshot(
+            structure_change_state="upgrading",
+            gross_margin=0.34,
+        )
+        previous = _make_snapshot(gross_margin=0.30)
+        store = _make_store(
+            current=snap,
+            previous=previous,
+            delta_result={
+                "date": "2026-04-02",
+                "previous_date": "2026-03-21",
+                "current": 108.0,
+                "previous": 100.0,
+                "delta_pct": 8.0,
+            },
+        )
+        store.get_metric_delta.side_effect = lambda _symbol, metric: {
+            "inventory": None,
+            "revenue": {
+                "date": "2026-04-02",
+                "previous_date": "2026-03-21",
+                "current": 108.0,
+                "previous": 100.0,
+                "delta_pct": 8.0,
+            },
+        }.get(metric)
+
+        summary = collect_evidence("2330.TW", "market_share_gain", store, _make_engine(snap))
+
+        assert [field.key for field in summary.fields[:3]] == [
+            "structure_change",
+            "revenue_trend",
+            "gross_margin",
+        ]
+        assert summary.quality_note == "市佔證據不足"

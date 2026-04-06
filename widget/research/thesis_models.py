@@ -389,6 +389,13 @@ class EvidenceField:
     source: str = ""         # e.g. "snapshot", "alphamemo"
     fresh: bool = True       # whether the data is recent enough
     raw_value: Optional[float] = None  # numeric value for programmatic use
+    source_label: str = ""
+    source_url: str = ""
+    source_field: str = ""
+    source_date: str = ""
+    source_quality: str = ""
+    source_compare: dict = field(default_factory=dict)
+    source_reference: dict = field(default_factory=dict)
 
 
 @dataclass
@@ -397,8 +404,11 @@ class EvidenceSummary:
     symbol: str = ""
     thesis_type: str = ""
     fields: list[EvidenceField] = field(default_factory=list)
+    all_fields: list[EvidenceField] = field(default_factory=list)
     summary_text: str = ""           # e.g. "庫存↓ · EPS↑ · 目標價↑"
     data_quality: str = "limited"    # "high" / "partial" / "limited"
+    panel_hint: str = ""
+    quality_note: str = ""
     transcript_url: str = ""
     snapshot_date: str = ""
     suggested_guidance_note: str = ""

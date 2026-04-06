@@ -16,6 +16,7 @@ _HEADERS = {
 }
 _TICKERS_URL = "https://www.sec.gov/files/company_tickers.json"
 _COMPANY_FACTS_URL = "https://data.sec.gov/api/xbrl/companyfacts/CIK{cik}.json"
+_COMPANY_FACTS_RAW_URL = "https://data.sec.gov/api/xbrl/companyfacts/CIK{cik}.json"
 
 
 class SECProvider(ResearchProvider):
@@ -43,7 +44,7 @@ class SECProvider(ResearchProvider):
             if response.status_code != 200:
                 return None
 
-            snapshot = self._build_snapshot_from_companyfacts(symbol, response.json())
+            snapshot = self._build_snapshot_from_companyfacts(symbol, response.json(), cik=cik)
             if snapshot is None:
                 return None
             snapshot.provider = "sec"
@@ -72,29 +73,34 @@ class SECProvider(ResearchProvider):
             return None
         return None
 
-    def _build_snapshot_from_companyfacts(self, symbol: str, payload: dict) -> Optional[ResearchSnapshot]:
+    def _build_snapshot_from_companyfacts(self, symbol: str, payload: dict, cik: Optional[str] = None) -> Optional[ResearchSnapshot]:
         us_gaap = (payload.get("facts") or {}).get("us-gaap") or {}
         if not us_gaap:
             return None
 
-        trailing_eps = self._latest_fact_value(
+        trailing_eps_fact = self._latest_fact(
             us_gaap, ["EarningsPerShareDiluted", "EarningsPerShareBasicAndDiluted"], units=("USD/shares",)
         )
-        inventory = self._latest_fact_value(us_gaap, ["InventoryNet", "InventoryFinishedGoods", "InventoryGross"])
-        capex = self._latest_fact_value(
+        inventory_fact = self._latest_fact(us_gaap, ["InventoryNet", "InventoryFinishedGoods", "InventoryGross"])
+        capex_fact = self._latest_fact(
             us_gaap,
             ["PaymentsToAcquirePropertyPlantAndEquipment", "PropertyPlantAndEquipmentAdditions", "CapitalExpendituresIncurredButNotYetPaid"],
         )
-        equity = self._latest_fact_value(
+        equity_fact = self._latest_fact(
             us_gaap,
             ["StockholdersEquity", "StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest"],
         )
-        shares_outstanding = self._latest_fact_value(
+        shares_fact = self._latest_fact(
             us_gaap,
             ["EntityCommonStockSharesOutstanding", "CommonStockSharesOutstanding"],
             units=("shares",),
             prefer_quarterly=True,
         )
+        trailing_eps = trailing_eps_fact["value"] if trailing_eps_fact else None
+        inventory = inventory_fact["value"] if inventory_fact else None
+        capex = capex_fact["value"] if capex_fact else None
+        equity = equity_fact["value"] if equity_fact else None
+        shares_outstanding = shares_fact["value"] if shares_fact else None
 
         book_value_per_share = None
         if equity is not None and shares_outstanding not in (None, 0):
@@ -119,6 +125,10 @@ class SECProvider(ResearchProvider):
                 "capex": "sec.companyfacts.capex",
                 "book_value_equity": "sec.companyfacts.StockholdersEquity",
                 "book_value_per_share": "sec.companyfacts.derived_book_value_per_share",
+                "inventory_source_label": "SEC",
+                "inventory_source_field": inventory_fact["concept"] if inventory_fact else "InventoryNet",
+                "inventory_source_date": inventory_fact["filed"] if inventory_fact else "",
+                "inventory_source_url": _COMPANY_FACTS_RAW_URL.format(cik=(cik or "").zfill(10)) if cik else "",
             },
             quality_metadata={
                 "inventory": "filed",
@@ -128,13 +138,13 @@ class SECProvider(ResearchProvider):
             },
         )
 
-    def _latest_fact_value(
+    def _latest_fact(
         self,
         us_gaap: dict,
         concepts: Iterable[str],
         units: Iterable[str] = ("USD",),
         prefer_quarterly: bool = False,
-    ) -> Optional[float]:
+    ) -> Optional[dict]:
         preferred_forms = ("10-Q", "10-K") if prefer_quarterly else ("10-K", "10-Q")
         for concept in concepts:
             concept_data = us_gaap.get(concept, {})
@@ -145,7 +155,13 @@ class SECProvider(ResearchProvider):
                     continue
                 best = self._select_entry(entries, preferred_forms)
                 if best and best.get("val") is not None:
-                    return best["val"]
+                    return {
+                        "concept": concept,
+                        "value": best["val"],
+                        "filed": best.get("filed", ""),
+                        "end": best.get("end", ""),
+                        "form": best.get("form", ""),
+                    }
         return None
 
     @staticmethod

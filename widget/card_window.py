@@ -135,6 +135,23 @@ class CardWindow(tk.Toplevel):
             color_menu.add_separator()
             color_menu.add_command(label="恢復預設", command=self._reset_color)
             self._ctx.add_cascade(label="🎨 顏色設定", menu=color_menu)
+            
+            # --- SMA Submenu ---
+            sma_menu = tk.Menu(self._ctx, tearoff=0, bg=theme.BG2, fg=theme.FG,
+                                  activebackground=theme.ACCENT,
+                                  activeforeground=theme.FG,
+                                  font=theme.FONT_SMALL)
+            sma_menu.add_command(
+                label="5日線  " + ("✔" if self._cfg.get("show_sma_5") else "□"),
+                command=lambda: self._toggle_sma(5))
+            sma_menu.add_command(
+                label="10日線 " + ("✔" if self._cfg.get("show_sma_10") else "□"),
+                command=lambda: self._toggle_sma(10))
+            sma_menu.add_command(
+                label="20日線 " + ("✔" if self._cfg.get("show_sma_20") else "□"),
+                command=lambda: self._toggle_sma(20))
+            self._ctx.add_cascade(label="📈 均線設定 (SMA)", menu=sma_menu)
+            
             self._ctx.add_command(
                 label="📊 基本面資訊  " + ("✔" if self._cfg.get("show_fundamentals") else "□"),
                 command=self._toggle_fundamentals)
@@ -304,6 +321,8 @@ class CardWindow(tk.Toplevel):
     def _supports_alphamemo(self) -> bool:
         if self.category == "Crypto":
             return False
+        if self.category == "美股":
+            return True
         sym = self.symbol.upper().strip()
         if sym.isdigit() and len(sym) >= 4:
             return True
@@ -808,6 +827,16 @@ class CardWindow(tk.Toplevel):
         current = self._cfg.get("show_fundamentals", False)
         self._cfg["show_fundamentals"] = not current
         self.after(50, self._rebuild_all)
+
+    def _toggle_sma(self, days: int):
+        key = f"show_sma_{days}"
+        current = self._cfg.get(key, False)
+        self._cfg[key] = not current
+        
+        # SMAs only affect the chart contents, not the widget layout.
+        # So we can just rebuild the menu (for the checkmark) and reload the chart.
+        self._setup_window()
+        self._reload_chart()
 
     def _rebuild_all(self):
         for w in self.winfo_children():

@@ -1,0 +1,90 @@
+2026-03-21 23:48:47 [AlphaMemo] open request: 2454.TW
+2026-03-21 23:48:47 [AlphaMemo] opened AlphaMemo for manual input
+2026-03-21 23:50:41 [AlphaMemo] open request: 2317.TW
+2026-03-21 23:50:41 [AlphaMemo] opened AlphaMemo for manual input
+2026-03-22 00:08:02 [AlphaMemo] open request: 2454.TW
+2026-03-22 00:08:02 [AlphaMemo] API lookup failed for 2454: HTTP Error 401: Unauthorized
+2026-03-22 00:08:02 [AlphaMemo] navigation complete
+2026-03-22 00:10:02 [AlphaMemo] open request: 2454.TW
+2026-03-22 00:10:02 [AlphaMemo] API lookup failed for 2454: HTTP Error 401: Unauthorized
+2026-03-22 00:10:02 [AlphaMemo] navigation complete
+2026-03-22 00:12:39 [AlphaMemo] open request: 2330.TW
+2026-03-22 00:12:40 [AlphaMemo] API lookup failed for 2330: HTTP Error 401: Unauthorized
+2026-03-22 00:12:40 [AlphaMemo] navigation complete
+2026-03-22 00:13:01 [AlphaMemo] open request: 2454.TW
+2026-03-22 00:13:01 [AlphaMemo] API lookup failed for 2454: HTTP Error 401: Unauthorized
+2026-03-22 00:13:01 [AlphaMemo] navigation complete
+2026-03-22 00:13:17 [AlphaMemo] open request: 2330.TW
+2026-03-22 00:13:17 [AlphaMemo] API lookup failed for 2330: HTTP Error 401: Unauthorized
+2026-03-22 00:13:17 [AlphaMemo] navigation complete
+2026-03-22 00:13:18 [AlphaMemo] open request: 2330.TW
+2026-03-22 00:13:19 [AlphaMemo] API lookup failed for 2330: HTTP Error 401: Unauthorized
+2026-03-22 00:13:19 [AlphaMemo] navigation complete
+2026-03-22 00:26:24 [AlphaMemo] open request: 2330
+2026-03-22 00:26:24 [AlphaMemo] API lookup failed for 2330: HTTP Error 401: Unauthorized
+2026-03-22 00:26:25 [AlphaMemo] navigation complete
+2026-03-22 09:56:47 [AlphaMemo] open request: 2330
+2026-03-22 09:56:47 [AlphaMemo Debug] URL: https://api.alphamemo.ai/rest/v1/free_transcripts?select=id,stock_name,audio_date&or=(stock_number.eq.2330,stock_name.ilike.%252330%25)&order=audio_date.desc&limit=1
+2026-03-22 09:56:47 [AlphaMemo Debug] Key len: 219
+2026-03-22 09:56:47 [AlphaMemo] API lookup failed for 2330: HTTP Error 401: Unauthorized
+2026-03-22 09:56:47 [AlphaMemo] navigation complete
+2026-03-22 09:57:48 [AlphaMemo] open request: 2330
+2026-03-22 09:57:48 [AlphaMemo] API lookup failed for 2330: HTTP Error 401: Unauthorized
+2026-03-22 09:57:49 [AlphaMemo] navigation complete
+2026-03-22 09:59:08 [AlphaMemo] open request: 2330
+2026-03-22 09:59:09 [AlphaMemo] No anon_key found, falling back immediately.
+2026-03-22 10:02:03 [AlphaMemo] open request: 2330
+2026-03-22 10:02:03 [AlphaMemo Debug] URL: https://api.alphamemo.ai/rest/v1/free_transcripts?select=id,stock_name,audio_date&stock_number=eq.2330&order=audio_date.desc&limit=1
+2026-03-22 10:02:03 [AlphaMemo] API lookup failed for 2330: HTTP Error 401: Unauthorized
+2026-03-22 10:02:03 [AlphaMemo] navigation complete
+2026-03-22 19:28:28 [AlphaMemo] open request: 2330
+2026-03-22 19:28:29 [AlphaMemo] resolved 2330 to e5e0b8b8-daa7-4e35-970c-75c22977cde7 (2026-01-15)
+2026-03-22 19:28:29 [AlphaMemo] navigation complete
+2026-03-22 21:40:27 [AlphaMemo] open request: 2317.TW
+2026-03-22 21:40:27 [AlphaMemo] resolved 2317 to efb12983-3f37-48e0-a9a3-293fc80066e7 (2026-03-16)
+2026-03-22 21:40:27 [AlphaMemo] navigation complete
+2026-03-22 21:40:38 [AlphaMemo] open request: 2330.TW
+2026-03-22 21:40:38 [AlphaMemo] resolved 2330 to e5e0b8b8-daa7-4e35-970c-75c22977cde7 (2026-01-15)
+2026-03-22 21:40:38 [AlphaMemo] navigation complete
+2026-03-22 21:41:01 [AlphaMemo] open request: 2317.TW
+2026-03-22 21:41:01 [AlphaMemo] resolved 2317 to efb12983-3f37-48e0-a9a3-293fc80066e7 (2026-03-16)
+2026-03-22 21:41:01 [AlphaMemo] navigation complete
+2026-03-22 21:41:18 [AlphaMemo] open request: 2317.TW
+2026-03-22 21:41:18 [AlphaMemo] resolved 2317 to efb12983-3f37-48e0-a9a3-293fc80066e7 (2026-03-16)
+2026-03-22 21:41:18 [AlphaMemo] navigation complete
+2026-03-22 21:44:41 [AlphaMemo] open request: 2317.TW
+2026-03-22 21:44:41 [AlphaMemo] resolved 2317 to efb12983-3f37-48e0-a9a3-293fc80066e7 (2026-03-16)
+2026-03-22 21:44:41 [AlphaMemo] navigation complete
+2026-03-22 21:45:00 [AlphaMemo] open request: 2317.TW
+2026-03-22 21:45:00 [AlphaMemo] resolved 2317 to efb12983-3f37-48e0-a9a3-293fc80066e7 (2026-03-16)
+2026-03-22 21:45:00 [AlphaMemo] navigation complete
+2026-03-22 21:45:37 [AlphaMemo] open request: 2317.TW
+2026-03-22 21:45:37 [AlphaMemo] resolved 2317 to efb12983-3f37-48e0-a9a3-293fc80066e7 (2026-03-16)
+2026-03-22 21:45:37 [AlphaMemo] navigation complete
+2026-03-22 21:47:26 [AlphaMemo] open request: 2330.TW
+2026-03-22 21:47:26 [AlphaMemo] resolved 2330 to e5e0b8b8-daa7-4e35-970c-75c22977cde7 (2026-01-15)
+2026-03-22 21:47:26 [AlphaMemo] navigation complete
+2026-03-22 21:47:34 [AlphaMemo] open request: 2454.TW
+2026-03-22 21:47:34 [AlphaMemo] resolved 2454 to 0ba0741d-d0df-4d49-a5f5-d728f33573a4 (2026-03-11)
+2026-03-22 21:47:35 [AlphaMemo] navigation complete
+2026-04-03 10:26:34 [AlphaMemo] open request: 2317.TW
+2026-04-03 10:26:35 [AlphaMemo] resolved 2317 to efb12983-3f37-48e0-a9a3-293fc80066e7 (2026-03-16)
+2026-04-03 10:26:35 [AlphaMemo] navigation complete
+2026-04-03 10:34:28 [AlphaMemo] open request: AMZN
+2026-04-03 10:34:28 [AlphaMemo] resolved AMZN to 99e1267c-b225-40c0-8b98-e38c7022d88d (2026-02-05)
+2026-04-03 10:34:29 [AlphaMemo] navigation complete
+2026-04-03 10:34:38 [AlphaMemo] open request: AAPL
+2026-04-03 10:34:38 [AlphaMemo] resolved AAPL to db6154bf-4b41-4f51-bab8-4904faa68236 (2026-01-29)
+2026-04-03 10:34:38 [AlphaMemo] navigation complete
+2026-04-03 15:50:11 [AlphaMemo] open request: 2317.TW
+2026-04-03 15:50:11 [AlphaMemo] resolved 2317 to efb12983-3f37-48e0-a9a3-293fc80066e7 (2026-03-16)
+2026-04-03 15:50:11 [AlphaMemo] navigation complete
+2026-04-03 15:50:25 [AlphaMemo] open request: AMZN
+2026-04-03 15:50:25 [AlphaMemo] resolved AMZN to 99e1267c-b225-40c0-8b98-e38c7022d88d (2026-02-05)
+2026-04-03 15:50:25 [AlphaMemo] navigation complete
+2026-04-03 16:04:48 [AlphaMemo] open request: AMZN
+2026-04-03 16:04:48 [AlphaMemo] resolved AMZN to 99e1267c-b225-40c0-8b98-e38c7022d88d (2026-02-05)
+2026-04-03 16:04:48 [AlphaMemo] navigation complete
+2026-04-06 11:51:14 [AlphaMemo] open request: 2049.TW
+2026-04-06 11:51:14 [AlphaMemo] resolved 2049 to 2ca772af-61dc-4d96-b5e4-1342ae180dd8 (2025-11-11)
+2026-04-06 11:51:14 [AlphaMemo] navigation complete

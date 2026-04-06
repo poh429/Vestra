@@ -7,10 +7,9 @@ import threading
 import time
 from typing import Callable, Dict, List, Optional
 
-_ENV_PATH = os.path.join(os.path.dirname(__file__), "..", "..", ".env")
 try:
-    from dotenv import load_dotenv
-    load_dotenv(_ENV_PATH)
+    from dotenv import load_dotenv, find_dotenv
+    load_dotenv(find_dotenv())
 except ImportError:
     pass
 

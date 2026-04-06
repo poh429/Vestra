@@ -73,6 +73,26 @@ def lookup_symbol(raw: str) -> dict:
         result["found"] = True
         return result
 
+    if category == "台股":
+        try:
+            from dotenv import load_dotenv, find_dotenv
+            # Use find_dotenv to search upwards until it finds .env
+            load_dotenv(find_dotenv())
+            import os
+            api_key = os.getenv("FUGLE_API_KEY")
+            if api_key:
+                from fugle_marketdata import RestClient
+                client = RestClient(api_key=api_key)
+                code = symbol.replace(".TW", "").replace(".TWO", "")
+                ticker_info = client.stock.intraday.ticker(symbol=code)
+                name = ticker_info.get("name") or ticker_info.get("nameZhTw")
+                if name:
+                    result["label"] = name
+                    result["found"] = True
+                    return result
+        except Exception as e:
+            print(f"[Lookup] Fugle error for {symbol}: {e}")
+
     try:
         import yfinance as yf
         ticker = yf.Ticker(symbol)
