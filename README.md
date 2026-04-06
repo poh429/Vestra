@@ -34,10 +34,23 @@
 - 📺 **Ticker Tape Mode** — Scrolling price bar for continuous market monitoring
 - 🔴 **Stock Status Tags** — Visual indicators for "Notice" or "Disposition" status for Taiwan stocks. See ![Stock Status](screenshots/alert_stock_icon.png)
 - 📉 **RSI & Volume overlay** — Optional RSI indicator and volume bar overlay
+- 📊 **Custom SMA Toggles** — Per-card toggles for 5-day, 10-day, and 20-day moving averages via right-click menu
+- 🏷 **Concept Stock Quick-Select** — Instantly bulk-add popular industry theme stocks (AI, CoWoS, HBM, etc.) from the "Add Symbol" dialog
 - 💼 **P&L simulation** — Enter your average cost and quantity to track unrealized P&L in real time
 - 🔔 **Price alerts** — Set above/below threshold alerts with desktop notifications
 - 🔒 **Lock & drag** — Drag cards freely or lock them in place on your desktop
 - 🚀 **Auto-start on boot** — Included `.vbs` launcher for silent Windows startup
+
+---
+
+### 🆕 Recent Updates (2025 Q2)
+
+| Date | Change |
+|------|--------|
+| Apr 2025 | 🏷 **Concept Stock Quick-Select** — Bulk-add stocks by theme (AI, CoWoS, HBM, PCB…) from the Add Symbol dialog. Powered by `industry_logic.json`. |
+| Apr 2025 | 📊 **SMA Toggles** — Right-click any chart card to toggle 5/10/20-day moving average overlays (state persisted per card). |
+| Apr 2025 | ⚡ **Chart Render Fix** — Charts now render correctly on startup without needing a manual button click. |
+| Apr 2025 | 🇹🇼 **Chinese Name Resolution** — Concept stock entries now display as "短名稱+代號" (e.g. 台積電 2330) using the Fugle API. |
 
 ---
 
@@ -202,10 +215,23 @@ If Vestra saves you time or helps your investing workflow, consider supporting t
 - 📺 **跑馬燈報報價模式** — 底部滾動報價列，讓你在大螢幕底部持續監控市場
 - 🔴 **處置/注意股標籤** — 自動偵測並顯示台股警示狀態。參考 ![資訊標籤](screenshots/alert_stock_icon.png)
 - 📉 **RSI 與成交量** — 可開啟 RSI 指標與成交量疊加圖
+- 📊 **自訂均線 (SMA) 切換** — 透過右鍵選單為每張卡片個別開關 5 日、10 日、20 日移動平均線
+- 🏷 **概念股快速加入** — 在「新增標的」視窗中，一鍵批量加入熱門題材股（AI、CoWoS、HBM……）
 - 💼 **損益模擬** — 輸入持倉成本與股數，即時追蹤未實現損益
 - 🔔 **價格警報** — 設定上下限觸發桌面通知
 - 🔒 **鎖定與拖曳** — 自由拖曳或鎖定卡片位置
 - 🚀 **開機自動啟動** — 附帶 `.vbs` 靜默啟動器，登入後自動開啟，無終端機視窗
+
+---
+
+### 🆕 近日更新（2025 Q2）
+
+| 日期 | 更新內容 |
+|------|----------|
+| 2025/04 | 🏷 **概念股快速加入** — 在「新增標的」視窗中，依題材（AI、CoWoS、HBM、PCB…）一鍵批量加入關注標的，資料來源自 `industry_logic.json`。 |
+| 2025/04 | 📊 **SMA 均線切換** — 右鍵選單新增「均線設定」，可個別開啟 5/10/20 日均線疊加，設定自動儲存。 |
+| 2025/04 | ⚡ **圖表初始化修正** — 修復啟動時走勢圖空白的問題，不再需要手動切換按鈕才能喚醒。 |
+| 2025/04 | 🇹🇼 **中文名稱顯示** — 概念股批量加入後顯示格式改為「短名稱+代號」（如：台積電 2330），透過 Fugle API 解析。 |
 
 ---
 

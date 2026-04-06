@@ -38,25 +38,45 @@ def _color_dir(df: pd.DataFrame) -> str:
         return theme.CHART_DOWN
 
 
-def _draw_line(ax, df: pd.DataFrame, color: str):
+def _draw_smas(ax, df: pd.DataFrame, cfg: dict, is_line_mode: bool):
+    """Draw Simple Moving Averages if configured."""
+    close = df["Close"].astype(float)
+    # Define SMA periods and colors
+    smas = {
+        5: {"color": "#FFC107", "alpha": 0.8},   # Amber/Yellow
+        10: {"color": "#03A9F4", "alpha": 0.8},  # Light Blue
+        20: {"color": "#E91E63", "alpha": 0.8},  # Pink/Magenta
+    }
+    
+    xs = mdates.date2num(df.index.to_pydatetime()) if is_line_mode else np.arange(len(df))
+    
+    for days, style in smas.items():
+        if cfg.get(f"show_sma_{days}", False):
+            sma = close.rolling(window=days).mean()
+            ax.plot(xs, sma, color=style["color"], linewidth=1.2, alpha=style["alpha"], zorder=4)
+
+
+def _draw_line(ax, df: pd.DataFrame, color: str, cfg: dict = None):
     close = df["Close"].astype(float)
     xs = mdates.date2num(df.index.to_pydatetime())
-    ax.plot(xs, close, color=color, linewidth=1.4, solid_capstyle="round")
+    ax.plot(xs, close, color=color, linewidth=1.4, solid_capstyle="round", zorder=3)
     # Gradient fill
     ax.fill_between(df.index, float(close.min()), close,
-                    alpha=0.15, color=color)
+                    alpha=0.15, color=color, zorder=1)
+    if cfg:
+        _draw_smas(ax, df, cfg, is_line_mode=True)
 
 
-def _draw_candles(ax, df: pd.DataFrame, base_color: str = None):
+def _draw_candles(ax, df: pd.DataFrame, base_color: str = None, cfg: dict = None):
     for i, (idx, row) in enumerate(df.iterrows()):
         op, hi, lo, cl = row["Open"], row["High"], row["Low"], row["Close"]
         color = theme.CHART_UP if cl >= op else theme.CHART_DOWN
         # wick
-        ax.plot([i, i], [lo, hi], color=color, linewidth=0.7)
+        ax.plot([i, i], [lo, hi], color=color, linewidth=0.7, zorder=2)
         # body
         body_h = abs(cl - op) or 0.001
         rect = Rectangle((i - 0.35, min(op, cl)), 0.7, body_h,
-                          color=color, zorder=2)
+                          color=color, zorder=3)
         ax.add_patch(rect)
     # set x-ticks to dates
     n = len(df)
@@ -66,19 +86,22 @@ def _draw_candles(ax, df: pd.DataFrame, base_color: str = None):
     ax.set_xticks(ticks)
     ax.set_xticklabels(labels, fontsize=6, color=base_color or theme.FG_DIM)
     ax.set_xlim(-0.5, n - 0.5)
+    
+    if cfg:
+        _draw_smas(ax, df, cfg, is_line_mode=False)
 
 
-def _draw_ohlc(ax, df: pd.DataFrame, base_color: str = None):
+def _draw_ohlc(ax, df: pd.DataFrame, base_color: str = None, cfg: dict = None):
     """Traditional OHLC tick bars."""
     for i, (idx, row) in enumerate(df.iterrows()):
         op, hi, lo, cl = row["Open"], row["High"], row["Low"], row["Close"]
         color = theme.CHART_UP if cl >= op else theme.CHART_DOWN
         # High-Low vertical line
-        ax.plot([i, i], [lo, hi], color=color, linewidth=0.8)
+        ax.plot([i, i], [lo, hi], color=color, linewidth=0.8, zorder=2)
         # Open tick (left)
-        ax.plot([i - 0.25, i], [op, op], color=color, linewidth=0.8)
+        ax.plot([i - 0.25, i], [op, op], color=color, linewidth=0.8, zorder=2)
         # Close tick (right)
-        ax.plot([i, i + 0.25], [cl, cl], color=color, linewidth=0.8)
+        ax.plot([i, i + 0.25], [cl, cl], color=color, linewidth=0.8, zorder=2)
     n = len(df)
     step = max(1, n // 6)
     ticks = list(range(0, n, step))
@@ -86,6 +109,10 @@ def _draw_ohlc(ax, df: pd.DataFrame, base_color: str = None):
     ax.set_xticks(ticks)
     ax.set_xticklabels(labels, fontsize=6, color=base_color or theme.FG_DIM)
     ax.set_xlim(-0.5, n - 0.5)
+    
+    if cfg:
+        _draw_smas(ax, df, cfg, is_line_mode=False)
+
 
 
 def _draw_volume(ax, main_ax, df: pd.DataFrame, is_line_mode: bool = False):
@@ -824,7 +851,7 @@ class ChartCard(tk.Frame):
         """Called from background thread — trigger a safe event on the main UI thread."""
         self._df = df
         try:
-            self.event_generate("<<ChartLoaded>>")
+            self.after(0, self._render)
         except Exception:
             pass
 
@@ -845,11 +872,11 @@ class ChartCard(tk.Frame):
         _style_ax(self._ax, self._base_color)
 
         if self._mode == "K棒":
-            _draw_candles(self._ax, df, base_color=self._base_color)
+            _draw_candles(self._ax, df, base_color=self._base_color, cfg=self._cfg)
         elif self._mode == "OHLC":
-            _draw_ohlc(self._ax, df, base_color=self._base_color)
+            _draw_ohlc(self._ax, df, base_color=self._base_color, cfg=self._cfg)
         else:
-            _draw_line(self._ax, df, color)
+            _draw_line(self._ax, df, color, cfg=self._cfg)
             # x-axis date formatting for line
             if hasattr(df.index, 'to_pydatetime'):
                 self._ax.xaxis.set_major_formatter(

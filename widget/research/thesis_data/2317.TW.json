@@ -1,0 +1,22 @@
+{
+  "thesis_type": "industry_recovery",
+  "expected_window": "2Q",
+  "primary_claims": [
+    "產業庫存開始下降",
+    "下游需求回溫",
+    "營收或出貨量季增"
+  ],
+  "break_conditions": [
+    "庫存續升兩季",
+    "客戶持續砍單",
+    "營收連兩季未改善"
+  ],
+  "confirm_conditions": [
+    "庫存明確下降",
+    "EPS 上修",
+    "管理層上調 guidance"
+  ],
+  "created_at": "2026-04-03T02:27:07.572944+00:00",
+  "guidance_observations": [],
+  "evidence_observations": []
+}

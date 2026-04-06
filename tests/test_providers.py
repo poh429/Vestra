@@ -35,6 +35,7 @@ def test_sec_provider_normalizes_inventory_capex_and_book_fields():
                 }
             }
         },
+        cik="320193",
     )
 
     assert snapshot is not None
@@ -44,6 +45,10 @@ def test_sec_provider_normalizes_inventory_capex_and_book_fields():
     assert snapshot.book_value_per_share == 5.0
     assert snapshot.shares_outstanding == 100.0
     assert snapshot.trailing_eps == 6.5
+    assert snapshot.source_metadata["inventory_source_label"] == "SEC"
+    assert snapshot.source_metadata["inventory_source_field"] == "InventoryNet"
+    assert snapshot.source_metadata["inventory_source_date"] == "2025-11-01"
+    assert "companyfacts" in snapshot.source_metadata["inventory_source_url"]
 
 
 def test_sec_provider_returns_none_when_companyfacts_have_no_supported_fields():

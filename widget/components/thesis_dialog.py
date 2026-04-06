@@ -8,6 +8,8 @@ from __future__ import annotations
 
 import threading
 import tkinter as tk
+import webbrowser
+import tkinter.font as tkfont
 from tkinter import ttk
 from datetime import datetime, timezone
 from typing import Callable, Optional
@@ -26,8 +28,253 @@ from widget.research.thesis_models import (
 from widget.style import theme
 
 
+class _SourcePopover:
+    def __init__(self, owner: tk.Misc):
+        self._owner = owner
+        self._tip = None
+        self._anchor_widget = None
+        self._evidence_field = None
+        self._fonts: dict[str, dict] = {}
+
+    def show(self, widget, evidence_field):
+        self.hide()
+        if widget is None or evidence_field is None:
+            return
+        if not getattr(widget, "winfo_exists", lambda: False)():
+            return
+        self._anchor_widget = widget
+        self._evidence_field = evidence_field
+
+        tip = tk.Toplevel(self._owner)
+        try:
+            tip.transient(self._owner)
+        except Exception:
+            pass
+        tip.overrideredirect(True)
+        try:
+            tip.attributes("-topmost", True)
+        except Exception:
+            pass
+        tip.configure(bg=theme.BG3)
+        tip.bind("<Escape>", lambda _event: self.hide())
+        tip.bind("<FocusOut>", lambda _event: self.hide())
+
+        body = tk.Frame(tip, bg=theme.BG3, padx=8, pady=6)
+        body.pack(fill="both", expand=True)
+
+        for line in self._build_lines(evidence_field):
+            tk.Label(
+                body,
+                text=line,
+                justify="left",
+                anchor="w",
+                fg=theme.FG,
+                bg=theme.BG3,
+                font=("Segoe UI", 7),
+            ).pack(anchor="w")
+
+        actions = self._build_actions(evidence_field)
+        if actions:
+            row = tk.Frame(body, bg=theme.BG3)
+            row.pack(anchor="w", pady=(6, 0))
+            for label, url in actions:
+                tk.Button(
+                    row,
+                    text=label,
+                    command=lambda target=url: self._open_url(target),
+                    bg=theme.ACCENT,
+                    fg=theme.FG,
+                    relief="flat",
+                    font=("Segoe UI", 7),
+                    padx=6,
+                    pady=2,
+                ).pack(side="left", padx=(0, 4))
+
+        self._capture_fonts(tip)
+        self._apply_scale()
+        tip.update_idletasks()
+        self._reposition()
+        tip.deiconify()
+        try:
+            tip.lift(self._owner)
+            tip.focus_force()
+        except Exception:
+            pass
+        self._tip = tip
+
+    def hide(self):
+        if self._tip is not None:
+            try:
+                self._tip.destroy()
+            except Exception:
+                pass
+            self._tip = None
+        self._anchor_widget = None
+        self._evidence_field = None
+        self._fonts = {}
+
+    def refresh(self):
+        if self._tip is None:
+            return
+        if self._anchor_widget is None or not getattr(self._anchor_widget, "winfo_exists", lambda: False)():
+            self.hide()
+            return
+        self._apply_scale()
+        self._reposition()
+
+    @staticmethod
+    def _build_lines(evidence_field) -> list[str]:
+        lines = []
+        source_label = evidence_field.source_label or evidence_field.source or ""
+        compare = evidence_field.source_compare or {}
+        reference = evidence_field.source_reference or {}
+
+        if source_label.lower() == "snapshot":
+            lines.append("來自本地快照比較")
+            current_date = _SourcePopover._short_date(compare.get("current_date"))
+            previous_date = _SourcePopover._short_date(compare.get("previous_date"))
+            if current_date or previous_date:
+                lines.append(f"比較：{current_date or '--'} vs {previous_date or '--'}")
+            if compare.get("previous_value") is not None:
+                lines.append(f"前值：{_SourcePopover._fmt_number(compare.get('previous_value'))}")
+            if compare.get("current_value") is not None:
+                lines.append(f"現值：{_SourcePopover._fmt_number(compare.get('current_value'))}")
+            if compare.get("delta_pct") is not None:
+                lines.append(f"變化：{compare.get('delta_pct'):+.1f}%")
+        else:
+            lines.append(f"來源：{source_label or '未知'}")
+            if evidence_field.source_field:
+                lines.append(f"欄位：{evidence_field.source_field}")
+            if evidence_field.source_date:
+                lines.append(f"日期：{_SourcePopover._short_date(evidence_field.source_date)}")
+            if evidence_field.source_quality:
+                lines.append(f"品質：{evidence_field.source_quality}")
+
+        if reference:
+            ref_label = reference.get("label") or "原始資料"
+            ref_field = reference.get("field") or ""
+            ref_date = _SourcePopover._short_date(reference.get("date"))
+            parts = [part for part in (ref_label, ref_field, ref_date) if part]
+            if parts:
+                lines.append(f"原始依據：{' / '.join(parts)}")
+            if reference.get("quality"):
+                lines.append(f"原始品質：{reference.get('quality')}")
+
+        return lines
+
+    @staticmethod
+    def _build_actions(evidence_field) -> list[tuple[str, str]]:
+        actions = []
+        source_label = (evidence_field.source_label or evidence_field.source or "").lower()
+        if evidence_field.source_url and source_label != "snapshot":
+            button_text = "開啟逐字稿" if source_label == "alphamemo" else "開啟原始資料"
+            actions.append((button_text, evidence_field.source_url))
+
+        reference = evidence_field.source_reference or {}
+        if reference.get("url"):
+            label = reference.get("label") or "原始資料"
+            actions.append((f"開啟 {label}", reference["url"]))
+        return actions
+
+    @staticmethod
+    def _open_url(url: str):
+        try:
+            webbrowser.open(url)
+        except Exception:
+            pass
+
+    @staticmethod
+    def _fmt_number(value) -> str:
+        if isinstance(value, (int, float)):
+            return f"{value:,.2f}"
+        return str(value)
+
+    @staticmethod
+    def _short_date(value: str) -> str:
+        if not value:
+            return ""
+        return str(value)[5:10] if len(str(value)) >= 10 else str(value)
+
+    def _reposition(self):
+        if self._tip is None or self._anchor_widget is None:
+            return
+        tip = self._tip
+        widget = self._anchor_widget
+        tip.update_idletasks()
+        tip_w = max(tip.winfo_width(), 0)
+        tip_h = max(tip.winfo_height(), 0)
+        owner_x = self._owner.winfo_rootx()
+        owner_y = self._owner.winfo_rooty()
+        owner_w = self._owner.winfo_width()
+        owner_h = self._owner.winfo_height()
+        screen_w = tip.winfo_screenwidth()
+        screen_h = tip.winfo_screenheight()
+
+        x = widget.winfo_rootx() + widget.winfo_width() + 4
+        if x + tip_w > min(screen_w, owner_x + owner_w):
+            x = max(owner_x + 8, widget.winfo_rootx() - tip_w - 4)
+
+        y = widget.winfo_rooty() - 2
+        max_y = min(screen_h - tip_h, owner_y + owner_h - tip_h - 8)
+        y = max(owner_y + 8, min(y, max_y))
+        tip.geometry(f"+{x}+{y}")
+
+    def _capture_fonts(self, root):
+        for widget in self._iter_widgets(root):
+            key = str(widget)
+            if key in self._fonts:
+                continue
+            if "font" not in widget.keys():
+                continue
+            try:
+                actual = tkfont.Font(font=widget.cget("font")).actual()
+            except Exception:
+                continue
+            size = abs(int(actual.get("size", 0) or 0))
+            if size <= 0:
+                continue
+            self._fonts[key] = {
+                "widget": widget,
+                "family": actual.get("family", "Segoe UI"),
+                "size": size,
+                "weight": actual.get("weight", "normal"),
+            }
+
+    def _apply_scale(self):
+        if self._tip is None:
+            return
+        default_w = getattr(self._owner, "_DEFAULT_SIZE", (440, 720))[0]
+        default_h = getattr(self._owner, "_DEFAULT_SIZE", (440, 720))[1]
+        width = max(self._owner.winfo_width(), default_w)
+        height = max(self._owner.winfo_height(), default_h)
+        scale = min(max(max(width / default_w, height / default_h), 1.0), 1.35)
+        for item in list(self._fonts.values()):
+            widget = item.get("widget")
+            if widget is None or not getattr(widget, "winfo_exists", lambda: False)():
+                continue
+            new_size = max(item["size"], int(round(item["size"] * scale)))
+            try:
+                widget.configure(font=(item["family"], new_size, item["weight"]))
+            except Exception:
+                pass
+
+    @staticmethod
+    def _iter_widgets(root):
+        stack = [root]
+        while stack:
+            widget = stack.pop()
+            yield widget
+            try:
+                stack.extend(widget.winfo_children())
+            except Exception:
+                pass
+
+
 class ThesisDialog(tk.Toplevel):
     """Modal dialog for creating / editing a thesis definition."""
+
+    _DEFAULT_SIZE = (440, 720)
+    _ANCHOR_GAP = 8
 
     def __init__(
         self,
@@ -48,30 +295,68 @@ class ThesisDialog(tk.Toplevel):
         self._engine = engine
         self._evidence = None  # EvidenceSummary once scanned
         self._result: Optional[ThesisDefinition] = None
+        self._source_popover = _SourcePopover(self)
+        self._responsive_fonts: dict[str, dict] = {}
 
         self.title(f"📋 投資邏輯 — {symbol}")
         self.configure(bg=theme.BG)
-        self.resizable(False, False)
-        self.geometry("440x720")
+        self.resizable(True, True)
+        self.minsize(*self._DEFAULT_SIZE)
+        self.geometry(f"{self._DEFAULT_SIZE[0]}x{self._DEFAULT_SIZE[1]}")
         self.attributes("-topmost", True)
         self.transient(parent)
         self.grab_set()
 
         # Scrollable content
         canvas = tk.Canvas(self, bg=theme.BG, highlightthickness=0)
+        self._canvas = canvas
         scrollbar = ttk.Scrollbar(self, orient="vertical", command=canvas.yview)
         self._inner = tk.Frame(canvas, bg=theme.BG)
         self._inner.bind("<Configure>", lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
-        canvas.create_window((0, 0), window=self._inner, anchor="nw")
+        self._canvas_window = canvas.create_window((0, 0), window=self._inner, anchor="nw")
         canvas.configure(yscrollcommand=scrollbar.set)
         canvas.pack(side="left", fill="both", expand=True)
         scrollbar.pack(side="right", fill="y")
+        canvas.bind("<Configure>", self._on_canvas_configure)
 
         def _on_mousewheel(event):
             canvas.yview_scroll(int(-1 * (event.delta / 120)), "units")
         canvas.bind_all("<MouseWheel>", _on_mousewheel)
 
         self._build_form(existing)
+        self._capture_responsive_fonts(self._inner)
+        self.bind("<Configure>", self._on_resize)
+        self.after_idle(self._position_beside_parent)
+        self.after_idle(self._apply_responsive_scale)
+
+    def _position_beside_parent(self):
+        """Anchor beside the source widget window, with a simple on-screen fallback."""
+        try:
+            self.update_idletasks()
+            parent = self.master
+            if parent is None or not getattr(parent, "winfo_exists", lambda: False)():
+                return
+
+            dialog_w = max(self.winfo_width(), self._DEFAULT_SIZE[0])
+            dialog_h = max(self.winfo_height(), self._DEFAULT_SIZE[1])
+            parent_x = parent.winfo_rootx()
+            parent_y = parent.winfo_rooty()
+            parent_w = max(parent.winfo_width(), 0)
+
+            screen_w = self.winfo_screenwidth()
+            screen_h = self.winfo_screenheight()
+
+            x = parent_x + parent_w + self._ANCHOR_GAP
+            if x + dialog_w > screen_w:
+                x = parent_x - dialog_w - self._ANCHOR_GAP
+            if x < 0:
+                x = max(0, screen_w - dialog_w)
+
+            max_y = max(0, screen_h - dialog_h)
+            y = max(0, min(parent_y, max_y))
+            self.geometry(f"{dialog_w}x{dialog_h}+{x}+{y}")
+        except Exception:
+            pass
 
     def _build_form(self, existing: Optional[ThesisDefinition]):
         parent = self._inner
@@ -272,6 +557,20 @@ class ThesisDialog(tk.Toplevel):
             font=("Segoe UI", 7)
         ).pack(side="right")
 
+        if getattr(summary, "panel_hint", ""):
+            tk.Label(
+                self._evidence_frame, text=summary.panel_hint,
+                fg=theme.FG_DIM, bg=bg, font=("Segoe UI", 7),
+                anchor="w"
+            ).pack(fill="x", padx=6, pady=(0, 2))
+
+        if getattr(summary, "quality_note", ""):
+            tk.Label(
+                self._evidence_frame, text=summary.quality_note,
+                fg=theme.FG_DIM, bg=bg, font=("Segoe UI", 7),
+                anchor="w"
+            ).pack(fill="x", padx=6, pady=(0, 2))
+
         # Evidence fields
         for ef in summary.fields:
             row = tk.Frame(self._evidence_frame, bg=bg)
@@ -284,10 +583,17 @@ class ThesisDialog(tk.Toplevel):
                 row, text=ef.value, fg=fg, bg=bg,
                 font=("Segoe UI", 7, "bold"), anchor="w"
             ).pack(side="left", padx=4)
-            tk.Label(
-                row, text=f"[{ef.source}]", fg=theme.FG_DIM, bg=bg,
-                font=("Segoe UI", 6)
-            ).pack(side="right")
+            source_label = ef.source_label or ef.source
+            if source_label:
+                badge = tk.Label(
+                    row, text=f"[{source_label}]", fg=theme.FG_DIM, bg=bg,
+                    font=("Segoe UI", 6), cursor="hand2"
+                )
+                badge.pack(side="right")
+                badge.bind(
+                    "<Button-1>",
+                    lambda _event, widget=badge, field=ef: self._source_popover.show(widget, field),
+                )
 
         # Summary line
         tk.Label(
@@ -305,6 +611,8 @@ class ThesisDialog(tk.Toplevel):
 
         # Pack the frame (insert it after section 一)
         self._evidence_frame.pack(fill="x", padx=8, pady=(0, 4), after=self._inner.winfo_children()[3])
+        self._capture_responsive_fonts(self._evidence_frame)
+        self._apply_responsive_scale()
 
     def _show_evidence_error(self, error_msg):
         """Show error if evidence scan fails."""
@@ -315,6 +623,8 @@ class ThesisDialog(tk.Toplevel):
             fg="#FF9800", bg="#1e2a1e", font=("Segoe UI", 7)
         ).pack(padx=6, pady=4)
         self._evidence_frame.pack(fill="x", padx=8, pady=(0, 4))
+        self._capture_responsive_fonts(self._evidence_frame)
+        self._apply_responsive_scale()
 
     def _accept_evidence(self):
         """Prefill sections from accepted evidence."""
@@ -354,6 +664,63 @@ class ThesisDialog(tk.Toplevel):
         )
         t.pack(fill="x", padx=8, pady=4)
         return t
+
+    def _on_canvas_configure(self, event):
+        try:
+            self._canvas.itemconfigure(self._canvas_window, width=event.width)
+        except Exception:
+            pass
+
+    def _on_resize(self, _event=None):
+        self.after_idle(self._apply_responsive_scale)
+        self.after_idle(self._source_popover.refresh)
+
+    def _capture_responsive_fonts(self, root):
+        for widget in self._iter_widgets(root):
+            key = str(widget)
+            if key in self._responsive_fonts:
+                continue
+            if "font" not in widget.keys():
+                continue
+            try:
+                actual = tkfont.Font(font=widget.cget("font")).actual()
+            except Exception:
+                continue
+            size = abs(int(actual.get("size", 0) or 0))
+            if size <= 0:
+                continue
+            self._responsive_fonts[key] = {
+                "widget": widget,
+                "family": actual.get("family", "Segoe UI"),
+                "size": size,
+                "weight": actual.get("weight", "normal"),
+            }
+
+    def _apply_responsive_scale(self):
+        width = max(self.winfo_width(), self._DEFAULT_SIZE[0])
+        height = max(self.winfo_height(), self._DEFAULT_SIZE[1])
+        scale = min(max(max(width / self._DEFAULT_SIZE[0], height / self._DEFAULT_SIZE[1]), 1.0), 1.45)
+
+        for item in list(self._responsive_fonts.values()):
+            widget = item.get("widget")
+            if widget is None or not getattr(widget, "winfo_exists", lambda: False)():
+                continue
+            new_size = max(item["size"], int(round(item["size"] * scale)))
+            try:
+                widget.configure(font=(item["family"], new_size, item["weight"]))
+            except Exception:
+                pass
+
+    @staticmethod
+    def _iter_widgets(root):
+        stack = [root]
+        while stack:
+            widget = stack.pop()
+            yield widget
+            try:
+                stack.extend(widget.winfo_children())
+            except Exception:
+                pass
 
     def _update_type_label(self, *_):
         val = self._type_var.get()
