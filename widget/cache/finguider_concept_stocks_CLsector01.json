@@ -1,0 +1,71 @@
+{
+  "stocks": [
+    {
+      "code": "NVDA",
+      "name": "NVDA",
+      "ret_1m": -0.032400997577533674,
+      "industry": "半導體"
+    },
+    {
+      "code": "AAPL",
+      "name": "AAPL",
+      "ret_1m": -0.01678896615313752,
+      "industry": "消費性電子"
+    },
+    {
+      "code": "MSFT",
+      "name": "MSFT",
+      "ret_1m": -0.09063017434498888,
+      "industry": "軟體基礎架構"
+    },
+    {
+      "code": "TSM",
+      "name": "TSM",
+      "ret_1m": -0.03914776988769619,
+      "industry": "半導體"
+    },
+    {
+      "code": "portfolio",
+      "name": "portfolio",
+      "ret_1m": -0.027664824002109234,
+      "industry": "portfolio"
+    },
+    {
+      "code": "AVGO",
+      "name": "AVGO",
+      "ret_1m": -0.05228551318677843,
+      "industry": "半導體"
+    },
+    {
+      "code": "ORCL",
+      "name": "ORCL",
+      "ret_1m": -0.05359798280209471,
+      "industry": "軟體基礎架構"
+    },
+    {
+      "code": "PLTR",
+      "name": "PLTR",
+      "ret_1m": -0.02757581712189694,
+      "industry": "軟體基礎架構"
+    },
+    {
+      "code": "AMD",
+      "name": "AMD",
+      "ret_1m": 0.0904988718977191,
+      "industry": "半導體"
+    },
+    {
+      "code": "CSCO",
+      "name": "CSCO",
+      "ret_1m": -0.0070218451438253116,
+      "industry": "通訊設備"
+    },
+    {
+      "code": "CRM",
+      "name": "CRM",
+      "ret_1m": -0.07055961070559591,
+      "industry": "應用軟體"
+    }
+  ],
+  "_fetched_at": 1775483088.6656888
+}

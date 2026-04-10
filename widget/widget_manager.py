@@ -20,6 +20,9 @@ from widget.tray_icon import TrayIconManager
 from widget.data.crypto_feed import CryptoFeed
 from widget.data.us_stock_feed import USStockFeed
 from widget.data.tw_stock_feed import TWStockFeed
+from widget.agent.background_worker import BackgroundWorker
+from widget.agent.quota_guard import QuotaGuard
+from widget.agent.scheduler_service import SchedulerService
 
 CONFIG_PATH = os.path.join(os.path.dirname(__file__), "widget_config.json")
 
@@ -59,6 +62,12 @@ class WidgetManager(tk.Tk):
         # Ticker Tape State
         self._is_ticker_mode = False
         self._ticker_window = None
+
+        # Phase 6: Scheduler & Background Worker
+        self._quota_guard = QuotaGuard()
+        self._bg_worker = BackgroundWorker()
+        self._scheduler = SchedulerService(self._bg_worker, self._quota_guard)
+        self._scheduler.start()
 
         self._load_config()
         # Apply saved brightness before building cards
@@ -379,4 +388,5 @@ class WidgetManager(tk.Tk):
             self._tray.stop()
         except Exception:
             pass
+        self._scheduler.stop()
         self.destroy()

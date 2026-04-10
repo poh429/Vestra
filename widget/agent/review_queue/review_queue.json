@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "items": [
+    {
+      "task_id": "review_be96b2b46c3c",
+      "symbol": "AMZN",
+      "task_type": "review_draft",
+      "title": "Review AI draft for AMZN",
+      "status": "pending",
+      "priority": "normal",
+      "created_at": "2026-04-10T13:25:03.311702+00:00",
+      "due_at": "",
+      "draft_id": "draft_5f6359bc2c88",
+      "event_ids": [],
+      "metadata": {
+        "thesis_type": "industry_recovery",
+        "summary": "庫存趨勢：→ 0.0%",
+        "evidence_count": 1
+      },
+      "notes": [
+        "Review top question and summary.",
+        "Check whether leaves are supported by verified or accepted evidence."
+      ]
+    }
+  ]
+}

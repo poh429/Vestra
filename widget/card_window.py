@@ -76,6 +76,12 @@ class CardWindow(tk.Toplevel):
         from widget.research.thesis_store import ThesisStore
         self._thesis_store = ThesisStore()
         self._last_thesis_eval = None
+        self._last_monitor_events = []
+        from widget.agent.thesis_monitor_service import ThesisMonitorService
+        self._thesis_monitor = ThesisMonitorService(
+            thesis_store=self._thesis_store,
+            snapshot_store=self._get_snapshot_store(),
+        )
 
         # Holdings — P&L simulation
         self._qty  = float(item_cfg.get("qty",  0))   # number of shares/units held
@@ -167,6 +173,7 @@ class CardWindow(tk.Toplevel):
         if self._supports_alphamemo():
             self._ctx.add_command(label="📝 法說會逐字稿 (AlphaMemo)", command=self._open_alpha_memo)
         self._ctx.add_command(label="📋 設定投資邏輯", command=self._open_thesis_dialog)
+        self._ctx.add_command(label="📊 分析面板 (Analyst OS)", command=self._open_analyst_panel)
         _mk_ctx_sep(self._ctx)
         self._ctx.add_command(label="✕ 關閉此卡片",    command=self._remove_self)
 
@@ -443,6 +450,9 @@ class CardWindow(tk.Toplevel):
             # Dummies for chart-only components
             self._cat_lbl = tk.Label(self._hdr) 
             self._status_dot = tk.Label(self._hdr)
+            self._thesis_badge = tk.Label(self._hdr)
+            self._review_badge = tk.Label(self._hdr)
+            self._sched_badge = tk.Label(self._hdr)
 
             self._bind_targets.extend([self._hdr, left_f, right_f, self._sym_lbl, 
                                        self._price_lbl, bot_f, self._change_lbl, self._arrow_lbl])
@@ -468,6 +478,14 @@ class CardWindow(tk.Toplevel):
                                          fg=theme.FG_MUTED, bg=bg_hdr, width=2)
             self._status_dot.pack(side="left", padx=(4, 0))
 
+            # Phase 7 Badges
+            self._thesis_badge = tk.Label(self._hdr, text="", font=("Segoe UI", 7, "bold"), fg=theme.FG_MUTED, bg=bg_hdr)
+            self._thesis_badge.pack(side="left", padx=(4, 0))
+            self._review_badge = tk.Label(self._hdr, text="", font=("Segoe UI", 7, "bold"), fg=theme.FG_MUTED, bg=bg_hdr)
+            self._review_badge.pack(side="left", padx=(2, 0))
+            self._sched_badge = tk.Label(self._hdr, text="", font=("Segoe UI", 8), fg=theme.FG_MUTED, bg=bg_hdr)
+            self._sched_badge.pack(side="left", padx=(2, 0))
+
             self._price_lbl = tk.Label(self._hdr, text="—", font=theme.FONT_MONO,
                                         fg=theme.FG, bg=bg_hdr)
             self._price_lbl.pack(side="right", padx=(0, 8))
@@ -489,7 +507,8 @@ class CardWindow(tk.Toplevel):
             self._body.pack(fill="both", expand=True)
 
             self._bind_targets.extend([self._hdr, self._sym_lbl, self._cat_lbl, self._arrow_lbl, 
-                                       self._price_lbl, self._change_lbl, self._status_dot, self._body])
+                                       self._price_lbl, self._change_lbl, self._status_dot, self._body,
+                                       self._thesis_badge, self._review_badge, self._sched_badge])
 
         self._build_body()
 
@@ -672,6 +691,7 @@ class CardWindow(tk.Toplevel):
                 payload = item.get("fundamentals")
                 if snapshot is not None:
                     self._last_research = snapshot
+                    self._run_thesis_monitor(snapshot)
                     self._evaluate_thesis(snapshot)
                 if payload is not None:
                     self._last_fundamentals = payload
@@ -684,6 +704,23 @@ class CardWindow(tk.Toplevel):
 
     # ── Thesis Monitor ────────────────────────────────────────────────────────
 
+    def _run_thesis_monitor(self, snapshot):
+        """Emit monitoring events before the core thesis evaluator runs."""
+        try:
+            definition = self._thesis_store.load(self.symbol)
+            if definition is None:
+                self._last_monitor_events = []
+                # Phase 7 update badges even if removed
+                self._update_analyst_badges()
+                return
+            self._last_monitor_events = self._thesis_monitor.process_snapshot(
+                self.symbol,
+                snapshot,
+                definition=definition,
+            )
+        except Exception as e:
+            print(f"[ThesisMonitor] monitor error for {self.symbol}: {e}")
+
     def _evaluate_thesis(self, snapshot):
         """Run thesis evaluation when new research data arrives."""
         try:
@@ -691,6 +728,7 @@ class CardWindow(tk.Toplevel):
             definition = self._thesis_store.load(self.symbol)
             if definition is None:
                 self._last_thesis_eval = None
+                self._update_analyst_badges()
                 return
             # Get previous snapshot for trend comparison
             prev = self._research_engine._store.read_previous(self.symbol) if hasattr(self._research_engine._store, 'read_previous') else None
@@ -702,7 +740,11 @@ class CardWindow(tk.Toplevel):
 
     def _update_thesis_label(self, evaluation):
         """Merge thesis state into the existing interpretation display."""
-        if evaluation is None or not hasattr(self, '_card'):
+        
+        # Phase 7: Update Layer 1 badges on state change
+        self._update_analyst_badges()
+
+        if evaluation is None or not hasattr(self, '_card') or not self._card:
             return
 
         card = self._card
@@ -802,10 +844,11 @@ class CardWindow(tk.Toplevel):
                 self._thesis_store.delete(self.symbol)
                 self._last_thesis_eval = None
                 # Clear the thesis-related labels
-                if hasattr(self, '_card'):
+                if hasattr(self, '_card') and self._card:
                     reason_lbl = getattr(self._card, '_thesis_reason_lbl', None)
                     if reason_lbl and reason_lbl.winfo_exists():
                         reason_lbl.configure(text="", fg=theme.FG_DIM)
+                self._update_analyst_badges()
 
             ThesisDialog(
                 self, self.symbol,
@@ -820,6 +863,88 @@ class CardWindow(tk.Toplevel):
     def _get_snapshot_store(self):
         """Return the SnapshotStore from the research engine."""
         return getattr(self._research_engine, '_store', None)
+
+    # ── Phase 7: Analyst Panel ────────────────────────────────────────────────
+
+    def _open_analyst_panel(self):
+        """Open the progressive disclosure Analyst OS panel (Phase 7)."""
+        try:
+            from widget.components.analyst_panel import AnalystPanel
+
+            # Retrieve scheduler/quota from WidgetManager if available
+            mgr = self.master
+            scheduler_svc = getattr(mgr, '_scheduler', None)
+            quota_guard = getattr(mgr, '_quota_guard', None)
+
+            # Load draft if available
+            try:
+                from widget.agent.draft_store import DraftStore
+                draft = DraftStore().load(self.symbol)
+            except Exception:
+                draft = None
+
+            AnalystPanel(
+                self,
+                self.symbol,
+                thesis_eval=self._last_thesis_eval,
+                monitor_events=self._last_monitor_events,
+                draft=draft,
+                scheduler_svc=scheduler_svc,
+                quota_guard=quota_guard,
+            )
+        except Exception as e:
+            print(f"[AnalystPanel] error opening panel: {e}")
+
+    def _update_analyst_badges(self):
+        """Update the 3 small header badges: thesis state, review pending, scheduler."""
+        if self._display != "chart":
+            return
+
+        # 1. Thesis state badge
+        thesis_badge = getattr(self, "_thesis_badge", None)
+        if thesis_badge and thesis_badge.winfo_exists():
+            eval_ = self._last_thesis_eval
+            if eval_:
+                state = getattr(eval_, "thesis_state", "")
+                colors = {
+                    "intact": "#4CAF50", "delayed": "#FFC107",
+                    "weakening": "#FF9800", "broken": "#F44336",
+                }
+                zh = {"intact": "有邏輯", "delayed": "觀望中", "weakening": "弱化", "broken": "破壞"}
+                color = colors.get(state, theme.FG_MUTED)
+                text = zh.get(state, "")
+                thesis_badge.config(text=f"⬤{text}", fg=color)
+            else:
+                thesis_badge.config(text="")
+
+        # 2. Review pending badge
+        review_badge = getattr(self, "_review_badge", None)
+        if review_badge and review_badge.winfo_exists():
+            try:
+                from widget.agent.review_queue import ReviewQueueStore
+                tasks = ReviewQueueStore().list_for_symbol(self.symbol)
+                pending = sum(1 for t in tasks if t.status == "pending")
+                if pending > 0:
+                    review_badge.config(text=f" ⚠{pending}", fg="#FF9800")
+                else:
+                    review_badge.config(text="")
+            except Exception:
+                review_badge.config(text="")
+
+        # 3. Scheduler heartbeat badge
+        sched_badge = getattr(self, "_sched_badge", None)
+        if sched_badge and sched_badge.winfo_exists():
+            mgr = self.master
+            scheduler = getattr(mgr, "_scheduler", None)
+            if scheduler:
+                schedules = getattr(scheduler, "_schedules", {})
+                is_subscribed = any(self.symbol in syms for syms in schedules.values())
+                if is_subscribed:
+                    sched_badge.config(text=" ⟳", fg=theme.FG_DIM)
+                else:
+                    sched_badge.config(text="")
+            else:
+                sched_badge.config(text="")
 
     # ── Context menu actions ──────────────────────────────────────────────────
 

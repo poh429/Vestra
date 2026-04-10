@@ -47,7 +47,7 @@
 
 | Date | Change |
 |------|--------|
-| Apr 2025 | 🏷 **Concept Stock Quick-Select** — Bulk-add stocks by theme (AI, CoWoS, HBM, PCB…) from the Add Symbol dialog. Powered by `industry_logic.json`. |
+| Apr 2025 | 🏷 **Concept Stock Dual-Engine** — All new resizable Concept Picker dialog! Browse US stocks via **FinGuider** (with 1-month % return indicators) and TW stocks via **CMoney** dynamically instead of static JSON. |
 | Apr 2025 | 📊 **SMA Toggles** — Right-click any chart card to toggle 5/10/20-day moving average overlays (state persisted per card). |
 | Apr 2025 | ⚡ **Chart Render Fix** — Charts now render correctly on startup without needing a manual button click. |
 | Apr 2025 | 🇹🇼 **Chinese Name Resolution** — Concept stock entries now display as "短名稱+代號" (e.g. 台積電 2330) using the Fugle API. |
@@ -228,7 +228,7 @@ If Vestra saves you time or helps your investing workflow, consider supporting t
 
 | 日期 | 更新內容 |
 |------|----------|
-| 2025/04 | 🏷 **概念股快速加入** — 在「新增標的」視窗中，依題材（AI、CoWoS、HBM、PCB…）一鍵批量加入關注標的，資料來源自 `industry_logic.json`。 |
+| 2025/04 | 🏷 **雙引擎概念股瀏覽器** — 捨棄靜態 JSON，全新打造可自由縮放的概念股挑選視窗！支援動態抓取 **FinGuider 美股**（內建近一個月漲跌幅顯示）與 **CMoney 台股** 雙平台即時庫。 |
 | 2025/04 | 📊 **SMA 均線切換** — 右鍵選單新增「均線設定」，可個別開啟 5/10/20 日均線疊加，設定自動儲存。 |
 | 2025/04 | ⚡ **圖表初始化修正** — 修復啟動時走勢圖空白的問題，不再需要手動切換按鈕才能喚醒。 |
 | 2025/04 | 🇹🇼 **中文名稱顯示** — 概念股批量加入後顯示格式改為「短名稱+代號」（如：台積電 2330），透過 Fugle API 解析。 |

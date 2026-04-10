@@ -1,0 +1,71 @@
+{
+  "stocks": [
+    {
+      "code": "AMZN",
+      "name": "AMZN",
+      "ret_1m": -0.041883621083402045,
+      "industry": "網路零售"
+    },
+    {
+      "code": "TSLA",
+      "name": "TSLA",
+      "ret_1m": -0.11055474704620027,
+      "industry": "汽車製造"
+    },
+    {
+      "code": "portfolio",
+      "name": "portfolio",
+      "ret_1m": -0.08649341765673957,
+      "industry": "portfolio"
+    },
+    {
+      "code": "BABA",
+      "name": "BABA",
+      "ret_1m": -0.06367472190256973,
+      "industry": "網路零售"
+    },
+    {
+      "code": "MCD",
+      "name": "MCD",
+      "ret_1m": -0.062024736601008046,
+      "industry": "餐飲業"
+    },
+    {
+      "code": "PDD",
+      "name": "PDD",
+      "ret_1m": 0.0012904506650788239,
+      "industry": "網路零售"
+    },
+    {
+      "code": "BKNG",
+      "name": "BKNG",
+      "ret_1m": -0.09073546563303514,
+      "industry": "旅遊服務"
+    },
+    {
+      "code": "SBUX",
+      "name": "SBUX",
+      "ret_1m": -0.08430438747593438,
+      "industry": "餐飲業"
+    },
+    {
+      "code": "ABNB",
+      "name": "ABNB",
+      "ret_1m": -0.08023555391976422,
+      "industry": "旅遊服務"
+    },
+    {
+      "code": "NKE",
+      "name": "NKE",
+      "ret_1m": -0.23836608066184062,
+      "industry": "鞋類與配件"
+    },
+    {
+      "code": "CMG",
+      "name": "CMG",
+      "ret_1m": -0.10523475445223962,
+      "industry": "餐飲業"
+    }
+  ],
+  "_fetched_at": 1775483595.965947
+}

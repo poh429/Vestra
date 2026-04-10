@@ -1,0 +1,59 @@
+{
+  "stocks": [
+    {
+      "code": "TPR",
+      "name": "TPR",
+      "ret_1m": -0.0536193029490607,
+      "industry": "奢侈品"
+    },
+    {
+      "code": "EL",
+      "name": "EL",
+      "ret_1m": -0.27902367789715254,
+      "industry": "家庭與個人用品"
+    },
+    {
+      "code": "RL",
+      "name": "RL",
+      "ret_1m": -0.012578689820358702,
+      "industry": "服飾製造"
+    },
+    {
+      "code": "portfolio",
+      "name": "portfolio",
+      "ret_1m": -0.030972020730252292,
+      "industry": "portfolio"
+    },
+    {
+      "code": "PVH",
+      "name": "PVH",
+      "ret_1m": 0.17456207159177484,
+      "industry": "服飾製造"
+    },
+    {
+      "code": "SIG",
+      "name": "SIG",
+      "ret_1m": -0.09454700672286886,
+      "industry": "奢侈品"
+    },
+    {
+      "code": "CPRI",
+      "name": "CPRI",
+      "ret_1m": -0.039058319957196774,
+      "industry": "奢侈品"
+    },
+    {
+      "code": "MOV",
+      "name": "MOV",
+      "ret_1m": -0.006477566872750473,
+      "industry": "奢侈品"
+    },
+    {
+      "code": "FOSL",
+      "name": "FOSL",
+      "ret_1m": 0.0714285714285714,
+      "industry": "奢侈品"
+    }
+  ],
+  "_fetched_at": 1775483506.061045
+}

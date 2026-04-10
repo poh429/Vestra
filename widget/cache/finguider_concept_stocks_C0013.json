@@ -1,0 +1,41 @@
+{
+  "stocks": [
+    {
+      "code": "EL",
+      "name": "EL",
+      "ret_1m": -0.27902367789715254,
+      "industry": "家庭與個人用品"
+    },
+    {
+      "code": "ULTA",
+      "name": "ULTA",
+      "ret_1m": -0.17785019276666003,
+      "industry": "特殊零售"
+    },
+    {
+      "code": "portfolio",
+      "name": "portfolio",
+      "ret_1m": -0.18097092781543733,
+      "industry": "portfolio"
+    },
+    {
+      "code": "ELF",
+      "name": "ELF",
+      "ret_1m": -0.25902592682335834,
+      "industry": "家庭與個人用品"
+    },
+    {
+      "code": "IPAR",
+      "name": "IPAR",
+      "ret_1m": -0.046628136219636795,
+      "industry": "家庭與個人用品"
+    },
+    {
+      "code": "COTY",
+      "name": "COTY",
+      "ret_1m": -0.14583333333333315,
+      "industry": "家庭與個人用品"
+    }
+  ],
+  "_fetched_at": 1775483510.1608298
+}

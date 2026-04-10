@@ -1,0 +1,71 @@
+{
+  "stocks": [
+    {
+      "code": "CAT",
+      "name": "CAT",
+      "ret_1m": 0.015777249036936114,
+      "industry": "農業及重型建築機械"
+    },
+    {
+      "code": "GE",
+      "name": "GE",
+      "ret_1m": -0.13890463085034865,
+      "industry": "航太與國防"
+    },
+    {
+      "code": "RTX",
+      "name": "RTX",
+      "ret_1m": -0.0375257529677232,
+      "industry": "航太與國防"
+    },
+    {
+      "code": "portfolio",
+      "name": "portfolio",
+      "ret_1m": -0.04329051003313544,
+      "industry": "portfolio"
+    },
+    {
+      "code": "BA",
+      "name": "BA",
+      "ret_1m": -0.062325497613257785,
+      "industry": "航太與國防"
+    },
+    {
+      "code": "DE",
+      "name": "DE",
+      "ret_1m": -0.022509524711563977,
+      "industry": "農業及重型建築機械"
+    },
+    {
+      "code": "HON",
+      "name": "HON",
+      "ret_1m": -0.03746119640909518,
+      "industry": "綜合企業"
+    },
+    {
+      "code": "LMT",
+      "name": "LMT",
+      "ret_1m": -0.04917557251908444,
+      "industry": "航太與國防"
+    },
+    {
+      "code": "ETN",
+      "name": "ETN",
+      "ret_1m": 0.020958805014043902,
+      "industry": "特殊工業機械"
+    },
+    {
+      "code": "UPS",
+      "name": "UPS",
+      "ret_1m": -0.05641518500720821,
+      "industry": "整合貨運與物流"
+    },
+    {
+      "code": "MMM",
+      "name": "MMM",
+      "ret_1m": -0.07515523974137406,
+      "industry": "綜合企業"
+    }
+  ],
+  "_fetched_at": 1775483864.388869
+}

@@ -1,0 +1,131 @@
+{
+  "stocks": [
+    {
+      "code": "RTX",
+      "name": "RTX",
+      "ret_1m": -0.0375257529677232,
+      "industry": "航太與國防"
+    },
+    {
+      "code": "BA",
+      "name": "BA",
+      "ret_1m": -0.062325497613257785,
+      "industry": "航太與國防"
+    },
+    {
+      "code": "LMT",
+      "name": "LMT",
+      "ret_1m": -0.04917557251908444,
+      "industry": "航太與國防"
+    },
+    {
+      "code": "NOC",
+      "name": "NOC",
+      "ret_1m": -0.05068850420940263,
+      "industry": "航太與國防"
+    },
+    {
+      "code": "LHX",
+      "name": "LHX",
+      "ret_1m": -0.007942037062839358,
+      "industry": "航太與國防"
+    },
+    {
+      "code": "portfolio",
+      "name": "portfolio",
+      "ret_1m": 0.1341456907267342,
+      "industry": "portfolio"
+    },
+    {
+      "code": "RKLB",
+      "name": "RKLB",
+      "ret_1m": -0.03242857142857125,
+      "industry": "航太與國防"
+    },
+    {
+      "code": "HEI",
+      "name": "HEI",
+      "ret_1m": -0.11579255596043725,
+      "industry": "航太與國防"
+    },
+    {
+      "code": "SATS",
+      "name": "SATS",
+      "ret_1m": 0.16084799278303996,
+      "industry": "通訊設備"
+    },
+    {
+      "code": "ASTS",
+      "name": "ASTS",
+      "ret_1m": -0.013211165565736649,
+      "industry": "通訊設備"
+    },
+    {
+      "code": "KTOS",
+      "name": "KTOS",
+      "ret_1m": -0.21311667056347894,
+      "industry": "航太與國防"
+    },
+    {
+      "code": "PL",
+      "name": "PL",
+      "ret_1m": 0.45912972753151693,
+      "industry": "航太與國防"
+    },
+    {
+      "code": "GSAT",
+      "name": "GSAT",
+      "ret_1m": 0.30836559501767424,
+      "industry": "電信服務"
+    },
+    {
+      "code": "VSAT",
+      "name": "VSAT",
+      "ret_1m": 0.17922249066549512,
+      "industry": "通訊設備"
+    },
+    {
+      "code": "FLY",
+      "name": "FLY",
+      "ret_1m": 0.6157998037291461,
+      "industry": "航太與國防"
+    },
+    {
+      "code": "LUNR",
+      "name": "LUNR",
+      "ret_1m": 0.357668364459536,
+      "industry": "航太與國防"
+    },
+    {
+      "code": "IRDM",
+      "name": "IRDM",
+      "ret_1m": 0.38035381616733277,
+      "industry": "電信服務"
+    },
+    {
+      "code": "RDW",
+      "name": "RDW",
+      "ret_1m": 0.07276736493936076,
+      "industry": "航太與國防"
+    },
+    {
+      "code": "BKSY",
+      "name": "BKSY",
+      "ret_1m": 0.2647783251231519,
+      "industry": "科學與技術儀器"
+    },
+    {
+      "code": "SPIR",
+      "name": "SPIR",
+      "ret_1m": 0.6267893660531698,
+      "industry": "特殊商業服務"
+    },
+    {
+      "code": "SPCE",
+      "name": "SPCE",
+      "ret_1m": -0.03906249999999978,
+      "industry": "航太與國防"
+    }
+  ],
+  "_fetched_at": 1775483210.472394
+}

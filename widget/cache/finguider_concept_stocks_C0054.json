@@ -1,0 +1,101 @@
+{
+  "stocks": [
+    {
+      "code": "NVDA",
+      "name": "NVDA",
+      "ret_1m": -0.032400997577533674,
+      "industry": "半導體"
+    },
+    {
+      "code": "AVGO",
+      "name": "AVGO",
+      "ret_1m": -0.05228551318677843,
+      "industry": "半導體"
+    },
+    {
+      "code": "portfolio",
+      "name": "portfolio",
+      "ret_1m": 0.03019468122791591,
+      "industry": "portfolio"
+    },
+    {
+      "code": "MU",
+      "name": "MU",
+      "ret_1m": -0.0772097917495379,
+      "industry": "半導體"
+    },
+    {
+      "code": "AMD",
+      "name": "AMD",
+      "ret_1m": 0.0904988718977191,
+      "industry": "半導體"
+    },
+    {
+      "code": "GEV",
+      "name": "GEV",
+      "ret_1m": 0.10261129730113772,
+      "industry": "再生能源公用事業"
+    },
+    {
+      "code": "ANET",
+      "name": "ANET",
+      "ret_1m": -0.09124820659971289,
+      "industry": "電腦硬體"
+    },
+    {
+      "code": "ETN",
+      "name": "ETN",
+      "ret_1m": 0.020958805014043902,
+      "industry": "特殊工業機械"
+    },
+    {
+      "code": "DELL",
+      "name": "DELL",
+      "ret_1m": 0.19036078779397214,
+      "industry": "電腦硬體"
+    },
+    {
+      "code": "WDC",
+      "name": "WDC",
+      "ret_1m": 0.138748407520364,
+      "industry": "電腦硬體"
+    },
+    {
+      "code": "VRT",
+      "name": "VRT",
+      "ret_1m": 0.04645325360497532,
+      "industry": "電氣設備與零件"
+    },
+    {
+      "code": "MRVL",
+      "name": "MRVL",
+      "ret_1m": 0.41530126849894344,
+      "industry": "半導體"
+    },
+    {
+      "code": "CLS",
+      "name": "CLS",
+      "ret_1m": 0.10912989504570647,
+      "industry": "電子零組件"
+    },
+    {
+      "code": "ALAB",
+      "name": "ALAB",
+      "ret_1m": -0.023833333333333373,
+      "industry": "半導體"
+    },
+    {
+      "code": "CRDO",
+      "name": "CRDO",
+      "ret_1m": -0.11582708732787117,
+      "industry": "通訊設備"
+    },
+    {
+      "code": "SMCI",
+      "name": "SMCI",
+      "ret_1m": -0.2797766749379652,
+      "industry": "電腦硬體"
+    }
+  ],
+  "_fetched_at": 1775482930.740793
+}

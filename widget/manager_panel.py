@@ -731,34 +731,16 @@ class ManagerPanel(tk.Toplevel):
         concept_frame = tk.Frame(dlg, bg=theme.BG)
         concept_frame.pack(fill="x", padx=16, pady=(10, 0))
 
-        # Parse industry_logic for concepts
-        import json, os, re
-        concepts = {}
-        try:
-            cfg_path = os.path.join(os.path.dirname(__file__), "..", "..", "configs", "industry_logic.json")
-            with open(cfg_path, "r", encoding="utf-8") as f:
-                data = json.load(f)
-            for k, v in data.items():
-                aliases = v.get("alias", [])
-                if not aliases: continue
-                name = aliases[0]
-                syms = [str(a) + ".TW" for a in aliases if re.match(r'^\d{4}$', str(a))]
-                if len(syms) >= 2:
-                    concepts[name] = syms
-        except Exception as e:
-            print(f"[Settings] failed to load concepts: {e}")
+        def _open_concept_picker():
+            from widget.components.concept_picker import ConceptPickerDialog
+            existing_syms = [item["symbol"] for item in self._cfg.get("watchlist", [])]
+            ConceptPickerDialog(dlg, _bulk_add_selected, existing_syms)
 
-        # Bulk add function with thread matching
-        def _bulk_add_concept(name, syms):
-            if not messagebox.askyesno("批次加入", f"是否將「{name}」概念股共 {len(syms)} 檔加入追蹤清單？\n\n{', '.join(syms)}", parent=dlg):
-                return
-            
-            # Disable buttons temporarily and show loading text
-            status_lbl.config(text=f"正在擷取 {name} 概念股的公司名稱，請稍候...", fg=theme.ACCENT)
+        def _bulk_add_selected(concept_name, syms, tab):
+            status_lbl.config(text=f"正在擷取 {concept_name} 標的，請稍候...", fg=theme.ACCENT)
             dlg.update()
 
             def _worker():
-                import threading
                 from widget.data.symbol_lookup import lookup_symbol
                 added = 0
                 existing_syms = {item["symbol"] for item in self._cfg.get("watchlist", [])}
@@ -781,7 +763,7 @@ class ManagerPanel(tk.Toplevel):
                     entry = {
                         "symbol": sym,
                         "label": label,
-                        "category": "台股",
+                        "category": "台股" if tab == "TW" else "美股",
                         "display": "chart",
                         "pos_x": 200, "pos_y": 200,
                         "card_width": 340, "show_rsi": False, "locked": False,
@@ -790,7 +772,7 @@ class ManagerPanel(tk.Toplevel):
                     added += 1
                 
                 # UI update must happen on main thread
-                dlg.after(0, lambda: _finish_bulk_add(name, added))
+                dlg.after(0, lambda: _finish_bulk_add(concept_name, added))
 
             def _finish_bulk_add(name, added):
                 try:
@@ -805,43 +787,20 @@ class ManagerPanel(tk.Toplevel):
                     else:
                         messagebox.showinfo("提示", "所有標的皆已在追蹤清單中。", parent=dlg)
                 except Exception:
-                    pass # dialog might be closed
+                    pass
 
             import threading
             threading.Thread(target=_worker, daemon=True).start()
 
-
-        if concepts:
-            c_names = list(concepts.keys())
-            for cname in c_names[:4]:
-                btn = tk.Button(concept_frame, text=cname,
-                                command=lambda n=cname, s=concepts[cname]: _bulk_add_concept(n, s),
-                                bg=theme.BG3, fg=theme.ACCENT,
-                                activebackground=theme.ACCENT, activeforeground=theme.FG,
-                                font=theme.FONT_TINY, bd=0, relief="flat", padx=6, pady=2, cursor="hand2")
-                btn.pack(side="left", padx=(0, 6))
-            
-            if len(c_names) > 4:
-                more_btn = tk.Button(concept_frame, text="更多 ▼",
-                                     bg=theme.BG3, fg=theme.FG_DIM,
-                                     activebackground=theme.ACCENT, activeforeground=theme.FG,
-                                     font=theme.FONT_TINY, bd=0, relief="flat", padx=6, pady=2, cursor="hand2")
-                more_btn.pack(side="left")
-                
-                more_menu = tk.Menu(dlg, tearoff=0, bg=theme.BG2, fg=theme.FG,
-                                    activebackground=theme.ACCENT, font=theme.FONT_SMALL, bd=0, relief="flat")
-                for cname in c_names[4:]:
-                    more_menu.add_command(label=f"{cname} ({len(concepts[cname])})",
-                                          command=lambda n=cname, s=concepts[cname]: _bulk_add_concept(n, s))
-                
-                def _show_more(event):
-                    more_btn._menu = more_menu # Keep reference
-                    more_menu.tk_popup(event.x_root, event.y_root)
-                more_btn.bind("<Button-1>", _show_more)
+        btn_picker = tk.Button(concept_frame, text="🏷 概念股瀏覽器 (雙引擎)",
+                               font=theme.FONT_SMALL, bg=theme.ACCENT, fg=theme.BG,
+                               activebackground=theme.BG2, activeforeground=theme.FG,
+                               bd=0, relief="flat", cursor="hand2", command=_open_concept_picker)
+        btn_picker.pack(side="left")
 
         status_lbl = tk.Label(dlg, text="", font=theme.FONT_TINY,
                                fg=theme.FG_DIM, bg=theme.BG)
-        status_lbl.pack(anchor="w", padx=16)
+        status_lbl.pack(anchor="w", padx=16, pady=(4,0))
 
         # ── Editable fields (auto-filled, manually overridable) ───
         lbl_v  = tk.StringVar()

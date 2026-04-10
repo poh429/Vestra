@@ -1,0 +1,53 @@
+{
+  "stocks": [
+    {
+      "code": "NVDA",
+      "name": "NVDA",
+      "ret_1m": -0.032400997577533674,
+      "industry": "半導體"
+    },
+    {
+      "code": "portfolio",
+      "name": "portfolio",
+      "ret_1m": -0.015487542930730624,
+      "industry": "portfolio"
+    },
+    {
+      "code": "AMD",
+      "name": "AMD",
+      "ret_1m": 0.0904988718977191,
+      "industry": "半導體"
+    },
+    {
+      "code": "EA",
+      "name": "EA",
+      "ret_1m": 0.014146244271767472,
+      "industry": "電子遊戲與多媒體"
+    },
+    {
+      "code": "SE",
+      "name": "SE",
+      "ret_1m": -0.13860971524288057,
+      "industry": "網路零售"
+    },
+    {
+      "code": "RBLX",
+      "name": "RBLX",
+      "ret_1m": -0.09034503631961288,
+      "industry": "電子遊戲與多媒體"
+    },
+    {
+      "code": "TTWO",
+      "name": "TTWO",
+      "ret_1m": -0.059568060979626636,
+      "industry": "電子遊戲與多媒體"
+    },
+    {
+      "code": "U",
+      "name": "U",
+      "ret_1m": 0.09744331886155333,
+      "industry": "應用軟體"
+    }
+  ],
+  "_fetched_at": 1775483499.7671525
+}

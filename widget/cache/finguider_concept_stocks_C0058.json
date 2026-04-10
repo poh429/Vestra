@@ -1,0 +1,59 @@
+{
+  "stocks": [
+    {
+      "code": "MU",
+      "name": "MU",
+      "ret_1m": -0.0772097917495379,
+      "industry": "半導體"
+    },
+    {
+      "code": "SNDK",
+      "name": "SNDK",
+      "ret_1m": 0.24045686804929334,
+      "industry": "電腦硬體"
+    },
+    {
+      "code": "WDC",
+      "name": "WDC",
+      "ret_1m": 0.138748407520364,
+      "industry": "電腦硬體"
+    },
+    {
+      "code": "portfolio",
+      "name": "portfolio",
+      "ret_1m": 0.05727940197881187,
+      "industry": "portfolio"
+    },
+    {
+      "code": "STX",
+      "name": "STX",
+      "ret_1m": 0.17087430201582765,
+      "industry": "電腦硬體"
+    },
+    {
+      "code": "PSTG",
+      "name": "PSTG",
+      "ret_1m": 0.02208408310158716,
+      "industry": "電腦硬體"
+    },
+    {
+      "code": "NTAP",
+      "name": "NTAP",
+      "ret_1m": 0.01732811206011764,
+      "industry": "電腦硬體"
+    },
+    {
+      "code": "RMBS",
+      "name": "RMBS",
+      "ret_1m": 0.01218583396801276,
+      "industry": "半導體"
+    },
+    {
+      "code": "SIMO",
+      "name": "SIMO",
+      "ret_1m": -0.07967032967032928,
+      "industry": "半導體"
+    }
+  ],
+  "_fetched_at": 1775483996.661706
+}

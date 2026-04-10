@@ -1,0 +1,71 @@
+{
+  "stocks": [
+    {
+      "code": "NVDA",
+      "name": "NVDA",
+      "ret_1m": -0.032400997577533674,
+      "industry": "半導體"
+    },
+    {
+      "code": "portfolio",
+      "name": "portfolio",
+      "ret_1m": -0.08883801520763446,
+      "industry": "portfolio"
+    },
+    {
+      "code": "AMD",
+      "name": "AMD",
+      "ret_1m": 0.0904988718977191,
+      "industry": "半導體"
+    },
+    {
+      "code": "COIN",
+      "name": "COIN",
+      "ret_1m": -0.16649652423314376,
+      "industry": "金融數據與證券交易所"
+    },
+    {
+      "code": "PYPL",
+      "name": "PYPL",
+      "ret_1m": -0.04821882150429224,
+      "industry": "信用服務"
+    },
+    {
+      "code": "MSTR",
+      "name": "MSTR",
+      "ret_1m": -0.14290823260138752,
+      "industry": "應用軟體"
+    },
+    {
+      "code": "XYZ",
+      "name": "XYZ",
+      "ret_1m": -0.11292476628579884,
+      "industry": "軟體基礎架構"
+    },
+    {
+      "code": "RIOT",
+      "name": "RIOT",
+      "ret_1m": -0.17564102564102568,
+      "industry": "資本市場"
+    },
+    {
+      "code": "MARA",
+      "name": "MARA",
+      "ret_1m": -0.006841505131128911,
+      "industry": "資本市場"
+    },
+    {
+      "code": "CLSK",
+      "name": "CLSK",
+      "ret_1m": -0.1165829145728644,
+      "industry": "資本市場"
+    },
+    {
+      "code": "CAN",
+      "name": "CAN",
+      "ret_1m": -0.19689119170984437,
+      "industry": "電腦硬體"
+    }
+  ],
+  "_fetched_at": 1775483503.8759944
+}

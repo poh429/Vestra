@@ -294,6 +294,11 @@ class ThesisDialog(tk.Toplevel):
         self._store = store
         self._engine = engine
         self._evidence = None  # EvidenceSummary once scanned
+        self._latest_evidence_records = []
+        self._accepted_evidence_records = []
+        self._scanned_guidance_observations = []
+        self._draft = None
+        self._draft_review_task = None
         self._result: Optional[ThesisDefinition] = None
         self._source_popover = _SourcePopover(self)
         self._responsive_fonts: dict[str, dict] = {}
@@ -393,6 +398,11 @@ class ThesisDialog(tk.Toplevel):
                 bg="#2a5a3a", fg=theme.FG, font=("Segoe UI", 7, "bold"),
                 relief="flat", padx=6, pady=2
             ).pack(side="left", padx=6)
+            tk.Button(
+                btn_row, text="AI 建立草稿", command=self._build_ai_draft,
+                bg="#36588c", fg=theme.FG, font=("Segoe UI", 7, "bold"),
+                relief="flat", padx=6, pady=2
+            ).pack(side="left", padx=2)
 
         # Expected Window
         tk.Label(parent, text="預期時間窗口", fg=fg, bg=bg, font=theme.FONT_SMALL).pack(anchor="w", **pad)
@@ -405,6 +415,7 @@ class ThesisDialog(tk.Toplevel):
         # ── Evidence review panel (hidden until scan) ────────────────────
         self._evidence_frame = tk.Frame(parent, bg="#1e2a1e", relief="groove", bd=1)
         # Not packed until scan completes
+        self._draft_frame = tk.Frame(parent, bg="#1e2230", relief="groove", bd=1)
 
         # ── Section: Claims / Break / Confirm ────────────────────────────
         self._section_label(parent, "二、核心預期與條件")
@@ -514,24 +525,42 @@ class ThesisDialog(tk.Toplevel):
         """Run evidence collection in background thread, show result panel."""
         def _worker():
             try:
+                from widget.agent.alphamemo_analysis import analyze_management_communication
                 from widget.research.evidence_prefill import collect_evidence
+                from widget.agent.evidence_pipeline import extract_and_persist_evidence
                 summary = collect_evidence(
                     self._symbol,
                     thesis_type=self._type_var.get(),
                     store=self._store,
                     engine=self._engine,
                 )
+                records = extract_and_persist_evidence(
+                    self._symbol,
+                    thesis_type=self._type_var.get(),
+                    summary=summary,
+                    store=self._store,
+                    engine=self._engine,
+                )
+                analysis = analyze_management_communication(
+                    self._symbol,
+                    snapshot=(self._engine.get_latest(self._symbol) if self._engine and hasattr(self._engine, "get_latest") else None),
+                    summary=summary,
+                )
                 # Schedule UI update on main thread
-                self.after(0, lambda: self._show_evidence_panel(summary))
+                self.after(0, lambda: self._show_evidence_panel(summary, records, analysis))
             except Exception as e:
                 self.after(0, lambda: self._show_evidence_error(str(e)))
 
         threading.Thread(target=_worker, daemon=True).start()
 
-    def _show_evidence_panel(self, summary):
+    def _show_evidence_panel(self, summary, records=None, analysis=None):
         """Show compact evidence review panel."""
         from widget.research.thesis_models import EvidenceSummary
         self._evidence = summary
+        self._latest_evidence_records = list(records or [])
+        self._scanned_guidance_observations = list(
+            getattr(analysis, "guidance_observations", []) or []
+        )
 
         # Clear and rebuild evidence frame
         for child in self._evidence_frame.winfo_children():
@@ -602,6 +631,22 @@ class ThesisDialog(tk.Toplevel):
             anchor="w"
         ).pack(fill="x", padx=6, pady=(2, 2))
 
+        if self._scanned_guidance_observations:
+            preview = " / ".join(
+                obs.get("type", "")
+                for obs in self._scanned_guidance_observations[:2]
+                if obs.get("type")
+            )
+            if preview:
+                tk.Label(
+                    self._evidence_frame,
+                    text=f"AlphaMemo: {preview}",
+                    fg=theme.FG_DIM,
+                    bg=bg,
+                    font=("Segoe UI", 7),
+                    anchor="w",
+                ).pack(fill="x", padx=6, pady=(0, 2))
+
         # Accept button
         tk.Button(
             self._evidence_frame, text="✅ 接受並預填", command=self._accept_evidence,
@@ -644,11 +689,158 @@ class ThesisDialog(tk.Toplevel):
             })
             self._refresh_guidance_listbox()
 
+        self._accepted_evidence_records = []
+        for record in self._latest_evidence_records:
+            record.metadata["accepted"] = True
+            self._accepted_evidence_records.append(record)
+
+        existing_keys = {
+            (
+                obs.get("date", ""),
+                obs.get("type", ""),
+                obs.get("note", ""),
+            )
+            for obs in self._guidance_list
+        }
+        for obs in self._scanned_guidance_observations:
+            key = (
+                obs.get("date", ""),
+                obs.get("type", ""),
+                obs.get("note", ""),
+            )
+            if key in existing_keys:
+                continue
+            self._guidance_list.append(dict(obs))
+            existing_keys.add(key)
+        self._refresh_guidance_listbox()
+
         # Flash the evidence frame to confirm acceptance
         self._evidence_frame.configure(bg="#2a4a2a")
         self.after(300, lambda: self._evidence_frame.configure(bg="#1e2a1e"))
 
     # ── Helpers ──────────────────────────────────────────────────────────
+
+    def _build_ai_draft(self):
+        def _worker():
+            try:
+                from widget.agent.draft_builder import build_review_task_for_draft, build_thesis_draft
+                from widget.agent.draft_store import DraftStore
+                from widget.agent.evidence_pipeline import read_evidence_ledger
+                from widget.agent.review_queue import ReviewQueueStore
+
+                records = list(self._accepted_evidence_records)
+                if not records:
+                    records = read_evidence_ledger(self._symbol)
+
+                draft = build_thesis_draft(
+                    self._symbol,
+                    self._type_var.get(),
+                    records,
+                )
+                if draft is None:
+                    self.after(0, lambda: self._show_draft_error("No accepted or verified evidence available."))
+                    return
+
+                DraftStore().save(self._symbol, draft)
+                task = build_review_task_for_draft(draft)
+                ReviewQueueStore().upsert(task)
+                self.after(0, lambda: self._show_draft_panel(draft, task, records))
+            except Exception as e:
+                self.after(0, lambda: self._show_draft_error(str(e)))
+
+        threading.Thread(target=_worker, daemon=True).start()
+
+    def _show_draft_panel(self, draft, task, records):
+        self._draft = draft
+        self._draft_review_task = task
+
+        for child in self._draft_frame.winfo_children():
+            child.destroy()
+
+        bg = "#1e2230"
+        tk.Label(
+            self._draft_frame, text="AI 草稿 review",
+            fg=theme.ACCENT, bg=bg, font=("Segoe UI", 7, "bold")
+        ).pack(anchor="w", padx=6, pady=(4, 2))
+        tk.Label(
+            self._draft_frame, text=f"Top question: {draft.top_question}",
+            fg=theme.FG, bg=bg, font=("Segoe UI", 7), anchor="w", justify="left"
+        ).pack(fill="x", padx=6)
+        tk.Label(
+            self._draft_frame, text=f"Summary: {draft.summary}",
+            fg=theme.FG_DIM, bg=bg, font=("Segoe UI", 7), anchor="w", justify="left"
+        ).pack(fill="x", padx=6, pady=(0, 2))
+        tk.Label(
+            self._draft_frame,
+            text=f"Evidence review: {len(records)} eligible / {len(draft.supporting_evidence)} used",
+            fg=theme.FG_DIM, bg=bg, font=("Segoe UI", 7), anchor="w"
+        ).pack(fill="x", padx=6)
+
+        for branch in draft.branches[:2]:
+            tk.Label(
+                self._draft_frame,
+                text=f"- {branch.name}: {len(branch.leaves)} leaves",
+                fg=theme.FG, bg=bg, font=("Segoe UI", 7), anchor="w"
+            ).pack(fill="x", padx=10)
+            for leaf in branch.leaves[:2]:
+                tk.Label(
+                    self._draft_frame,
+                    text=f"  · {leaf.conclusion}",
+                    fg=theme.FG_DIM, bg=bg, font=("Segoe UI", 7), anchor="w"
+                ).pack(fill="x", padx=16)
+
+        if draft.rerating_triggers:
+            tk.Label(
+                self._draft_frame,
+                text=f"Rerating: {' / '.join(draft.rerating_triggers[:2])}",
+                fg=theme.ACCENT, bg=bg, font=("Segoe UI", 7), anchor="w", justify="left"
+            ).pack(fill="x", padx=6, pady=(2, 2))
+
+        tk.Button(
+            self._draft_frame, text="批准儲存", command=self._approve_and_save_draft,
+            bg="#36588c", fg=theme.FG, font=("Segoe UI", 7, "bold"),
+            relief="flat", padx=8, pady=2
+        ).pack(anchor="w", padx=6, pady=(2, 4))
+
+        self._draft_frame.pack(fill="x", padx=8, pady=(0, 4), after=self._evidence_frame)
+        self._capture_responsive_fonts(self._draft_frame)
+        self._apply_responsive_scale()
+
+    def _show_draft_error(self, error_msg):
+        for child in self._draft_frame.winfo_children():
+            child.destroy()
+        tk.Label(
+            self._draft_frame,
+            text=f"AI 草稿建立失敗: {error_msg}",
+            fg="#FF9800", bg="#1e2230", font=("Segoe UI", 7)
+        ).pack(anchor="w", padx=6, pady=4)
+        self._draft_frame.pack(fill="x", padx=8, pady=(0, 4), after=self._evidence_frame)
+        self._capture_responsive_fonts(self._draft_frame)
+        self._apply_responsive_scale()
+
+    def _approve_and_save_draft(self):
+        if self._draft is None:
+            return
+
+        self._draft.status = "approved"
+        try:
+            from widget.agent.draft_store import DraftStore
+            from widget.agent.review_queue import ReviewQueueStore
+
+            DraftStore().save(self._symbol, self._draft)
+            if self._draft_review_task is not None:
+                self._draft_review_task.status = "approved"
+                ReviewQueueStore().upsert(self._draft_review_task)
+        except Exception:
+            pass
+
+        defn = self._draft.to_thesis_definition()
+        if self._existing:
+            defn.created_at = self._existing.created_at
+        self._result = defn
+        if self._on_save:
+            self._on_save(defn)
+        self.destroy()
 
     def _section_label(self, parent, text):
         tk.Label(

@@ -88,3 +88,6 @@
 2026-04-06 11:51:14 [AlphaMemo] open request: 2049.TW
 2026-04-06 11:51:14 [AlphaMemo] resolved 2049 to 2ca772af-61dc-4d96-b5e4-1342ae180dd8 (2025-11-11)
 2026-04-06 11:51:14 [AlphaMemo] navigation complete
+2026-04-10 14:24:49 [AlphaMemo] open request: 2330.TW
+2026-04-10 14:24:49 [AlphaMemo] resolved 2330 to e5e0b8b8-daa7-4e35-970c-75c22977cde7 (2026-01-15)
+2026-04-10 14:24:49 [AlphaMemo] navigation complete

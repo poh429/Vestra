@@ -1,0 +1,302 @@
+{
+  "schema_version": 1,
+  "symbol": "AMZN",
+  "draft": {
+    "draft_id": "draft_5f6359bc2c88",
+    "symbol": "AMZN",
+    "title": "AMZN AI thesis draft",
+    "thesis_type": "industry_recovery",
+    "expected_window": "2Q",
+    "top_question": "核心需求與庫存循環是否正在修復？",
+    "summary": "庫存趨勢：→ 0.0%",
+    "tree_style": "top_question -> branches -> leaves -> kill_conditions",
+    "branches": [
+      {
+        "branch_id": "branch_5c8cfb56bd00",
+        "name": "需求與庫存",
+        "question": "需求與庫存是否支持目前 thesis？",
+        "leaves": [
+          {
+            "leaf_id": "leaf_18851f4b8f1d",
+            "question": "庫存趨勢",
+            "hypothesis": "庫存趨勢：→ 0.0%",
+            "data_required": [
+              "InventoryNet",
+              "InventoryNet",
+              "inventory delta"
+            ],
+            "conclusion": "→ 0.0%",
+            "kill_condition": "若庫存再度顯著上升，需重新檢視需求修復假設。",
+            "supporting_evidence_ids": [
+              "evidence_2025aad8de3d"
+            ],
+            "numeric_fact_names": [
+              "inventory_trend_previous",
+              "inventory_trend_current",
+              "inventory_trend",
+              "inventory_trend_delta_pct"
+            ],
+            "kill_conditions": [
+              "若庫存再度顯著上升，需重新檢視需求修復假設。"
+            ],
+            "status": "open",
+            "metadata": {
+              "verification_status": "verified",
+              "confidence": 0.95
+            }
+          }
+        ],
+        "kill_conditions": [
+          "若庫存再度顯著上升，需重新檢視需求修復假設。"
+        ],
+        "priority": 0,
+        "status": "open",
+        "metadata": {
+          "topics": [
+            "cycle",
+            "inventory_trend",
+            "revenue_trend"
+          ]
+        }
+      }
+    ],
+    "market_belief_map": {
+      "consensus_view": "市場目前仍在等待更多可驗證數據。",
+      "variant_view": "庫存趨勢：→ 0.0%",
+      "mispricing_hypothesis": "若關鍵證據延續，市場可能低估後續 rerating 空間。",
+      "confirming_signals": [
+        "庫存趨勢"
+      ],
+      "disconfirming_signals": [
+        "若庫存再度顯著上升，需重新檢視需求修復假設。"
+      ],
+      "metadata": {}
+    },
+    "target_spec": {
+      "target_id": "target_ddecea1d7686",
+      "symbol": "AMZN",
+      "company_name": "",
+      "market": "",
+      "thesis_type": "industry_recovery",
+      "valuation_mode": "",
+      "horizon": "",
+      "top_question": "核心需求與庫存循環是否正在修復？",
+      "baseline_assumptions": [],
+      "key_numeric_facts": [
+        {
+          "name": "inventory_trend_previous",
+          "value": 38325000000.0,
+          "unit": "",
+          "as_of": "2026-04-06",
+          "period": "",
+          "source_label": "SEC",
+          "source_field": "InventoryNet",
+          "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
+          "source_quality": "filed",
+          "source_kind": "snapshot",
+          "metadata": {
+            "role": "previous"
+          }
+        },
+        {
+          "name": "inventory_trend_current",
+          "value": 38325000000.0,
+          "unit": "",
+          "as_of": "2026-04-10",
+          "period": "",
+          "source_label": "SEC",
+          "source_field": "InventoryNet",
+          "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
+          "source_quality": "filed",
+          "source_kind": "snapshot",
+          "metadata": {
+            "role": "current"
+          }
+        },
+        {
+          "name": "inventory_trend",
+          "value": 0.0,
+          "unit": "",
+          "as_of": "2026-04-10",
+          "period": "",
+          "source_label": "snapshot",
+          "source_field": "inventory delta",
+          "source_url": "",
+          "source_quality": "derived",
+          "source_kind": "snapshot",
+          "metadata": {
+            "role": "signal"
+          }
+        },
+        {
+          "name": "inventory_trend_delta_pct",
+          "value": 0.0,
+          "unit": "pct",
+          "as_of": "2026-04-10",
+          "period": "",
+          "source_label": "snapshot",
+          "source_field": "inventory delta",
+          "source_url": "",
+          "source_quality": "derived",
+          "source_kind": "snapshot",
+          "metadata": {
+            "role": "delta_pct"
+          }
+        }
+      ],
+      "tags": [],
+      "metadata": {
+        "eligible_evidence_count": 1
+      },
+      "created_at": "2026-04-10T13:25:03.310943+00:00",
+      "updated_at": "2026-04-10T13:25:03.310943+00:00"
+    },
+    "rerating_triggers": [
+      "需等待更多已驗證證據，暫不建立 rerating trigger。"
+    ],
+    "primary_claims": [
+      "庫存趨勢：→ 0.0%"
+    ],
+    "break_conditions": [
+      "若庫存再度顯著上升，需重新檢視需求修復假設。"
+    ],
+    "confirm_conditions": [
+      "用來判斷庫存去化或需求壓力是否改善。"
+    ],
+    "supporting_evidence": [
+      {
+        "evidence_id": "evidence_2025aad8de3d",
+        "symbol": "AMZN",
+        "evidence_type": "inventory_trend",
+        "topic": "inventory_trend",
+        "direction": "flat",
+        "claim": "庫存趨勢：→ 0.0%",
+        "why_it_matters": "用來判斷庫存去化或需求壓力是否改善。",
+        "source_type": "snapshot",
+        "source_ref": {
+          "label": "snapshot",
+          "field": "inventory delta",
+          "url": "",
+          "date": "2026-04-10",
+          "quality": "derived",
+          "compare": {
+            "previous_date": "2026-04-06",
+            "current_date": "2026-04-10",
+            "previous_value": 38325000000.0,
+            "current_value": 38325000000.0,
+            "delta_pct": 0.0
+          },
+          "reference": {
+            "label": "SEC",
+            "field": "InventoryNet",
+            "date": "2026-02-06",
+            "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
+            "quality": "filed"
+          }
+        },
+        "confidence": 0.95,
+        "verification_status": "verified",
+        "title": "庫存趨勢",
+        "summary": "→ 0.0%",
+        "source_label": "snapshot",
+        "source_field": "inventory delta",
+        "source_url": "",
+        "source_date": "2026-04-10",
+        "source_quality": "derived",
+        "numeric_facts": [
+          {
+            "name": "inventory_trend_previous",
+            "value": 38325000000.0,
+            "unit": "",
+            "as_of": "2026-04-06",
+            "period": "",
+            "source_label": "SEC",
+            "source_field": "InventoryNet",
+            "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
+            "source_quality": "filed",
+            "source_kind": "snapshot",
+            "metadata": {
+              "role": "previous"
+            }
+          },
+          {
+            "name": "inventory_trend_current",
+            "value": 38325000000.0,
+            "unit": "",
+            "as_of": "2026-04-10",
+            "period": "",
+            "source_label": "SEC",
+            "source_field": "InventoryNet",
+            "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
+            "source_quality": "filed",
+            "source_kind": "snapshot",
+            "metadata": {
+              "role": "current"
+            }
+          },
+          {
+            "name": "inventory_trend",
+            "value": 0.0,
+            "unit": "",
+            "as_of": "2026-04-10",
+            "period": "",
+            "source_label": "snapshot",
+            "source_field": "inventory delta",
+            "source_url": "",
+            "source_quality": "derived",
+            "source_kind": "snapshot",
+            "metadata": {
+              "role": "signal"
+            }
+          },
+          {
+            "name": "inventory_trend_delta_pct",
+            "value": 0.0,
+            "unit": "pct",
+            "as_of": "2026-04-10",
+            "period": "",
+            "source_label": "snapshot",
+            "source_field": "inventory delta",
+            "source_url": "",
+            "source_quality": "derived",
+            "source_kind": "snapshot",
+            "metadata": {
+              "role": "delta_pct"
+            }
+          }
+        ],
+        "tags": [
+          "industry_recovery",
+          "inventory_trend"
+        ],
+        "metadata": {
+          "thesis_type": "industry_recovery",
+          "fresh": true,
+          "source_compare": {
+            "previous_date": "2026-04-06",
+            "current_date": "2026-04-10",
+            "previous_value": 38325000000.0,
+            "current_value": 38325000000.0,
+            "delta_pct": 0.0
+          },
+          "source_reference": {
+            "label": "SEC",
+            "field": "InventoryNet",
+            "date": "2026-02-06",
+            "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
+            "quality": "filed"
+          },
+          "snapshot_symbol": "AMZN"
+        },
+        "created_at": "2026-04-10T13:25:02.561529+00:00"
+      }
+    ],
+    "status": "needs_review",
+    "source_mode": "ai_assisted",
+    "metadata": {
+      "eligible_evidence_count": 1
+    },
+    "created_at": "2026-04-10T13:25:03.310961+00:00",
+    "updated_at": "2026-04-10T13:25:03.310961+00:00"
+  }
+}

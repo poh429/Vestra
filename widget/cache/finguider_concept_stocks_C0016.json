@@ -1,0 +1,59 @@
+{
+  "stocks": [
+    {
+      "code": "TSLA",
+      "name": "TSLA",
+      "ret_1m": -0.11055474704620027,
+      "industry": "汽車製造"
+    },
+    {
+      "code": "portfolio",
+      "name": "portfolio",
+      "ret_1m": 0.13089764164619333,
+      "industry": "portfolio"
+    },
+    {
+      "code": "LI",
+      "name": "LI",
+      "ret_1m": 0.0941943127962086,
+      "industry": "汽車製造"
+    },
+    {
+      "code": "RIVN",
+      "name": "RIVN",
+      "ret_1m": 0.013824884792626557,
+      "industry": "汽車製造"
+    },
+    {
+      "code": "XPEV",
+      "name": "XPEV",
+      "ret_1m": 0.08323133414932715,
+      "industry": "汽車製造"
+    },
+    {
+      "code": "NIO",
+      "name": "NIO",
+      "ret_1m": 0.33474576271186485,
+      "industry": "汽車製造"
+    },
+    {
+      "code": "VFS",
+      "name": "VFS",
+      "ret_1m": 0.42319749216300884,
+      "industry": "汽車製造"
+    },
+    {
+      "code": "LCID",
+      "name": "LCID",
+      "ret_1m": 0.012195121951219079,
+      "industry": "汽車製造"
+    },
+    {
+      "code": "PSNY",
+      "name": "PSNY",
+      "ret_1m": 0.21450335161486844,
+      "industry": "汽車製造"
+    }
+  ],
+  "_fetched_at": 1775483196.6948967
+}

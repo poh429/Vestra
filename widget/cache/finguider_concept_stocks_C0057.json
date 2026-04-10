@@ -1,0 +1,83 @@
+{
+  "stocks": [
+    {
+      "code": "AVGO",
+      "name": "AVGO",
+      "ret_1m": -0.05228551318677843,
+      "industry": "半導體"
+    },
+    {
+      "code": "CSCO",
+      "name": "CSCO",
+      "ret_1m": -0.0070218451438253116,
+      "industry": "通訊設備"
+    },
+    {
+      "code": "INTC",
+      "name": "INTC",
+      "ret_1m": 0.09640914036996806,
+      "industry": "半導體"
+    },
+    {
+      "code": "portfolio",
+      "name": "portfolio",
+      "ret_1m": 0.1062727886200967,
+      "industry": "portfolio"
+    },
+    {
+      "code": "ANET",
+      "name": "ANET",
+      "ret_1m": -0.09124820659971289,
+      "industry": "電腦硬體"
+    },
+    {
+      "code": "APH",
+      "name": "APH",
+      "ret_1m": -0.0586246005163954,
+      "industry": "電子零組件"
+    },
+    {
+      "code": "GLW",
+      "name": "GLW",
+      "ret_1m": 0.10010412018444126,
+      "industry": "電子零組件"
+    },
+    {
+      "code": "MRVL",
+      "name": "MRVL",
+      "ret_1m": 0.41530126849894344,
+      "industry": "半導體"
+    },
+    {
+      "code": "CIEN",
+      "name": "CIEN",
+      "ret_1m": 0.49602405613097256,
+      "industry": "通訊設備"
+    },
+    {
+      "code": "LITE",
+      "name": "LITE",
+      "ret_1m": 0.2705202667404194,
+      "industry": "通訊設備"
+    },
+    {
+      "code": "COHR",
+      "name": "COHR",
+      "ret_1m": 0.01689841257336444,
+      "industry": "科學與技術儀器"
+    },
+    {
+      "code": "FN",
+      "name": "FN",
+      "ret_1m": 0.024832399669391103,
+      "industry": "電子零組件"
+    },
+    {
+      "code": "AAOI",
+      "name": "AAOI",
+      "ret_1m": 0.027387779315799943,
+      "industry": "通訊設備"
+    }
+  ],
+  "_fetched_at": 1775483414.2530937
+}
