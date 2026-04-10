@@ -346,7 +346,7 @@ class ThesisEvaluation:
     confirming_signals: int = 0
     signal_details: list[str] = field(default_factory=list)
     source_summary: str = ""  # e.g. "依據：庫存 + EPS 下修"
-
+    
     condition_results: dict[str, dict] = field(default_factory=dict)
 
     def to_dict(self) -> dict:

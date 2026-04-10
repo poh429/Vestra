@@ -393,16 +393,19 @@ class ThesisDialog(tk.Toplevel):
             relief="flat", padx=6, pady=2
         ).pack(side="left")
         if self._store or self._engine:
-            tk.Button(
+            self._btn_scan_evidence = tk.Button(
                 btn_row, text="🔍 掃描證據", command=self._scan_evidence,
                 bg="#2a5a3a", fg=theme.FG, font=("Segoe UI", 7, "bold"),
                 relief="flat", padx=6, pady=2
-            ).pack(side="left", padx=6)
-            tk.Button(
+            )
+            self._btn_scan_evidence.pack(side="left", padx=6)
+            
+            self._btn_ai_draft = tk.Button(
                 btn_row, text="AI 建立草稿", command=self._build_ai_draft,
                 bg="#36588c", fg=theme.FG, font=("Segoe UI", 7, "bold"),
                 relief="flat", padx=6, pady=2
-            ).pack(side="left", padx=2)
+            )
+            self._btn_ai_draft.pack(side="left", padx=2)
 
         # Expected Window
         tk.Label(parent, text="預期時間窗口", fg=fg, bg=bg, font=theme.FONT_SMALL).pack(anchor="w", **pad)
@@ -522,7 +525,10 @@ class ThesisDialog(tk.Toplevel):
     # ── Evidence Scan ────────────────────────────────────────────────────
 
     def _scan_evidence(self):
-        """Run evidence collection in background thread, show result panel."""
+        """Analyze existing evidence to populate the dialog."""
+        if hasattr(self, "_btn_scan_evidence"):
+            self._btn_scan_evidence.config(text="掃描中...", state="disabled")
+            
         def _worker():
             try:
                 from widget.agent.alphamemo_analysis import analyze_management_communication
@@ -555,6 +561,9 @@ class ThesisDialog(tk.Toplevel):
 
     def _show_evidence_panel(self, summary, records=None, analysis=None):
         """Show compact evidence review panel."""
+        if hasattr(self, "_btn_scan_evidence"):
+            self._btn_scan_evidence.config(text="🔍 掃描證據", state="normal")
+            
         from widget.research.thesis_models import EvidenceSummary
         self._evidence = summary
         self._latest_evidence_records = list(records or [])
@@ -659,12 +668,14 @@ class ThesisDialog(tk.Toplevel):
         self._capture_responsive_fonts(self._evidence_frame)
         self._apply_responsive_scale()
 
-    def _show_evidence_error(self, error_msg):
-        """Show error if evidence scan fails."""
+    def _show_evidence_error(self, err_msg):
+        if hasattr(self, "_btn_scan_evidence"):
+            self._btn_scan_evidence.config(text="🔍 掃描證據", state="normal")
+            
         for child in self._evidence_frame.winfo_children():
             child.destroy()
         tk.Label(
-            self._evidence_frame, text=f"掃描失敗：{error_msg}",
+            self._evidence_frame, text=f"掃描失敗：{err_msg}",
             fg="#FF9800", bg="#1e2a1e", font=("Segoe UI", 7)
         ).pack(padx=6, pady=4)
         self._evidence_frame.pack(fill="x", padx=8, pady=(0, 4))
@@ -721,6 +732,9 @@ class ThesisDialog(tk.Toplevel):
     # ── Helpers ──────────────────────────────────────────────────────────
 
     def _build_ai_draft(self):
+        if hasattr(self, "_btn_ai_draft"):
+            self._btn_ai_draft.config(text="建立中...", state="disabled")
+            
         def _worker():
             try:
                 from widget.agent.draft_builder import build_review_task_for_draft, build_thesis_draft
@@ -751,6 +765,9 @@ class ThesisDialog(tk.Toplevel):
         threading.Thread(target=_worker, daemon=True).start()
 
     def _show_draft_panel(self, draft, task, records):
+        if hasattr(self, "_btn_ai_draft"):
+            self._btn_ai_draft.config(text="AI 建立草稿", state="normal")
+            
         self._draft = draft
         self._draft_review_task = task
 
@@ -807,6 +824,9 @@ class ThesisDialog(tk.Toplevel):
         self._apply_responsive_scale()
 
     def _show_draft_error(self, error_msg):
+        if hasattr(self, "_btn_ai_draft"):
+            self._btn_ai_draft.config(text="AI 建立草稿", state="normal")
+            
         for child in self._draft_frame.winfo_children():
             child.destroy()
         tk.Label(

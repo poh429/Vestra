@@ -92,6 +92,7 @@ class AnalystPanel(tk.Toplevel):
             pass
 
         self._build_ui()
+        self._add_resize_grip()
         self.after_idle(self._position_beside_parent)
 
     # ── Layout ──────────────────────────────────────────────────────────────
@@ -174,11 +175,26 @@ class AnalystPanel(tk.Toplevel):
         canvas = tk.Canvas(outer, bg=_TAB_BG, highlightthickness=0)
         scrollbar = ttk.Scrollbar(outer, orient="vertical", command=canvas.yview)
         inner = tk.Frame(canvas, bg=_TAB_BG)
-        inner.bind("<Configure>", lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
+        inner.dynamic_labels = []
+        inner._last_w = 0
+
+        # Robust resize logic with recursion guard:
+        def _on_inner_configure(event, frame=inner, canv=canvas):
+            # Only trigger reflow if width changed significantly (> 5px)
+            if abs(event.width - frame._last_w) > 5:
+                frame._last_w = event.width
+                self._update_frame_wraplengths(frame, event.width)
+            # Always update scroll region
+            canv.configure(scrollregion=canv.bbox("all"))
+
+        inner.bind("<Configure>", _on_inner_configure)
         win_id = canvas.create_window((0, 0), window=inner, anchor="nw")
         canvas.configure(yscrollcommand=scrollbar.set)
+
         canvas.pack(side="left", fill="both", expand=True)
         scrollbar.pack(side="right", fill="y")
+
+        # Canvas resize -> Set interior frame width
         canvas.bind("<Configure>", lambda e, cid=win_id: canvas.itemconfigure(cid, width=e.width))
 
         def _wheel(event):
@@ -186,6 +202,42 @@ class AnalystPanel(tk.Toplevel):
         canvas.bind_all("<MouseWheel>", _wheel)
 
         return {"outer": outer, "inner": inner}
+
+    def _update_frame_wraplengths(self, frame: tk.Frame, width: int):
+        """Update wraplength of labels registered specifically to this frame."""
+        new_wrap = max(200, width - 36)
+        if not hasattr(frame, "dynamic_labels"):
+            return
+            
+        # Filter existing labels
+        frame.dynamic_labels = [l for l in frame.dynamic_labels if l.winfo_exists()]
+        for lbl in frame.dynamic_labels:
+            try:
+                lbl.configure(wraplength=new_wrap)
+            except Exception:
+                pass
+
+    def _register_label(self, parent: tk.Frame, label: tk.Label):
+        """Register a label for dynamic reflowing. parent must be the 'inner' frame."""
+        # Find the 'inner' frame in the parent hierarchy
+        target = parent
+        while target and not hasattr(target, "dynamic_labels"):
+            target = target.master
+            if target == self: # Stop at Toplevel
+                break
+        
+        if hasattr(target, "dynamic_labels"):
+            target.dynamic_labels.append(label)
+
+    def _add_resize_grip(self):
+        """Add a visual resize handle at the bottom-right corner."""
+        grip = ttk.Sizegrip(self)
+        # Background of sizegrip usually follows the theme
+        grip.place(relx=1.0, rely=1.0, anchor="se")
+
+    def _on_content_resize(self, event):
+        """No longer used. Replaced by per-frame _update_frame_wraplengths."""
+        pass
 
     # ── Status Bar ──────────────────────────────────────────────────────────
 
@@ -261,28 +313,32 @@ class AnalystPanel(tk.Toplevel):
 
             explanation = getattr(eval_, "explanation", "")
             if explanation:
-                tk.Label(
+                lbl = tk.Label(
                     parent, text=explanation, fg=theme.FG, bg=_TAB_BG,
-                    font=("Segoe UI", 8), wraplength=440, justify="left", anchor="w",
-                ).pack(fill="x", padx=12, pady=(0, 4))
+                    font=("Segoe UI", 8), justify="left", anchor="w",
+                )
+                lbl.pack(fill="x", padx=12, pady=(0, 4))
+                self._register_label(parent, lbl)
 
             action = getattr(eval_, "action_label_zh", "")
             if action:
-                tk.Label(
+                lbl = tk.Label(
                     parent, text=f"行動偏向：{action}", fg=theme.ACCENT, bg=_TAB_BG,
-                    font=("Segoe UI", 8), anchor="w",
-                ).pack(fill="x", padx=12, pady=(0, 6))
+                    font=("Segoe UI", 8), anchor="w", justify="left"
+                )
+                lbl.pack(fill="x", padx=12, pady=(0, 6))
+                self._register_label(parent, lbl)
 
         if draft:
             # Top question
             if draft.top_question:
                 self._section(parent, "核心問題")
-                self._info_row(parent, draft.top_question, wraplength=440)
+                self._info_row(parent, draft.top_question)
 
             # Summary
             if draft.summary:
                 self._section(parent, "摘要")
-                self._info_row(parent, draft.summary, wraplength=440)
+                self._info_row(parent, draft.summary)
 
             # Market belief map
             mbm = draft.market_belief_map
@@ -337,21 +393,26 @@ class AnalystPanel(tk.Toplevel):
 
             status_color = _BADGE_INTACT if branch.status == "open" else _BADGE_NEUTRAL
             tk.Label(hdr, text="▸", fg=theme.ACCENT, bg=_ROW_BG, font=("Segoe UI", 10, "bold")).pack(side="left")
-            tk.Label(
+            branch_lbl = tk.Label(
                 hdr, text=f"{branch.name or f'Branch {bi+1}'}",
                 fg=theme.FG, bg=_ROW_BG, font=("Segoe UI", 9, "bold"),
-            ).pack(side="left", padx=(4, 0))
+            )
+            branch_lbl.pack(side="left", padx=(4, 0))
+            self._register_label(parent, branch_lbl)
+            
             tk.Label(
                 hdr, text=f"{len(branch.leaves)} leaves",
                 fg=theme.FG_DIM, bg=_ROW_BG, font=("Segoe UI", 7),
             ).pack(side="right")
 
             if branch.question:
-                tk.Label(
+                lbl = tk.Label(
                     branch_frame, text=branch.question,
                     fg=theme.FG_DIM, bg=_ROW_BG, font=("Segoe UI", 8),
-                    wraplength=420, justify="left", anchor="w",
-                ).pack(fill="x", padx=10, pady=(0, 2))
+                    justify="left", anchor="w",
+                )
+                lbl.pack(fill="x", padx=10, pady=(0, 2))
+                self._register_label(parent, lbl)
 
             # Kill conditions for this branch
             if branch.kill_conditions:
@@ -376,10 +437,13 @@ class AnalystPanel(tk.Toplevel):
                 tk.Label(top_row, text="•", fg=leaf_status_color, bg=leaf_bg, font=("Segoe UI", 8)).pack(side="left")
 
                 conclusion = leaf.conclusion or leaf.hypothesis or f"Leaf {li+1}"
-                tk.Label(
+                leaf_lbl = tk.Label(
                     top_row, text=conclusion,
                     fg=theme.FG, bg=leaf_bg, font=("Segoe UI", 8), anchor="w",
-                ).pack(side="left", padx=(4, 0))
+                    justify="left"
+                )
+                leaf_lbl.pack(side="left", padx=(4, 0), fill="x", expand=True)
+                self._register_label(parent, leaf_lbl)
 
                 # Evidence count for this leaf
                 linked = sum(1 for eid in leaf.supporting_evidence_ids if eid in evidence_id_set)
@@ -392,11 +456,13 @@ class AnalystPanel(tk.Toplevel):
                 # Kill condition
                 kc_text = leaf.kill_condition or (leaf.kill_conditions[0] if leaf.kill_conditions else "")
                 if kc_text:
-                    tk.Label(
+                    lbl = tk.Label(
                         lf, text=f"☠ {kc_text}",
                         fg=_BADGE_WEAKENING, bg=leaf_bg, font=("Segoe UI", 7),
-                        anchor="w",
-                    ).pack(fill="x", padx=20, pady=(0, 2))
+                        anchor="w", justify="left"
+                    )
+                    lbl.pack(fill="x", padx=20, pady=(0, 2))
+                    self._register_label(parent, lbl)
 
     # ── Tab 3: Evidence Ledger (Layer 4) ────────────────────────────────────
 
@@ -421,10 +487,13 @@ class AnalystPanel(tk.Toplevel):
                 _BADGE_BROKEN if rec.direction == "bearish" else theme.FG_DIM
             )
             tk.Label(hdr, text="▸", fg=direction_fg, bg=bg, font=("Segoe UI", 9)).pack(side="left")
-            tk.Label(
+            topic_lbl = tk.Label(
                 hdr, text=rec.topic or rec.evidence_type or "Evidence",
                 fg=theme.FG, bg=bg, font=("Segoe UI", 8, "bold"),
-            ).pack(side="left", padx=(4, 0))
+                anchor="w", justify="left"
+            )
+            topic_lbl.pack(side="left", padx=(4, 0), fill="x", expand=True)
+            self._register_label(parent, topic_lbl)
 
             # Verification badge
             vs = rec.verification_status
@@ -504,7 +573,10 @@ class AnalystPanel(tk.Toplevel):
         prio_colors = {"high": _BADGE_WEAKENING, "critical": _BADGE_BROKEN, "normal": theme.FG_DIM, "low": theme.FG_MUTED}
         prio_color = prio_colors.get(task.priority, theme.FG_DIM)
         tk.Label(hdr, text="⬤", fg=prio_color, bg=bg, font=("Segoe UI", 8)).pack(side="left")
-        tk.Label(hdr, text=task.title or task.task_type, fg=fg, bg=bg, font=("Segoe UI", 8, "bold")).pack(side="left", padx=(4, 0))
+        title_lbl = tk.Label(hdr, text=task.title or task.task_type, fg=fg, bg=bg, font=("Segoe UI", 8, "bold"), anchor="w", justify="left")
+        title_lbl.pack(side="left", padx=(4, 0), fill="x", expand=True)
+        self._register_label(parent, title_lbl)
+        
         tk.Label(hdr, text=task.status, fg=theme.FG_MUTED, bg=bg, font=("Segoe UI", 7)).pack(side="right")
 
         if task.created_at:
@@ -513,7 +585,9 @@ class AnalystPanel(tk.Toplevel):
 
         if task.notes:
             for note in task.notes[:2]:
-                tk.Label(card, text=f"  {note}", fg=theme.FG_DIM, bg=bg, font=("Segoe UI", 7), anchor="w", wraplength=420).pack(fill="x", padx=10)
+                lbl = tk.Label(card, text=f"  {note}", fg=theme.FG_DIM, bg=bg, font=("Segoe UI", 7), anchor="w", justify="left")
+                lbl.pack(fill="x", padx=10)
+                self._register_label(parent, lbl)
 
         if task.status == "pending":
             btn_row = tk.Frame(card, bg=bg)
@@ -588,43 +662,55 @@ class AnalystPanel(tk.Toplevel):
     def _section(self, parent: tk.Frame, title: str):
         f = tk.Frame(parent, bg=_SECT_BG)
         f.pack(fill="x", padx=0, pady=(8, 2))
-        tk.Label(
+        lbl = tk.Label(
             f, text=f"  {title}", fg=theme.ACCENT, bg=_SECT_BG,
-            font=("Segoe UI", 8, "bold"), anchor="w",
-        ).pack(fill="x", padx=4, pady=2)
+            font=("Segoe UI", 8, "bold"), anchor="w", justify="left"
+        )
+        lbl.pack(fill="x", padx=4, pady=2)
+        self._register_label(parent, lbl)
 
-    def _info_row(self, parent: tk.Frame, text: str, wraplength: int = 420):
-        tk.Label(
+    def _info_row(self, parent: tk.Frame, text: str):
+        lbl = tk.Label(
             parent, text=text, fg=theme.FG, bg=_TAB_BG,
-            font=("Segoe UI", 8), wraplength=wraplength, justify="left", anchor="w",
-        ).pack(fill="x", padx=12, pady=2)
+            font=("Segoe UI", 8), justify="left", anchor="w",
+        )
+        lbl.pack(fill="x", padx=12, pady=2)
+        self._register_label(parent, lbl)
 
     def _kv_row(self, parent: tk.Frame, key: str, value: str, value_fg=None):
         row = tk.Frame(parent, bg=_TAB_BG)
         row.pack(fill="x", padx=12, pady=1)
         tk.Label(row, text=f"{key}：", fg=theme.FG_DIM, bg=_TAB_BG, font=("Segoe UI", 8), anchor="w").pack(side="left")
-        tk.Label(
+        lbl = tk.Label(
             row, text=value, fg=value_fg or theme.FG, bg=_TAB_BG,
-            font=("Segoe UI", 8), anchor="w", wraplength=380, justify="left",
-        ).pack(side="left", padx=(4, 0))
+            font=("Segoe UI", 8), anchor="w", justify="left",
+        )
+        lbl.pack(side="left", padx=(4, 0), fill="x", expand=True)
+        self._register_label(parent, lbl)
 
     def _bullet(self, parent: tk.Frame, text: str):
-        tk.Label(
+        lbl = tk.Label(
             parent, text=f"  • {text}", fg=theme.FG, bg=_TAB_BG,
-            font=("Segoe UI", 8), anchor="w",
-        ).pack(fill="x", padx=12, pady=1)
+            font=("Segoe UI", 8), anchor="w", justify="left"
+        )
+        lbl.pack(fill="x", padx=12, pady=1)
+        self._register_label(parent, lbl)
 
     def _empty_label(self, parent: tk.Frame, text: str):
-        tk.Label(
+        lbl = tk.Label(
             parent, text=text, fg=theme.FG_MUTED, bg=_TAB_BG,
-            font=("Segoe UI", 9), justify="center", wraplength=380,
-        ).pack(expand=True, pady=40)
+            font=("Segoe UI", 9), justify="center",
+        )
+        lbl.pack(expand=True, pady=40, fill="x")
+        self._register_label(parent, lbl)
 
     def _detail_kv(self, parent: tk.Frame, key: str, value: str, bg: str):
         row = tk.Frame(parent, bg=bg)
         row.pack(fill="x", pady=1)
         tk.Label(row, text=f"{key}：", fg=theme.FG_MUTED, bg=bg, font=("Segoe UI", 7), width=6, anchor="w").pack(side="left")
-        tk.Label(
+        lbl = tk.Label(
             row, text=value, fg=theme.FG_DIM, bg=bg,
-            font=("Segoe UI", 7), anchor="w", wraplength=360, justify="left",
-        ).pack(side="left", padx=(2, 0))
+            font=("Segoe UI", 7), anchor="w", justify="left",
+        )
+        lbl.pack(side="left", padx=(2, 0), fill="x", expand=True)
+        self._register_label(parent, lbl)
