@@ -1,0 +1,150 @@
+{
+  "schema_version": 1,
+  "symbol": "2317.TW",
+  "draft": {
+    "draft_id": "draft_425fa65ebf86",
+    "symbol": "2317.TW",
+    "title": "2317.TW AI thesis draft",
+    "thesis_type": "industry_recovery",
+    "expected_window": "2Q",
+    "top_question": "核心需求與庫存循環是否正在修復？",
+    "summary": "法說會可用：法說可用",
+    "tree_style": "top_question -> branches -> leaves -> kill_conditions",
+    "branches": [
+      {
+        "branch_id": "branch_9b50d9a2cab6",
+        "name": "市場與管理層確認",
+        "question": "市場與管理層確認是否支持目前 thesis？",
+        "leaves": [
+          {
+            "leaf_id": "leaf_83902c598b5d",
+            "question": "法說會可用",
+            "hypothesis": "法說會可用：法說可用",
+            "data_required": [
+              "earnings transcript"
+            ],
+            "conclusion": "法說可用",
+            "kill_condition": "若管理層後續說法轉保守，需降低信心。",
+            "supporting_evidence_ids": [
+              "evidence_51a07fce26fd"
+            ],
+            "numeric_fact_names": [],
+            "kill_conditions": [
+              "若管理層後續說法轉保守，需降低信心。"
+            ],
+            "status": "open",
+            "metadata": {
+              "verification_status": "source_backed",
+              "confidence": 0.7000000000000001
+            }
+          }
+        ],
+        "kill_conditions": [
+          "若管理層後續說法轉保守，需降低信心。"
+        ],
+        "priority": 1,
+        "status": "open",
+        "metadata": {
+          "topics": [
+            "eps_delta",
+            "guidance_shift",
+            "target_revision",
+            "transcript"
+          ]
+        }
+      }
+    ],
+    "market_belief_map": {
+      "consensus_view": "市場目前仍在等待更多可驗證數據。",
+      "variant_view": "法說會可用：法說可用",
+      "mispricing_hypothesis": "若關鍵證據延續，市場可能低估後續 rerating 空間。",
+      "confirming_signals": [
+        "法說會可用"
+      ],
+      "disconfirming_signals": [
+        "若管理層後續說法轉保守，需降低信心。"
+      ],
+      "metadata": {}
+    },
+    "target_spec": {
+      "target_id": "target_85aa5a16b954",
+      "symbol": "2317.TW",
+      "company_name": "",
+      "market": "",
+      "thesis_type": "industry_recovery",
+      "valuation_mode": "",
+      "horizon": "",
+      "top_question": "核心需求與庫存循環是否正在修復？",
+      "baseline_assumptions": [],
+      "key_numeric_facts": [],
+      "tags": [],
+      "metadata": {
+        "eligible_evidence_count": 1
+      },
+      "created_at": "2026-04-10T17:19:20.837548+00:00",
+      "updated_at": "2026-04-10T17:19:20.837548+00:00"
+    },
+    "rerating_triggers": [
+      "需等待更多已驗證證據，暫不建立 rerating trigger。"
+    ],
+    "primary_claims": [
+      "法說會可用：法說可用"
+    ],
+    "break_conditions": [
+      "若管理層後續說法轉保守，需降低信心。"
+    ],
+    "confirm_conditions": [
+      "用來驗證管理層近期是否提供新的溝通訊號。"
+    ],
+    "supporting_evidence": [
+      {
+        "evidence_id": "evidence_51a07fce26fd",
+        "symbol": "2317.TW",
+        "evidence_type": "transcript",
+        "topic": "transcript",
+        "direction": "available",
+        "claim": "法說會可用：法說可用",
+        "why_it_matters": "用來驗證管理層近期是否提供新的溝通訊號。",
+        "source_type": "alphamemo",
+        "source_ref": {
+          "label": "AlphaMemo",
+          "field": "earnings transcript",
+          "url": "https://www.alphamemo.ai/free-transcripts/efb12983-3f37-48e0-a9a3-293fc80066e7",
+          "date": "2026-03-16",
+          "quality": "transcript"
+        },
+        "confidence": 0.7000000000000001,
+        "verification_status": "source_backed",
+        "title": "法說會可用",
+        "summary": "法說可用",
+        "source_label": "AlphaMemo",
+        "source_field": "earnings transcript",
+        "source_url": "https://www.alphamemo.ai/free-transcripts/efb12983-3f37-48e0-a9a3-293fc80066e7",
+        "source_date": "2026-03-16",
+        "source_quality": "transcript",
+        "quote_refs": [],
+        "numeric_facts": [],
+        "tags": [
+          "industry_recovery",
+          "transcript"
+        ],
+        "metadata": {
+          "thesis_type": "industry_recovery",
+          "fresh": true,
+          "source_compare": {},
+          "source_reference": {},
+          "snapshot_symbol": "2317.TW",
+          "accepted": true
+        },
+        "created_at": "2026-04-10T17:19:18.492741+00:00"
+      }
+    ],
+    "status": "approved",
+    "source_mode": "ai_assisted",
+    "metadata": {
+      "eligible_evidence_count": 1
+    },
+    "created_at": "2026-04-10T17:19:20.837568+00:00",
+    "updated_at": "2026-04-10T17:19:20.837568+00:00"
+  }
+}

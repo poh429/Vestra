@@ -21,6 +21,285 @@
         "Review top question and summary.",
         "Check whether leaves are supported by verified or accepted evidence."
       ]
+    },
+    {
+      "task_id": "review_45fd44979916",
+      "symbol": "2330.TW",
+      "task_type": "review_draft",
+      "title": "Review AI draft for 2330.TW",
+      "status": "approved",
+      "priority": "normal",
+      "created_at": "2026-04-10T16:54:07.492769+00:00",
+      "due_at": "",
+      "draft_id": "draft_3ce09607fdaf",
+      "event_ids": [],
+      "metadata": {
+        "thesis_type": "industry_recovery",
+        "summary": "法說會可用：法說可用",
+        "evidence_count": 1
+      },
+      "notes": [
+        "Review top question and summary.",
+        "Check whether leaves are supported by verified or accepted evidence."
+      ]
+    },
+    {
+      "task_id": "review_7e6f8ce3f772",
+      "symbol": "2330.TW",
+      "task_type": "review_draft",
+      "title": "Review AI draft for 2330.TW",
+      "status": "approved",
+      "priority": "normal",
+      "created_at": "2026-04-10T16:59:21.274620+00:00",
+      "due_at": "",
+      "draft_id": "draft_8182476481b8",
+      "event_ids": [],
+      "metadata": {
+        "thesis_type": "industry_recovery",
+        "summary": "法說會可用：法說可用",
+        "evidence_count": 1
+      },
+      "notes": [
+        "Review top question and summary.",
+        "Check whether leaves are supported by verified or accepted evidence."
+      ]
+    },
+    {
+      "task_id": "review_62e3ef5f0334",
+      "symbol": "2330.TW",
+      "task_type": "review_draft",
+      "title": "Review AI draft for 2330.TW",
+      "status": "approved",
+      "priority": "normal",
+      "created_at": "2026-04-10T16:59:55.820400+00:00",
+      "due_at": "",
+      "draft_id": "draft_1ded539f63bd",
+      "event_ids": [],
+      "metadata": {
+        "thesis_type": "industry_recovery",
+        "summary": "法說會可用：法說可用",
+        "evidence_count": 1
+      },
+      "notes": [
+        "Review top question and summary.",
+        "Check whether leaves are supported by verified or accepted evidence."
+      ]
+    },
+    {
+      "task_id": "review_5fd170f0f901",
+      "symbol": "2317.TW",
+      "task_type": "review_draft",
+      "title": "Review AI draft for 2317.TW",
+      "status": "approved",
+      "priority": "normal",
+      "created_at": "2026-04-10T17:11:48.723059+00:00",
+      "due_at": "",
+      "draft_id": "draft_97be5b4bb66c",
+      "event_ids": [],
+      "metadata": {
+        "thesis_type": "industry_recovery",
+        "summary": "法說會可用：法說可用",
+        "evidence_count": 1
+      },
+      "notes": [
+        "Review top question and summary.",
+        "Check whether leaves are supported by verified or accepted evidence."
+      ]
+    },
+    {
+      "task_id": "review_e05e8ded929b",
+      "symbol": "2317.TW",
+      "task_type": "review_draft",
+      "title": "Review AI draft for 2317.TW",
+      "status": "approved",
+      "priority": "normal",
+      "created_at": "2026-04-10T17:19:20.838452+00:00",
+      "due_at": "",
+      "draft_id": "draft_425fa65ebf86",
+      "event_ids": [],
+      "metadata": {
+        "thesis_type": "industry_recovery",
+        "summary": "法說會可用：法說可用",
+        "evidence_count": 1
+      },
+      "notes": [
+        "Review top question and summary.",
+        "Check whether leaves are supported by verified or accepted evidence."
+      ]
+    },
+    {
+      "task_id": "review_39d7bbcf5f45",
+      "symbol": "2454.TW",
+      "task_type": "review_draft",
+      "title": "Review AI draft for 2454.TW",
+      "status": "approved",
+      "priority": "normal",
+      "created_at": "2026-04-10T17:19:53.055662+00:00",
+      "due_at": "",
+      "draft_id": "draft_8dfd1fa767a3",
+      "event_ids": [],
+      "metadata": {
+        "thesis_type": "industry_recovery",
+        "summary": "法說會可用：法說可用",
+        "evidence_count": 1
+      },
+      "notes": [
+        "Review top question and summary.",
+        "Check whether leaves are supported by verified or accepted evidence."
+      ]
+    },
+    {
+      "task_id": "review_156fbc97ba64",
+      "symbol": "2454.TW",
+      "task_type": "review_monitoring_event",
+      "title": "Review conflict event for 2454.TW",
+      "status": "pending",
+      "priority": "high",
+      "created_at": "2026-04-10T17:36:08.006193+00:00",
+      "due_at": "",
+      "draft_id": "",
+      "event_ids": [
+        "event_8a7b67895f20"
+      ],
+      "metadata": {
+        "impact": "break",
+        "branch_id": "branch_bb722c7f97fa",
+        "leaf_id": "leaf_f4c9072a6007",
+        "conflict": true
+      },
+      "notes": [
+        "Break: EPS 修正：↓ -0.06"
+      ]
+    },
+    {
+      "task_id": "review_9c84c9e42196",
+      "symbol": "2454.TW",
+      "task_type": "review_monitoring_event",
+      "title": "Review conflict event for 2454.TW",
+      "status": "pending",
+      "priority": "normal",
+      "created_at": "2026-04-10T17:36:08.007186+00:00",
+      "due_at": "",
+      "draft_id": "",
+      "event_ids": [
+        "event_67b954d6553b"
+      ],
+      "metadata": {
+        "impact": "delay",
+        "branch_id": "branch_bb722c7f97fa",
+        "leaf_id": "leaf_f4c9072a6007",
+        "conflict": true
+      },
+      "notes": [
+        "Delay: 目標價修正：→ +0.0%"
+      ]
+    },
+    {
+      "task_id": "review_cab50bed8567",
+      "symbol": "2454.TW",
+      "task_type": "review_monitoring_event",
+      "title": "Review conflict event for 2454.TW",
+      "status": "pending",
+      "priority": "normal",
+      "created_at": "2026-04-10T17:36:08.014111+00:00",
+      "due_at": "",
+      "draft_id": "",
+      "event_ids": [
+        "event_80a81f139bb2"
+      ],
+      "metadata": {
+        "impact": "confirm",
+        "branch_id": "branch_bb722c7f97fa",
+        "leaf_id": "leaf_f4c9072a6007",
+        "conflict": true
+      },
+      "notes": [
+        "Confirm: 法說會可用：法說可用"
+      ]
+    },
+    {
+      "task_id": "review_e180f4608b32",
+      "symbol": "2330.TW",
+      "task_type": "review_draft",
+      "title": "Review AI draft for 2330.TW",
+      "status": "dismissed",
+      "priority": "normal",
+      "created_at": "2026-04-11T01:48:51.832611+00:00",
+      "due_at": "",
+      "draft_id": "draft_061a3df2a33c",
+      "event_ids": [],
+      "metadata": {
+        "thesis_type": "industry_recovery",
+        "summary": "法說會可用：法說可用",
+        "evidence_count": 1
+      },
+      "notes": [
+        "Review top question and summary.",
+        "Check whether leaves are supported by verified or accepted evidence."
+      ]
+    },
+    {
+      "task_id": "review_f0d7b3f6a5fa",
+      "symbol": "2330.TW",
+      "task_type": "review_draft",
+      "title": "Review AI draft for 2330.TW",
+      "status": "approved",
+      "priority": "normal",
+      "created_at": "2026-04-11T02:11:28.280292+00:00",
+      "due_at": "",
+      "draft_id": "draft_3f1b16539823",
+      "event_ids": [],
+      "metadata": {
+        "thesis_type": "industry_recovery",
+        "summary": "法說會可用：法說可用 / 財報敘事：財報敘事可用",
+        "evidence_count": 2
+      },
+      "notes": [
+        "Review top question and summary.",
+        "Check whether leaves are supported by verified or accepted evidence."
+      ]
+    },
+    {
+      "task_id": "review_6f3daca99448",
+      "symbol": "2330.TW",
+      "task_type": "review_draft",
+      "title": "Review AI draft for 2330.TW",
+      "status": "approved",
+      "priority": "normal",
+      "created_at": "2026-04-11T02:52:42.591210+00:00",
+      "due_at": "",
+      "draft_id": "draft_8bf74c1c011d",
+      "event_ids": [],
+      "metadata": {
+        "thesis_type": "industry_recovery",
+        "summary": "管理層共識：財報與法說互證可用",
+        "evidence_count": 1
+      },
+      "notes": [
+        "Review top question and summary.",
+        "Check whether leaves are supported by verified or accepted evidence."
+      ]
+    },
+    {
+      "task_id": "review_4e3a395cb339",
+      "symbol": "AAPL",
+      "task_type": "review_draft",
+      "title": "Review AI draft for AAPL",
+      "status": "approved",
+      "priority": "normal",
+      "created_at": "2026-04-11T04:12:00.812565+00:00",
+      "due_at": "",
+      "draft_id": "draft_05776c929544",
+      "event_ids": [],
+      "metadata": {
+        "thesis_type": "industry_recovery",
+        "summary": "庫存趨勢：→ 0.0% / 管理層共識：財報與法說互證可用 / 財報風險：偵測到新風險",
+        "evidence_count": 3
+      },
+      "notes": [
+        "Review top question and summary.",
+        "Check whether leaves are supported by verified or accepted evidence."
+      ]
     }
   ]
 }

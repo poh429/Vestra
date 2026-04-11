@@ -299,6 +299,7 @@ class ThesisDialog(tk.Toplevel):
         self._scanned_guidance_observations = []
         self._draft = None
         self._draft_review_task = None
+        self._scan_status_var = tk.StringVar(value="")
         self._result: Optional[ThesisDefinition] = None
         self._source_popover = _SourcePopover(self)
         self._responsive_fonts: dict[str, dict] = {}
@@ -385,27 +386,35 @@ class ThesisDialog(tk.Toplevel):
         self._update_type_label()
 
         # Buttons row: template + evidence scan
-        btn_row = tk.Frame(parent, bg=bg)
-        btn_row.pack(fill="x", **pad)
+        self._btn_row = tk.Frame(parent, bg=bg)
+        self._btn_row.pack(fill="x", **pad)
         tk.Button(
-            btn_row, text="📋 套用模板", command=self._apply_template,
+            self._btn_row, text="📋 套用模板", command=self._apply_template,
             bg=theme.BG2, fg=theme.FG, font=("Segoe UI", 7),
             relief="flat", padx=6, pady=2
         ).pack(side="left")
         if self._store or self._engine:
             self._btn_scan_evidence = tk.Button(
-                btn_row, text="🔍 掃描證據", command=self._scan_evidence,
+                self._btn_row, text="🔍 掃描證據", command=self._scan_evidence,
                 bg="#2a5a3a", fg=theme.FG, font=("Segoe UI", 7, "bold"),
                 relief="flat", padx=6, pady=2
             )
             self._btn_scan_evidence.pack(side="left", padx=6)
             
             self._btn_ai_draft = tk.Button(
-                btn_row, text="AI 建立草稿", command=self._build_ai_draft,
+                self._btn_row, text="AI 建立草稿", command=self._build_ai_draft,
                 bg="#36588c", fg=theme.FG, font=("Segoe UI", 7, "bold"),
                 relief="flat", padx=6, pady=2
             )
             self._btn_ai_draft.pack(side="left", padx=2)
+
+        # Scan Status Label (Dynamic)
+        self._scan_status_label = tk.Label(
+            parent, textvariable=self._scan_status_var,
+            fg=theme.ACCENT, bg=bg, font=("Segoe UI", 7, "italic"),
+            anchor="w"
+        )
+        # Not packed initially, will be packed/unpacked during scan
 
         # Expected Window
         tk.Label(parent, text="預期時間窗口", fg=fg, bg=bg, font=theme.FONT_SMALL).pack(anchor="w", **pad)
@@ -524,6 +533,22 @@ class ThesisDialog(tk.Toplevel):
 
     # ── Evidence Scan ────────────────────────────────────────────────────
 
+    def _update_scan_status(self, msg: str):
+        """Thread-safe update for the scan status label."""
+        def _update():
+            try:
+                if msg:
+                    self._scan_status_var.set(msg)
+                    if not self._scan_status_label.winfo_mapped():
+                        self._scan_status_label.pack(fill="x", padx=8, pady=(0, 4), after=self._btn_row)
+                else:
+                    self._scan_status_var.set("")
+                    if self._scan_status_label.winfo_mapped():
+                        self._scan_status_label.pack_forget()
+            except Exception as e:
+                print(f"[ThesisDialog] Status UI update failed: {e}")
+        self.after(0, _update)
+
     def _scan_evidence(self):
         """Analyze existing evidence to populate the dialog."""
         if hasattr(self, "_btn_scan_evidence"):
@@ -534,12 +559,16 @@ class ThesisDialog(tk.Toplevel):
                 from widget.agent.alphamemo_analysis import analyze_management_communication
                 from widget.research.evidence_prefill import collect_evidence
                 from widget.agent.evidence_pipeline import extract_and_persist_evidence
+                
+                self._update_scan_status("正在收集核心數據與歷史快照...")
                 summary = collect_evidence(
                     self._symbol,
                     thesis_type=self._type_var.get(),
                     store=self._store,
                     engine=self._engine,
                 )
+                
+                self._update_scan_status("正在從 SEC 抓取財報敘事並分析同業...")
                 records = extract_and_persist_evidence(
                     self._symbol,
                     thesis_type=self._type_var.get(),
@@ -547,17 +576,27 @@ class ThesisDialog(tk.Toplevel):
                     store=self._store,
                     engine=self._engine,
                 )
+                
+                self._update_scan_status("正在分析管理層說法 (AlphaMemo)...")
                 analysis = analyze_management_communication(
                     self._symbol,
                     snapshot=(self._engine.get_latest(self._symbol) if self._engine and hasattr(self._engine, "get_latest") else None),
                     summary=summary,
                 )
+                
+                self._update_scan_status("掃描完成，準備呈現結果...")
                 # Schedule UI update on main thread
                 self.after(0, lambda: self._show_evidence_panel(summary, records, analysis))
+                self._update_scan_status("")  # Hide label
             except Exception as e:
                 self.after(0, lambda: self._show_evidence_error(str(e)))
+                self._update_scan_status("")  # Hide label
 
-        threading.Thread(target=_worker, daemon=True).start()
+        def _run_scan():
+            threading.Thread(target=_worker, daemon=True).start()
+
+        # Buffer for UI state change before heavy work begins
+        self.after(200, _run_scan)
 
     def _show_evidence_panel(self, summary, records=None, analysis=None):
         """Show compact evidence review panel."""
@@ -663,8 +702,8 @@ class ThesisDialog(tk.Toplevel):
             relief="flat", padx=8, pady=2
         ).pack(padx=6, pady=(2, 4), anchor="w")
 
-        # Pack the frame (insert it after section 一)
-        self._evidence_frame.pack(fill="x", padx=8, pady=(0, 4), after=self._inner.winfo_children()[3])
+        # Pack the frame (insert it after buttons)
+        self._evidence_frame.pack(fill="x", padx=8, pady=(0, 4), after=self._btn_row)
         self._capture_responsive_fonts(self._evidence_frame)
         self._apply_responsive_scale()
 
@@ -678,7 +717,7 @@ class ThesisDialog(tk.Toplevel):
             self._evidence_frame, text=f"掃描失敗：{err_msg}",
             fg="#FF9800", bg="#1e2a1e", font=("Segoe UI", 7)
         ).pack(padx=6, pady=4)
-        self._evidence_frame.pack(fill="x", padx=8, pady=(0, 4))
+        self._evidence_frame.pack(fill="x", padx=8, pady=(0, 4), after=self._btn_row)
         self._capture_responsive_fonts(self._evidence_frame)
         self._apply_responsive_scale()
 
@@ -792,6 +831,43 @@ class ThesisDialog(tk.Toplevel):
             text=f"Evidence review: {len(records)} eligible / {len(draft.supporting_evidence)} used",
             fg=theme.FG_DIM, bg=bg, font=("Segoe UI", 7), anchor="w"
         ).pack(fill="x", padx=6)
+
+        # 1.1-F: Market Belief Gap Upgrade
+        gap = getattr(draft, "market_belief_gap", {})
+        if gap:
+            trigger = gap.get("rerating_trigger")
+            if trigger:
+                tk.Label(
+                    self._draft_frame, text=f"Next confirmation needed: {trigger}",
+                    fg=theme.ACCENT, bg=bg, font=("Segoe UI", 7, "bold"),
+                    anchor="w", justify="left", wraplength=400
+                ).pack(fill="x", padx=6, pady=(4, 0))
+
+            challenging = gap.get("challenging_claims", [])
+            if challenging:
+                row = tk.Frame(self._draft_frame, bg=bg)
+                row.pack(fill="x", padx=6, pady=(2, 0))
+                tk.Label(
+                    row, text="Challenging:", fg="#FF9800", bg=bg,
+                    font=("Segoe UI", 7, "bold"), anchor="w"
+                ).pack(side="left")
+                tk.Label(
+                    row, text=", ".join(challenging), fg=theme.FG_DIM, bg=bg,
+                    font=("Segoe UI", 6), anchor="w"
+                ).pack(side="left", padx=4)
+
+            milestones = gap.get("milestones", [])
+            if milestones:
+                row = tk.Frame(self._draft_frame, bg=bg)
+                row.pack(fill="x", padx=6, pady=(2, 0))
+                tk.Label(
+                    row, text="Confirmed:", fg="#4CAF50", bg=bg,
+                    font=("Segoe UI", 7, "bold"), anchor="w"
+                ).pack(side="left")
+                tk.Label(
+                    row, text=", ".join(milestones), fg=theme.FG_DIM, bg=bg,
+                    font=("Segoe UI", 6), anchor="w"
+                ).pack(side="left", padx=4)
 
         for branch in draft.branches[:2]:
             tk.Label(

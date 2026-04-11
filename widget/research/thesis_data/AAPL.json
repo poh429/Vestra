@@ -1,0 +1,20 @@
+{
+  "thesis_type": "industry_recovery",
+  "expected_window": "2Q",
+  "primary_claims": [
+    "庫存趨勢：→ 0.0%",
+    "管理層共識：財報與法說互證可用",
+    "財報風險：偵測到新風險"
+  ],
+  "break_conditions": [
+    "若庫存再度顯著上升，需重新檢視需求修復假設。"
+  ],
+  "confirm_conditions": [
+    "用來判斷庫存去化或需求壓力是否改善。",
+    "用來補充 thesis 驗證證據。",
+    "用來補充 thesis 驗證證據。"
+  ],
+  "created_at": "2026-04-11T04:13:14.766275+00:00",
+  "guidance_observations": [],
+  "evidence_observations": []
+}

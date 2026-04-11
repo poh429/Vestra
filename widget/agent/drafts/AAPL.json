@@ -1,23 +1,23 @@
 {
   "schema_version": 1,
-  "symbol": "AMZN",
+  "symbol": "AAPL",
   "draft": {
-    "draft_id": "draft_5f6359bc2c88",
-    "symbol": "AMZN",
-    "title": "AMZN AI thesis draft",
+    "draft_id": "draft_05776c929544",
+    "symbol": "AAPL",
+    "title": "AAPL AI thesis draft",
     "thesis_type": "industry_recovery",
     "expected_window": "2Q",
     "top_question": "核心需求與庫存循環是否正在修復？",
-    "summary": "庫存趨勢：→ 0.0%",
+    "summary": "庫存趨勢：→ 0.0% / 管理層共識：財報與法說互證可用 / 財報風險：偵測到新風險",
     "tree_style": "top_question -> branches -> leaves -> kill_conditions",
     "branches": [
       {
-        "branch_id": "branch_5c8cfb56bd00",
+        "branch_id": "branch_191ec99ff0f0",
         "name": "需求與庫存",
         "question": "需求與庫存是否支持目前 thesis？",
         "leaves": [
           {
-            "leaf_id": "leaf_18851f4b8f1d",
+            "leaf_id": "leaf_778f25de15fe",
             "question": "庫存趨勢",
             "hypothesis": "庫存趨勢：→ 0.0%",
             "data_required": [
@@ -28,7 +28,7 @@
             "conclusion": "→ 0.0%",
             "kill_condition": "若庫存再度顯著上升，需重新檢視需求修復假設。",
             "supporting_evidence_ids": [
-              "evidence_2025aad8de3d"
+              "evidence_80b11f726e0e"
             ],
             "numeric_fact_names": [
               "inventory_trend_previous",
@@ -61,11 +61,13 @@
       }
     ],
     "market_belief_map": {
-      "consensus_view": "市場目前仍在等待更多可驗證數據。",
-      "variant_view": "庫存趨勢：→ 0.0%",
-      "mispricing_hypothesis": "若關鍵證據延續，市場可能低估後續 rerating 空間。",
+      "consensus_view": "市場對 AAPL 的關注點較分散，尚未形成強烈共識。",
+      "variant_view": "領先訊號指示：庫存趨勢：→ 0.0% / 管理層共識：財報與法說互證可用 / 財報風險：偵測到新風險",
+      "mispricing_hypothesis": "若關鍵證據持續落地，市場可能低估後續 rerating 空間。",
       "confirming_signals": [
-        "庫存趨勢"
+        "庫存趨勢",
+        "管理層共識",
+        "財報風險"
       ],
       "disconfirming_signals": [
         "若庫存再度顯著上升，需重新檢視需求修復假設。"
@@ -73,8 +75,8 @@
       "metadata": {}
     },
     "target_spec": {
-      "target_id": "target_ddecea1d7686",
-      "symbol": "AMZN",
+      "target_id": "target_3845a35d9b96",
+      "symbol": "AAPL",
       "company_name": "",
       "market": "",
       "thesis_type": "industry_recovery",
@@ -85,13 +87,13 @@
       "key_numeric_facts": [
         {
           "name": "inventory_trend_previous",
-          "value": 38325000000.0,
+          "value": 5718000000.0,
           "unit": "",
-          "as_of": "2026-04-06",
+          "as_of": "2026-04-10",
           "period": "",
           "source_label": "SEC",
           "source_field": "InventoryNet",
-          "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
+          "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json",
           "source_quality": "filed",
           "source_kind": "snapshot",
           "metadata": {
@@ -100,13 +102,13 @@
         },
         {
           "name": "inventory_trend_current",
-          "value": 38325000000.0,
+          "value": 5718000000.0,
           "unit": "",
-          "as_of": "2026-04-10",
+          "as_of": "2026-04-11",
           "period": "",
           "source_label": "SEC",
           "source_field": "InventoryNet",
-          "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
+          "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json",
           "source_quality": "filed",
           "source_kind": "snapshot",
           "metadata": {
@@ -117,7 +119,7 @@
           "name": "inventory_trend",
           "value": 0.0,
           "unit": "",
-          "as_of": "2026-04-10",
+          "as_of": "2026-04-11",
           "period": "",
           "source_label": "snapshot",
           "source_field": "inventory delta",
@@ -132,7 +134,7 @@
           "name": "inventory_trend_delta_pct",
           "value": 0.0,
           "unit": "pct",
-          "as_of": "2026-04-10",
+          "as_of": "2026-04-11",
           "period": "",
           "source_label": "snapshot",
           "source_field": "inventory delta",
@@ -146,27 +148,31 @@
       ],
       "tags": [],
       "metadata": {
-        "eligible_evidence_count": 1
+        "eligible_evidence_count": 3
       },
-      "created_at": "2026-04-10T13:25:03.310943+00:00",
-      "updated_at": "2026-04-10T13:25:03.310943+00:00"
+      "created_at": "2026-04-11T04:12:00.811405+00:00",
+      "updated_at": "2026-04-11T04:12:00.811405+00:00"
     },
     "rerating_triggers": [
       "需等待更多已驗證證據，暫不建立 rerating trigger。"
     ],
     "primary_claims": [
-      "庫存趨勢：→ 0.0%"
+      "庫存趨勢：→ 0.0%",
+      "管理層共識：財報與法說互證可用",
+      "財報風險：偵測到新風險"
     ],
     "break_conditions": [
       "若庫存再度顯著上升，需重新檢視需求修復假設。"
     ],
     "confirm_conditions": [
-      "用來判斷庫存去化或需求壓力是否改善。"
+      "用來判斷庫存去化或需求壓力是否改善。",
+      "用來補充 thesis 驗證證據。",
+      "用來補充 thesis 驗證證據。"
     ],
     "supporting_evidence": [
       {
-        "evidence_id": "evidence_2025aad8de3d",
-        "symbol": "AMZN",
+        "evidence_id": "evidence_80b11f726e0e",
+        "symbol": "AAPL",
         "evidence_type": "inventory_trend",
         "topic": "inventory_trend",
         "direction": "flat",
@@ -177,20 +183,20 @@
           "label": "snapshot",
           "field": "inventory delta",
           "url": "",
-          "date": "2026-04-10",
+          "date": "2026-04-11",
           "quality": "derived",
           "compare": {
-            "previous_date": "2026-04-06",
-            "current_date": "2026-04-10",
-            "previous_value": 38325000000.0,
-            "current_value": 38325000000.0,
+            "previous_date": "2026-04-10",
+            "current_date": "2026-04-11",
+            "previous_value": 5718000000.0,
+            "current_value": 5718000000.0,
             "delta_pct": 0.0
           },
           "reference": {
             "label": "SEC",
             "field": "InventoryNet",
-            "date": "2026-02-06",
-            "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
+            "date": "2025-10-31",
+            "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json",
             "quality": "filed"
           }
         },
@@ -201,18 +207,19 @@
         "source_label": "snapshot",
         "source_field": "inventory delta",
         "source_url": "",
-        "source_date": "2026-04-10",
+        "source_date": "2026-04-11",
         "source_quality": "derived",
+        "quote_refs": [],
         "numeric_facts": [
           {
             "name": "inventory_trend_previous",
-            "value": 38325000000.0,
+            "value": 5718000000.0,
             "unit": "",
-            "as_of": "2026-04-06",
+            "as_of": "2026-04-10",
             "period": "",
             "source_label": "SEC",
             "source_field": "InventoryNet",
-            "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
+            "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json",
             "source_quality": "filed",
             "source_kind": "snapshot",
             "metadata": {
@@ -221,13 +228,13 @@
           },
           {
             "name": "inventory_trend_current",
-            "value": 38325000000.0,
+            "value": 5718000000.0,
             "unit": "",
-            "as_of": "2026-04-10",
+            "as_of": "2026-04-11",
             "period": "",
             "source_label": "SEC",
             "source_field": "InventoryNet",
-            "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
+            "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json",
             "source_quality": "filed",
             "source_kind": "snapshot",
             "metadata": {
@@ -238,7 +245,7 @@
             "name": "inventory_trend",
             "value": 0.0,
             "unit": "",
-            "as_of": "2026-04-10",
+            "as_of": "2026-04-11",
             "period": "",
             "source_label": "snapshot",
             "source_field": "inventory delta",
@@ -253,7 +260,7 @@
             "name": "inventory_trend_delta_pct",
             "value": 0.0,
             "unit": "pct",
-            "as_of": "2026-04-10",
+            "as_of": "2026-04-11",
             "period": "",
             "source_label": "snapshot",
             "source_field": "inventory delta",
@@ -273,30 +280,121 @@
           "thesis_type": "industry_recovery",
           "fresh": true,
           "source_compare": {
-            "previous_date": "2026-04-06",
-            "current_date": "2026-04-10",
-            "previous_value": 38325000000.0,
-            "current_value": 38325000000.0,
+            "previous_date": "2026-04-10",
+            "current_date": "2026-04-11",
+            "previous_value": 5718000000.0,
+            "current_value": 5718000000.0,
             "delta_pct": 0.0
           },
           "source_reference": {
             "label": "SEC",
             "field": "InventoryNet",
-            "date": "2026-02-06",
-            "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
+            "date": "2025-10-31",
+            "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json",
             "quality": "filed"
           },
-          "snapshot_symbol": "AMZN"
+          "snapshot_symbol": "AAPL",
+          "accepted": true
         },
-        "created_at": "2026-04-10T13:25:02.561529+00:00"
+        "created_at": "2026-04-11T04:11:15.506060+00:00"
+      },
+      {
+        "evidence_id": "evidence_8975fa6d7013",
+        "symbol": "AAPL",
+        "evidence_type": "filing_mdna",
+        "topic": "filing_mdna",
+        "direction": "available",
+        "claim": "管理層共識：財報與法說互證可用",
+        "why_it_matters": "用來補充 thesis 驗證證據。",
+        "source_type": "10-q",
+        "source_ref": {
+          "label": "10-Q",
+          "field": "MD&A",
+          "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019326000006/aapl-20251227.htm",
+          "date": "2026-01-30",
+          "quality": "high"
+        },
+        "confidence": 0.7000000000000001,
+        "verification_status": "source_backed",
+        "title": "管理層共識",
+        "summary": "財報與法說互證可用",
+        "source_label": "10-Q",
+        "source_field": "MD&A",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/320193/000032019326000006/aapl-20251227.htm",
+        "source_date": "2026-01-30",
+        "source_quality": "high",
+        "quote_refs": [],
+        "numeric_facts": [],
+        "tags": [
+          "industry_recovery",
+          "filing_mdna"
+        ],
+        "metadata": {
+          "thesis_type": "industry_recovery",
+          "fresh": true,
+          "source_compare": {},
+          "source_reference": {},
+          "snapshot_symbol": "AAPL",
+          "accepted": true
+        },
+        "created_at": "2026-04-11T04:11:15.506081+00:00"
+      },
+      {
+        "evidence_id": "evidence_33c27b3426ad",
+        "symbol": "AAPL",
+        "evidence_type": "filing_risks",
+        "topic": "filing_risks",
+        "direction": "neutral",
+        "claim": "財報風險：偵測到新風險",
+        "why_it_matters": "用來補充 thesis 驗證證據。",
+        "source_type": "10-q",
+        "source_ref": {
+          "label": "10-Q",
+          "field": "Item 1A",
+          "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019326000006/aapl-20251227.htm",
+          "date": "2026-01-30",
+          "quality": "high"
+        },
+        "confidence": 0.7000000000000001,
+        "verification_status": "source_backed",
+        "title": "財報風險",
+        "summary": "偵測到新風險",
+        "source_label": "10-Q",
+        "source_field": "Item 1A",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/320193/000032019326000006/aapl-20251227.htm",
+        "source_date": "2026-01-30",
+        "source_quality": "high",
+        "quote_refs": [],
+        "numeric_facts": [],
+        "tags": [
+          "industry_recovery",
+          "filing_risks"
+        ],
+        "metadata": {
+          "thesis_type": "industry_recovery",
+          "fresh": true,
+          "source_compare": {},
+          "source_reference": {},
+          "snapshot_symbol": "AAPL",
+          "accepted": true
+        },
+        "created_at": "2026-04-11T04:11:15.506091+00:00"
       }
     ],
-    "status": "needs_review",
+    "status": "approved",
     "source_mode": "ai_assisted",
-    "metadata": {
-      "eligible_evidence_count": 1
+    "market_belief_gap": {
+      "challenging_claims": [
+        "「庫存趨勢：→ 0.0%」尚未有硬數據支撐",
+        "「管理層共識：財報與法說互證可用」目前仍停留在敘事階段"
+      ],
+      "milestones": [],
+      "rerating_trigger": "需要庫存明確下行或毛利率轉折的數字驗證"
     },
-    "created_at": "2026-04-10T13:25:03.310961+00:00",
-    "updated_at": "2026-04-10T13:25:03.310961+00:00"
+    "metadata": {
+      "eligible_evidence_count": 3
+    },
+    "created_at": "2026-04-11T04:12:00.811430+00:00",
+    "updated_at": "2026-04-11T04:12:00.811430+00:00"
   }
 }

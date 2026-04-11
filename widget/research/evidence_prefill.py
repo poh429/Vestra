@@ -11,6 +11,8 @@ from widget.research.models import ResearchSnapshot
 from widget.research.snapshot_store import SnapshotStore
 from widget.research.thesis_conditions import evaluate_thesis_conditions
 from widget.research.thesis_models import EvidenceField, EvidenceSummary
+from widget.research.peer_confirmation import PeerAnalyst
+from widget.research.evidence_deduper import EvidenceDeduper
 
 _ALPHAMEMO_ANON_KEY = (
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9."
@@ -26,31 +28,35 @@ TEMPLATE_EVIDENCE_CONFIG = {
         "priority": [
             "inventory_trend",
             "gross_margin",
+            "revenue_trend",
+            "filing_mdna",
+            "filing_risks",
             "transcript",
             "guidance_shift",
             "eps_delta",
             "target_revision",
             "valuation",
-            "cycle",
         ],
-        "panel_limit": 4,
-        "summary_keys": ["inventory_trend", "gross_margin", "guidance_shift", "transcript"],
-        "required_for_high_quality": ["inventory_trend", "transcript"],
-        "missing_message": "缺少庫存或法說訊號",
+        "panel_limit": 6,
+        "summary_keys": ["inventory_trend", "gross_margin", "filing_mdna"],
+        "required_for_high_quality": ["inventory_trend", "gross_margin"],
+        "missing_message": "缺少庫存或毛利訊號",
     },
     "margin_recovery": {
         "label": "毛利復甦",
         "priority": [
             "gross_margin",
             "quality_change",
+            "filing_mdna",
+            "filing_risks",
             "inventory_trend",
+            "revenue_trend",
             "transcript",
             "eps_delta",
             "target_revision",
-            "valuation",
         ],
-        "panel_limit": 4,
-        "summary_keys": ["gross_margin", "quality_change", "transcript", "inventory_trend"],
+        "panel_limit": 6,
+        "summary_keys": ["gross_margin", "quality_change", "filing_mdna", "transcript"],
         "required_for_high_quality": ["gross_margin"],
         "missing_message": "缺少毛利訊號",
     },
@@ -59,16 +65,17 @@ TEMPLATE_EVIDENCE_CONFIG = {
         "priority": [
             "more_specific",
             "capex_committed",
+            "filing_mdna",
+            "filing_risks",
             "transcript",
             "structure_change",
+            "revenue_trend",
             "eps_delta",
-            "target_revision",
-            "valuation",
         ],
-        "panel_limit": 4,
-        "summary_keys": ["more_specific", "capex_committed", "structure_change", "transcript"],
-        "required_for_high_quality": ["transcript"],
-        "missing_message": "尚未看到投入證據",
+        "panel_limit": 6,
+        "summary_keys": ["more_specific", "capex_committed", "filing_mdna"],
+        "required_for_high_quality": ["more_specific", "capex_committed"],
+        "missing_message": "尚未看到具體投入證據",
     },
     "market_share_gain": {
         "label": "市佔提升",
@@ -80,10 +87,10 @@ TEMPLATE_EVIDENCE_CONFIG = {
             "eps_delta",
             "target_revision",
         ],
-        "panel_limit": 4,
-        "summary_keys": ["structure_change", "revenue_trend", "gross_margin", "transcript"],
-        "required_for_high_quality": ["structure_change", "transcript"],
-        "missing_message": "市佔證據不足",
+        "panel_limit": 6,
+        "summary_keys": ["structure_change", "revenue_trend", "gross_margin"],
+        "required_for_high_quality": ["structure_change", "revenue_trend"],
+        "missing_message": "市佔數據外溢證據不足",
     },
     "capex_cycle": {
         "label": "資本支出循環",
@@ -95,7 +102,7 @@ TEMPLATE_EVIDENCE_CONFIG = {
             "transcript",
             "eps_delta",
         ],
-        "panel_limit": 4,
+        "panel_limit": 6,
         "summary_keys": ["capex_committed", "revenue_trend", "gross_margin", "transcript"],
         "required_for_high_quality": ["capex_committed"],
         "missing_message": "成效仍待驗證",
@@ -104,15 +111,18 @@ TEMPLATE_EVIDENCE_CONFIG = {
         "label": "其他",
         "priority": [
             "inventory_trend",
+            "revenue_trend",
             "gross_margin",
+            "peer_guidance_confirmation",
+            "filing_mdna",
+            "filing_risks",
             "eps_delta",
             "target_revision",
             "transcript",
             "valuation",
-            "cycle",
         ],
-        "panel_limit": 4,
-        "summary_keys": ["inventory_trend", "gross_margin", "eps_delta", "transcript"],
+        "panel_limit": 6,
+        "summary_keys": ["inventory_trend", "gross_margin", "peer_guidance_confirmation", "filing_mdna"],
         "required_for_high_quality": [],
         "missing_message": "資料仍有限",
     },
@@ -414,6 +424,7 @@ def _collect_general_fields(
             )
         )
 
+    # 2. Management & Strategy Signals (v1.1-E 分層)
     if snapshot and snapshot.narrative_shift_state != "unknown":
         fields.append(
             EvidenceField(
@@ -431,8 +442,59 @@ def _collect_general_fields(
             )
         )
 
-    return fields
+    # SEC Filing Evidence (v1.1-A)
+    source_metadata = (snapshot.source_metadata or {}) if snapshot else {}
+    if source_metadata.get("mdna_current"):
+        fields.append(
+            EvidenceField(
+                key="filing_mdna",
+                value="財報敘事可用",
+                label_zh="財報敘事",
+                source="SEC",
+                fresh=True,
+                source_label=source_metadata.get("filing_form_type", "SEC"),
+                source_url=source_metadata.get("filing_source_url", ""),
+                source_field="MD&A",
+                source_date=source_metadata.get("filing_date", ""),
+                source_quality=source_metadata.get("filing_parser_quality", "partial"),
+            )
+        )
 
+    if source_metadata.get("filing_new_risks"):
+        fields.append(
+            EvidenceField(
+                key="filing_risks",
+                value="偵測到新風險",
+                label_zh="財報風險",
+                source="SEC",
+                fresh=True,
+                source_label=source_metadata.get("filing_form_type", "SEC"),
+                source_url=source_metadata.get("filing_source_url", ""),
+                source_field="Item 1A",
+                source_date=source_metadata.get("filing_date", ""),
+                source_quality=source_metadata.get("filing_parser_quality", "partial"),
+            )
+        )
+
+    # 3. Peer/Industry Confirmation (v1.1-B)
+    try:
+        analyst = PeerAnalyst(store=store)
+        # We pass a few default candidates to bootstrap discovery for 2330.TW as example
+        candidates = []
+        if symbol == "2330.TW":
+            candidates = ["INTC", "GFS", "UMC"]
+        elif symbol == "AMZN":
+            candidates = ["WMT", "EBAY"]
+            
+        peer_fields = analyst.analyze_peers(symbol, candidates=candidates)
+        fields.extend(peer_fields)
+    except Exception as e:
+        print(f"[EvidencePrefill] Peer analysis failed: {e}")
+
+    # 4. FINAL SYNTHESIS & DE-DUP (v1.1-C)
+    final_fields = EvidenceDeduper.deduplicate(fields)
+
+    return final_fields
 
 def _rank_and_filter_fields(fields: list[EvidenceField], thesis_type: str) -> list[EvidenceField]:
     config = _template_config(thesis_type)
@@ -505,6 +567,12 @@ def _summary_fragment(field: EvidenceField) -> str:
         return f"{prefix_map[field.key]}{token}"
     if field.key == "transcript":
         return "法說可用"
+    if field.key == "filing_mdna":
+        return "財報可用"
+    if field.key == "filing_risks":
+        return "新風險"
+    if field.key == "peer_guidance_confirmation":
+        return "同業驗證"
     if field.key == "more_specific":
         return "說法更具體"
     if field.key == "capex_committed":

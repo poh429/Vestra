@@ -91,3 +91,9 @@
 2026-04-10 14:24:49 [AlphaMemo] open request: 2330.TW
 2026-04-10 14:24:49 [AlphaMemo] resolved 2330 to e5e0b8b8-daa7-4e35-970c-75c22977cde7 (2026-01-15)
 2026-04-10 14:24:49 [AlphaMemo] navigation complete
+2026-04-11 00:47:21 [AlphaMemo] open request: AMZN
+2026-04-11 00:47:22 [AlphaMemo] resolved AMZN to 99e1267c-b225-40c0-8b98-e38c7022d88d (2026-02-05)
+2026-04-11 00:47:22 [AlphaMemo] navigation complete
+2026-04-11 01:11:41 [AlphaMemo] open request: 2317.TW
+2026-04-11 01:11:41 [AlphaMemo] resolved 2317 to efb12983-3f37-48e0-a9a3-293fc80066e7 (2026-03-16)
+2026-04-11 01:11:41 [AlphaMemo] navigation complete

@@ -348,6 +348,7 @@ class ThesisEvaluation:
     source_summary: str = ""  # e.g. "依據：庫存 + EPS 下修"
     
     condition_results: dict[str, dict] = field(default_factory=dict)
+    market_belief_gap: dict = field(default_factory=dict)
 
     def to_dict(self) -> dict:
         return asdict(self)
@@ -414,7 +415,7 @@ class EvidenceSummary:
     suggested_guidance_note: str = ""
 
     def field_by_key(self, key: str) -> Optional[EvidenceField]:
-        for f in self.fields:
+        for f in self.all_fields:
             if f.key == key:
                 return f
         return None

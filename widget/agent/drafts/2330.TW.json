@@ -1,0 +1,146 @@
+{
+  "schema_version": 1,
+  "symbol": "2330.TW",
+  "draft": {
+    "draft_id": "draft_8bf74c1c011d",
+    "symbol": "2330.TW",
+    "title": "2330.TW AI thesis draft",
+    "thesis_type": "industry_recovery",
+    "expected_window": "2Q",
+    "top_question": "核心需求與庫存循環是否正在修復？",
+    "summary": "管理層共識：財報與法說互證可用",
+    "tree_style": "top_question -> branches -> leaves -> kill_conditions",
+    "branches": [
+      {
+        "branch_id": "branch_ed132045988b",
+        "name": "核心證據",
+        "question": "目前證據是否支持 thesis？",
+        "leaves": [
+          {
+            "leaf_id": "leaf_99f95b8fc982",
+            "question": "管理層共識",
+            "hypothesis": "管理層共識：財報與法說互證可用",
+            "data_required": [
+              "MD&A"
+            ],
+            "conclusion": "財報與法說互證可用",
+            "kill_condition": "若後續驗證失敗，需重新檢視此葉節點。",
+            "supporting_evidence_ids": [
+              "evidence_3a44a33cb242"
+            ],
+            "numeric_fact_names": [],
+            "kill_conditions": [
+              "若後續驗證失敗，需重新檢視此葉節點。"
+            ],
+            "status": "open",
+            "metadata": {
+              "verification_status": "source_backed",
+              "confidence": 0.7000000000000001
+            }
+          }
+        ],
+        "kill_conditions": [],
+        "priority": 0,
+        "status": "open",
+        "metadata": {}
+      }
+    ],
+    "market_belief_map": {
+      "consensus_view": "市場對 2330.TW 的關注點較分散，尚未形成強烈共識。",
+      "variant_view": "領先訊號指示：管理層共識：財報與法說互證可用",
+      "mispricing_hypothesis": "若關鍵證據持續落地，市場可能低估後續 rerating 空間。",
+      "confirming_signals": [
+        "管理層共識"
+      ],
+      "disconfirming_signals": [],
+      "metadata": {}
+    },
+    "target_spec": {
+      "target_id": "target_ba83b166a084",
+      "symbol": "2330.TW",
+      "company_name": "",
+      "market": "",
+      "thesis_type": "industry_recovery",
+      "valuation_mode": "",
+      "horizon": "",
+      "top_question": "核心需求與庫存循環是否正在修復？",
+      "baseline_assumptions": [],
+      "key_numeric_facts": [],
+      "tags": [],
+      "metadata": {
+        "eligible_evidence_count": 1
+      },
+      "created_at": "2026-04-11T02:52:42.590352+00:00",
+      "updated_at": "2026-04-11T02:52:42.590352+00:00"
+    },
+    "rerating_triggers": [
+      "需等待更多已驗證證據，暫不建立 rerating trigger。"
+    ],
+    "primary_claims": [
+      "管理層共識：財報與法說互證可用"
+    ],
+    "break_conditions": [
+      "若後續驗證失敗，需重新檢視此葉節點。"
+    ],
+    "confirm_conditions": [
+      "用來補充 thesis 驗證證據。"
+    ],
+    "supporting_evidence": [
+      {
+        "evidence_id": "evidence_3a44a33cb242",
+        "symbol": "2330.TW",
+        "evidence_type": "filing_mdna",
+        "topic": "filing_mdna",
+        "direction": "available",
+        "claim": "管理層共識：財報與法說互證可用",
+        "why_it_matters": "用來補充 thesis 驗證證據。",
+        "source_type": "20-f",
+        "source_ref": {
+          "label": "20-F",
+          "field": "MD&A",
+          "url": "https://www.sec.gov/Archives/edgar/data/1046179/000119312525083423/d896993d20f.htm",
+          "date": "2025-04-17",
+          "quality": "partial"
+        },
+        "confidence": 0.7000000000000001,
+        "verification_status": "source_backed",
+        "title": "管理層共識",
+        "summary": "財報與法說互證可用",
+        "source_label": "20-F",
+        "source_field": "MD&A",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1046179/000119312525083423/d896993d20f.htm",
+        "source_date": "2025-04-17",
+        "source_quality": "partial",
+        "quote_refs": [],
+        "numeric_facts": [],
+        "tags": [
+          "industry_recovery",
+          "filing_mdna"
+        ],
+        "metadata": {
+          "thesis_type": "industry_recovery",
+          "fresh": true,
+          "source_compare": {},
+          "source_reference": {},
+          "snapshot_symbol": "2330.TW",
+          "accepted": true
+        },
+        "created_at": "2026-04-11T02:52:00.956281+00:00"
+      }
+    ],
+    "status": "approved",
+    "source_mode": "ai_assisted",
+    "market_belief_gap": {
+      "challenging_claims": [
+        "「管理層共識：財報與法說互證可用」目前仍停留在敘事階段"
+      ],
+      "milestones": [],
+      "rerating_trigger": "需要管理層提供更具體（Specificity）的時間線或客戶進度"
+    },
+    "metadata": {
+      "eligible_evidence_count": 1
+    },
+    "created_at": "2026-04-11T02:52:42.590364+00:00",
+    "updated_at": "2026-04-11T02:52:42.590364+00:00"
+  }
+}

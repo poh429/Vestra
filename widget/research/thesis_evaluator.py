@@ -391,7 +391,57 @@ def _resolve_state(
         signal_details=details,
         source_summary=source_summary,
         condition_results=condition_results or {},
+        market_belief_gap=_analyze_market_belief_gap(definition, signals, certainty),
     )
+
+
+def _analyze_market_belief_gap(
+    definition: ThesisDefinition,
+    signals: list[_Signal],
+    certainty: str,
+) -> dict:
+    challenging = []
+    milestones = []
+    
+    confirming_names = {s.name for s in signals if s.direction == "confirming"}
+    
+    # 1. Claim matching (Heuristic)
+    claim_map = {
+        "庫存": "inventory",
+        "需求": "revenue",
+        "營收": "revenue",
+        "毛利": "gross_margin",
+        "時程": "mgmt_guidance",
+        "投入": "evidence",
+    }
+    
+    for claim in definition.primary_claims:
+        matched_signal = None
+        for keyword, sig_name in claim_map.items():
+            if keyword in claim:
+                matched_signal = sig_name
+                break
+        
+        if matched_signal:
+            if matched_signal in confirming_names:
+                milestones.append(f"「{claim}」已進入證據驗證期")
+            else:
+                challenging.append(f"「{claim}」尚未有硬數據支撐")
+        else:
+            challenging.append(f"「{claim}」目前仍停留在敘事階段")
+
+    # 2. Rerating logic
+    next_confirmation = "需要更多基礎證據"
+    if certainty == STAGE_STORY:
+        next_confirmation = "需要管理層提供更具體（Specificity）的時間線或客戶進度"
+    elif certainty == STAGE_EVIDENCE:
+        next_confirmation = "需要庫存明確下行或毛利率轉折的數字驗證"
+
+    return {
+        "challenging_claims": challenging[:2],
+        "milestones": milestones[:2],
+        "rerating_trigger": next_confirmation,
+    }
 
 
 def _build_explanation_confirming(confirming: list[_Signal], stage: str) -> str:

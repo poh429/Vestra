@@ -249,6 +249,7 @@ class ThesisDraft:
     supporting_evidence: list[EvidenceRecord] = field(default_factory=list)
     status: str = "draft"
     source_mode: str = "ai_assisted"
+    market_belief_gap: dict = field(default_factory=dict)
     metadata: dict[str, Any] = field(default_factory=dict)
     created_at: str = ""
     updated_at: str = ""

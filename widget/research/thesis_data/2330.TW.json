@@ -1,0 +1,16 @@
+{
+  "thesis_type": "industry_recovery",
+  "expected_window": "2Q",
+  "primary_claims": [
+    "管理層共識：財報與法說互證可用"
+  ],
+  "break_conditions": [
+    "若後續驗證失敗，需重新檢視此葉節點。"
+  ],
+  "confirm_conditions": [
+    "用來補充 thesis 驗證證據。"
+  ],
+  "created_at": "2026-04-11T02:53:20.820651+00:00",
+  "guidance_observations": [],
+  "evidence_observations": []
+}

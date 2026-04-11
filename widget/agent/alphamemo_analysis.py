@@ -150,6 +150,7 @@ class ManagementCommunicationAnalysis:
     signals: dict[str, dict[str, Any]] = field(default_factory=dict)
     guidance_observations: list[dict[str, Any]] = field(default_factory=list)
     evidence_records: list[EvidenceRecord] = field(default_factory=list)
+    divergence_notes: list[str] = field(default_factory=list)
 
 
 def analyze_management_communication(
@@ -195,6 +196,9 @@ def analyze_management_communication(
         "speaker_role_split": _speaker_role_signal(current_features),
     }
     _apply_llm_hints(signals, llm_hints)
+    
+    # Intelligence Upgrade: Cross-Check Narrative with Snapshot Data
+    divergence_notes = _check_data_divergence(signals, snapshot, summary)
 
     return ManagementCommunicationAnalysis(
         symbol=symbol,
@@ -203,8 +207,46 @@ def analyze_management_communication(
         source_date=source_date,
         signals=signals,
         guidance_observations=_build_guidance_observations(signals, source_url, source_date),
-        evidence_records=_build_evidence_records(symbol, signals, source_url, source_date),
+        evidence_records=_build_evidence_records(symbol, signals, source_url, source_date, divergence_notes),
+        divergence_notes=divergence_notes,
     )
+
+
+def _check_data_divergence(
+    signals: dict[str, dict[str, Any]],
+    snapshot: Optional[ResearchSnapshot],
+    summary: Optional[EvidenceSummary],
+) -> list[str]:
+    """Flag discrepancies between management tone and hard financial numbers."""
+    notes = []
+    if not snapshot or not signals:
+        return notes
+
+    spec = signals.get("specificity_shift", {})
+    comm = signals.get("commitment_vs_hedging", {})
+    
+    # Check 1: Optimism vs EPS/Target Revisions
+    if comm.get("state") == "committed" and snapshot.delta_forward_eps is not None:
+        if snapshot.delta_forward_eps < -0.05:
+            notes.append("⚠️ 警示：管理層語氣承諾度高，但 EPS 預測仍在下修，存有認知落差。")
+    
+    # Check 2: Specificity vs Inventory/Revenue
+    if spec.get("state") == "up":
+        inventory_field = summary.field_by_key("inventory_trend") if summary else None
+        if inventory_field and inventory_field.raw_value is not None:
+            if inventory_field.raw_value > 5.0:
+                 notes.append("⚠️ 注意：管理層說法轉趨具體，但庫存數據仍在上升，需驗證去庫存進度。")
+            elif inventory_field.raw_value < -5.0:
+                 notes.append("✅ 驗證：管理層說法轉趨具體，且庫存數據下降，支持復甦 thesis。")
+
+    # Check 3: Margin Narrative vs Reality
+    if "gross margin" in spec.get("detail", "").lower():
+        margin_field = summary.field_by_key("gross_margin") if summary else None
+        if margin_field and margin_field.raw_value is not None:
+            if margin_field.raw_value < -0.01:
+                notes.append("⚠️ 矛盾：法說提到毛利細節，但 Snapshot 顯示毛利率仍較前次衰退。")
+
+    return notes
 
 
 def _resolve_context(
@@ -217,7 +259,11 @@ def _resolve_context(
     source_metadata = dict(snapshot.source_metadata or {}) if snapshot else {}
     transcript_field = summary.field_by_key("transcript") if summary else None
 
-    current = transcript_payload or _first_present(source_metadata, _TRANSCRIPT_KEYS)
+    current = (
+        transcript_payload 
+        or _first_present(source_metadata, _TRANSCRIPT_KEYS)
+        or (getattr(transcript_field, "raw_value", None) if transcript_field else None)
+    )
     previous = _first_present(source_metadata, _PREVIOUS_TRANSCRIPT_KEYS)
     llm = llm_classification or _first_present(source_metadata, _LLM_KEYS)
     source_url = (
@@ -617,13 +663,22 @@ def _build_evidence_records(
     signals: dict[str, dict[str, Any]],
     source_url: str,
     source_date: str,
+    divergence_notes: list[str] = None,
 ) -> list[EvidenceRecord]:
     records: list[EvidenceRecord] = []
+    notes = divergence_notes or []
+    
     for topic, signal in signals.items():
         state = str(signal.get("state", "unknown"))
         quote_refs = list(signal.get("quote_refs", []))
         if state in {"unknown", "flat", "none"} and not quote_refs:
             continue
+            
+        summary_text = str(signal.get("detail", ""))
+        # Intelligence Upgrade: Append relevant divergence notes to the summary
+        if topic == "specificity_shift" and notes:
+            summary_text = f"{summary_text}\n\n[驗證對齊]\n" + "\n".join(notes)
+            
         records.append(
             EvidenceRecord(
                 symbol=symbol,
@@ -645,7 +700,7 @@ def _build_evidence_records(
                 confidence=float(signal.get("confidence", 0.0) or 0.0),
                 verification_status="source_backed" if quote_refs else "unverified",
                 title=_title_for_signal(topic),
-                summary=str(signal.get("detail", "")),
+                summary=summary_text,
                 source_label="AlphaMemo",
                 source_field=topic,
                 source_url=source_url,

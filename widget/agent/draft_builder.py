@@ -14,6 +14,8 @@ from .models import (
     ThesisDraft,
     ThesisLeaf,
 )
+from widget.research.thesis_evaluator import _analyze_market_belief_gap, _Signal
+from widget.research.thesis_models import STAGE_STORY, STAGE_EVIDENCE, STAGE_NUMBERS
 
 _TOP_QUESTIONS = {
     "industry_recovery": "核心需求與庫存循環是否正在修復？",
@@ -70,13 +72,19 @@ _KILL_CONDITIONS = {
 def eligible_evidence_records(records: list[EvidenceRecord]) -> list[EvidenceRecord]:
     """Use only accepted evidence or verified evidence for draft generation."""
     eligible: list[EvidenceRecord] = []
+    # Deduplicate by topic to avoid repetitiveness in lean drafts
+    seen_topics = set()
     for record in records:
         accepted = bool((record.metadata or {}).get("accepted"))
         verified = record.verification_status == "verified"
-        if record.numeric_facts and not verified:
-            continue
+        
+        # OLD: if record.numeric_facts and not verified: continue
+        # NEW: Allow accepted numeric facts even if not yet verified for AI drafting
         if accepted or verified:
+            if record.topic in seen_topics:
+                continue
             eligible.append(record)
+            seen_topics.add(record.topic)
     return eligible
 
 
@@ -92,8 +100,45 @@ def build_thesis_draft(
     top_question = _TOP_QUESTIONS.get(thesis_type, _TOP_QUESTIONS["other"])
     facts = _dedupe_facts(filtered)
     branches = _build_branches(thesis_type, filtered)
-    summary = " / ".join(record.claim for record in filtered[:3])
+    
+    # Smarter summary generation: deduplicate and join
+    unique_claims = []
+    for r in filtered:
+        claim = r.claim.strip()
+        if claim not in unique_claims:
+            unique_claims.append(claim)
+    summary = " / ".join(unique_claims[:3])
+    
     rerating_triggers = _build_rerating_triggers(filtered)
+
+    # Enhance Market Belief Map for sparse evidence
+    consensus = f"市場對 {symbol} 的關注點較分散，尚未形成強烈共識。"
+    variant = f"領先訊號指示：{summary}"
+
+    # 1.1-F: Build precise market belief gap from backend signals
+    belief_gap_data = {}
+    try:
+        from widget.research.thesis_models import ThesisDefinition
+        mock_def = ThesisDefinition(
+            thesis_type=thesis_type,
+            primary_claims=[record.claim for record in filtered[:3]],
+        )
+        
+        # Map EvidenceRecords to _Signal objects for the analyzer
+        mock_signals = []
+        for r in filtered:
+            direction = "confirming" if r.direction == "bullish" or r.verification_status == "verified" else "weakening"
+            mock_signals.append(_Signal(name=r.topic, direction=direction, detail=r.claim))
+        
+        certainty = STAGE_STORY
+        if len([s for s in mock_signals if s.direction == "confirming"]) >= 2:
+            certainty = STAGE_NUMBERS
+        elif len([s for s in mock_signals if s.direction == "confirming"]) >= 1:
+            certainty = STAGE_EVIDENCE
+            
+        belief_gap_data = _analyze_market_belief_gap(mock_def, mock_signals, certainty)
+    except Exception as e:
+        print(f"[DraftBuilder] Belief gap analysis failed: {e}")
 
     return ThesisDraft(
         symbol=symbol,
@@ -103,9 +148,9 @@ def build_thesis_draft(
         summary=summary,
         branches=branches,
         market_belief_map=MarketBeliefMap(
-            consensus_view="市場目前仍在等待更多可驗證數據。",
-            variant_view=summary,
-            mispricing_hypothesis="若關鍵證據延續，市場可能低估後續 rerating 空間。",
+            consensus_view=consensus,
+            variant_view=variant,
+            mispricing_hypothesis="若關鍵證據持續落地，市場可能低估後續 rerating 空間。",
             confirming_signals=[record.title or record.topic for record in filtered[:3]],
             disconfirming_signals=[
                 _KILL_CONDITIONS.get(record.topic, "")
@@ -121,6 +166,7 @@ def build_thesis_draft(
             metadata={"eligible_evidence_count": len(filtered)},
         ),
         rerating_triggers=rerating_triggers,
+        market_belief_gap=belief_gap_data,
         primary_claims=[record.claim for record in filtered[:3]],
         break_conditions=[
             leaf.kill_condition
