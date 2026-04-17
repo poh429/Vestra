@@ -74,7 +74,16 @@ class CoverageWorkspace:
         return self._write_json(self.path_for(symbol, "review_tasks.json"), payload)
 
     def load_review_tasks(self, symbol: str) -> Optional[list[dict[str, Any]]]:
-        return self._read_json(self.path_for(symbol, "review_tasks.json"))
+        path = self.path_for(symbol, "review_tasks.json")
+        if not path.exists():
+            return None
+        try:
+            payload = json.loads(path.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError):
+            return None
+        if not isinstance(payload, list):
+            return None
+        return payload
 
     def load_monitor_state(self, symbol: str) -> Optional[dict[str, Any]]:
         return self._read_json(self.path_for(symbol, "monitor_state.json"))
@@ -114,7 +123,7 @@ class CoverageWorkspace:
         return created
 
     @staticmethod
-    def _write_json(path: Path, payload: dict[str, Any]) -> Path:
+    def _write_json(path: Path, payload: Any) -> Path:
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
         return path
@@ -128,4 +137,3 @@ class CoverageWorkspace:
         except (json.JSONDecodeError, OSError):
             return None
         return payload if isinstance(payload, dict) else None
-
