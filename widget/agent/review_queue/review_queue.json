@@ -300,6 +300,1083 @@
         "Review top question and summary.",
         "Check whether leaves are supported by verified or accepted evidence."
       ]
+    },
+    {
+      "task_id": "review_96029e4bcd03",
+      "symbol": "2317.TW",
+      "task_type": "review_draft",
+      "title": "Review AI draft for 2317.TW",
+      "status": "pending",
+      "priority": "normal",
+      "created_at": "2026-04-11T10:41:09.302926+00:00",
+      "due_at": "",
+      "draft_id": "draft_38709a1e5f01",
+      "event_ids": [],
+      "metadata": {
+        "thesis_type": "industry_recovery",
+        "summary": "法說會可用：法說可用",
+        "evidence_count": 1
+      },
+      "notes": [
+        "Review top question and summary.",
+        "Check whether leaves are supported by verified or accepted evidence."
+      ]
+    },
+    {
+      "task_id": "review_21c17d8824cb",
+      "symbol": "AAPL",
+      "task_type": "review_draft",
+      "title": "Review AI draft for AAPL",
+      "status": "approved",
+      "priority": "normal",
+      "created_at": "2026-04-11T10:42:28.406979+00:00",
+      "due_at": "",
+      "draft_id": "draft_a50034b05efa",
+      "event_ids": [],
+      "metadata": {
+        "thesis_type": "industry_recovery",
+        "summary": "庫存趨勢：→ 0.0% / 管理層共識：財報與法說互證可用 / 財報風險：偵測到新風險",
+        "evidence_count": 3
+      },
+      "notes": [
+        "Review top question and summary.",
+        "Check whether leaves are supported by verified or accepted evidence."
+      ]
+    },
+    {
+      "task_id": "review_37fa267a5803",
+      "symbol": "2317.TW",
+      "task_type": "review_monitoring_event",
+      "title": "Review conflict event for 2317.TW",
+      "status": "pending",
+      "priority": "normal",
+      "created_at": "2026-04-17T07:32:42.435660+00:00",
+      "due_at": "",
+      "draft_id": "",
+      "event_ids": [
+        "event_05362ff4c20b"
+      ],
+      "metadata": {
+        "impact": "confirm",
+        "branch_id": "branch_1a52eb4799ce",
+        "leaf_id": "leaf_91fd3d113b6a",
+        "conflict": true
+      },
+      "notes": [
+        "Confirm: EPS 修正：↑ +0.03"
+      ]
+    },
+    {
+      "task_id": "review_4c2b5b177a95",
+      "symbol": "2317.TW",
+      "task_type": "review_monitoring_event",
+      "title": "Review conflict event for 2317.TW",
+      "status": "pending",
+      "priority": "high",
+      "created_at": "2026-04-17T07:32:42.436477+00:00",
+      "due_at": "",
+      "draft_id": "",
+      "event_ids": [
+        "event_cbed60d6013c"
+      ],
+      "metadata": {
+        "impact": "break",
+        "branch_id": "branch_1a52eb4799ce",
+        "leaf_id": "leaf_91fd3d113b6a",
+        "conflict": true
+      },
+      "notes": [
+        "Break: 目標價修正：↓ -0.4%"
+      ]
+    },
+    {
+      "task_id": "review_e70000256420",
+      "symbol": "2317.TW",
+      "task_type": "review_monitoring_event",
+      "title": "Review conflict event for 2317.TW",
+      "status": "pending",
+      "priority": "normal",
+      "created_at": "2026-04-17T07:32:42.441227+00:00",
+      "due_at": "",
+      "draft_id": "",
+      "event_ids": [
+        "event_8d3c5a2592fd"
+      ],
+      "metadata": {
+        "impact": "confirm",
+        "branch_id": "branch_1a52eb4799ce",
+        "leaf_id": "leaf_91fd3d113b6a",
+        "conflict": true
+      },
+      "notes": [
+        "Confirm: 法說會可用：法說可用"
+      ]
+    },
+    {
+      "task_id": "review_4168d8d89e15",
+      "symbol": "2317.TW",
+      "task_type": "review_monitoring_event",
+      "title": "Review conflict event for 2317.TW",
+      "status": "pending",
+      "priority": "normal",
+      "created_at": "2026-04-17T07:36:19.171280+00:00",
+      "due_at": "",
+      "draft_id": "",
+      "event_ids": [
+        "event_c03930b20259"
+      ],
+      "metadata": {
+        "impact": "confirm",
+        "branch_id": "branch_1a52eb4799ce",
+        "leaf_id": "leaf_91fd3d113b6a",
+        "conflict": true
+      },
+      "notes": [
+        "Confirm: EPS 修正：↑ +0.03"
+      ]
+    },
+    {
+      "task_id": "review_6570e50bba4e",
+      "symbol": "2317.TW",
+      "task_type": "review_monitoring_event",
+      "title": "Review conflict event for 2317.TW",
+      "status": "pending",
+      "priority": "high",
+      "created_at": "2026-04-17T07:36:19.172256+00:00",
+      "due_at": "",
+      "draft_id": "",
+      "event_ids": [
+        "event_d59cc22e7750"
+      ],
+      "metadata": {
+        "impact": "break",
+        "branch_id": "branch_1a52eb4799ce",
+        "leaf_id": "leaf_91fd3d113b6a",
+        "conflict": true
+      },
+      "notes": [
+        "Break: 目標價修正：↓ -0.4%"
+      ]
+    },
+    {
+      "task_id": "review_8562c0cb9293",
+      "symbol": "2317.TW",
+      "task_type": "review_monitoring_event",
+      "title": "Review conflict event for 2317.TW",
+      "status": "pending",
+      "priority": "normal",
+      "created_at": "2026-04-17T07:36:19.180633+00:00",
+      "due_at": "",
+      "draft_id": "",
+      "event_ids": [
+        "event_5c16864509a2"
+      ],
+      "metadata": {
+        "impact": "confirm",
+        "branch_id": "branch_1a52eb4799ce",
+        "leaf_id": "leaf_91fd3d113b6a",
+        "conflict": true
+      },
+      "notes": [
+        "Confirm: 法說會可用：法說可用"
+      ]
+    },
+    {
+      "task_id": "review_d1084b722203",
+      "symbol": "2317.TW",
+      "task_type": "review_monitoring_event",
+      "title": "Review conflict event for 2317.TW",
+      "status": "pending",
+      "priority": "normal",
+      "created_at": "2026-04-17T07:38:13.659731+00:00",
+      "due_at": "",
+      "draft_id": "",
+      "event_ids": [
+        "event_e5c65897fc07"
+      ],
+      "metadata": {
+        "impact": "confirm",
+        "branch_id": "branch_1a52eb4799ce",
+        "leaf_id": "leaf_91fd3d113b6a",
+        "conflict": true
+      },
+      "notes": [
+        "Confirm: EPS 修正：↑ +0.03"
+      ]
+    },
+    {
+      "task_id": "review_0c1d122b0d96",
+      "symbol": "2317.TW",
+      "task_type": "review_monitoring_event",
+      "title": "Review conflict event for 2317.TW",
+      "status": "pending",
+      "priority": "high",
+      "created_at": "2026-04-17T07:38:13.661084+00:00",
+      "due_at": "",
+      "draft_id": "",
+      "event_ids": [
+        "event_1d27164b7436"
+      ],
+      "metadata": {
+        "impact": "break",
+        "branch_id": "branch_1a52eb4799ce",
+        "leaf_id": "leaf_91fd3d113b6a",
+        "conflict": true
+      },
+      "notes": [
+        "Break: 目標價修正：↓ -0.4%"
+      ]
+    },
+    {
+      "task_id": "review_8f5c8ccd5e63",
+      "symbol": "2317.TW",
+      "task_type": "review_monitoring_event",
+      "title": "Review conflict event for 2317.TW",
+      "status": "pending",
+      "priority": "normal",
+      "created_at": "2026-04-17T07:38:13.668843+00:00",
+      "due_at": "",
+      "draft_id": "",
+      "event_ids": [
+        "event_1e3f01091b1f"
+      ],
+      "metadata": {
+        "impact": "confirm",
+        "branch_id": "branch_1a52eb4799ce",
+        "leaf_id": "leaf_91fd3d113b6a",
+        "conflict": true
+      },
+      "notes": [
+        "Confirm: 法說會可用：法說可用"
+      ]
+    },
+    {
+      "task_id": "review_82b07aa54bc0",
+      "symbol": "2317.TW",
+      "task_type": "review_monitoring_event",
+      "title": "Review conflict event for 2317.TW",
+      "status": "pending",
+      "priority": "normal",
+      "created_at": "2026-04-17T07:39:53.994382+00:00",
+      "due_at": "",
+      "draft_id": "",
+      "event_ids": [
+        "event_e10368b02f05"
+      ],
+      "metadata": {
+        "impact": "confirm",
+        "branch_id": "branch_1a52eb4799ce",
+        "leaf_id": "leaf_91fd3d113b6a",
+        "conflict": true
+      },
+      "notes": [
+        "Confirm: EPS 修正：↑ +0.03"
+      ]
+    },
+    {
+      "task_id": "review_c47b9796be2d",
+      "symbol": "2317.TW",
+      "task_type": "review_monitoring_event",
+      "title": "Review conflict event for 2317.TW",
+      "status": "pending",
+      "priority": "high",
+      "created_at": "2026-04-17T07:39:53.995445+00:00",
+      "due_at": "",
+      "draft_id": "",
+      "event_ids": [
+        "event_10e668851b5b"
+      ],
+      "metadata": {
+        "impact": "break",
+        "branch_id": "branch_1a52eb4799ce",
+        "leaf_id": "leaf_91fd3d113b6a",
+        "conflict": true
+      },
+      "notes": [
+        "Break: 目標價修正：↓ -0.4%"
+      ]
+    },
+    {
+      "task_id": "review_2d956d9f3b8c",
+      "symbol": "2317.TW",
+      "task_type": "review_monitoring_event",
+      "title": "Review conflict event for 2317.TW",
+      "status": "pending",
+      "priority": "normal",
+      "created_at": "2026-04-17T07:39:54.003482+00:00",
+      "due_at": "",
+      "draft_id": "",
+      "event_ids": [
+        "event_9e9bcfdee047"
+      ],
+      "metadata": {
+        "impact": "confirm",
+        "branch_id": "branch_1a52eb4799ce",
+        "leaf_id": "leaf_91fd3d113b6a",
+        "conflict": true
+      },
+      "notes": [
+        "Confirm: 法說會可用：法說可用"
+      ]
+    },
+    {
+      "task_id": "review_826fdc53d910",
+      "symbol": "2317.TW",
+      "task_type": "review_monitoring_event",
+      "title": "Review conflict event for 2317.TW",
+      "status": "pending",
+      "priority": "normal",
+      "created_at": "2026-04-17T07:40:38.578262+00:00",
+      "due_at": "",
+      "draft_id": "",
+      "event_ids": [
+        "event_03cf79593d84"
+      ],
+      "metadata": {
+        "impact": "confirm",
+        "branch_id": "branch_1a52eb4799ce",
+        "leaf_id": "leaf_91fd3d113b6a",
+        "conflict": true
+      },
+      "notes": [
+        "Confirm: EPS 修正：↑ +0.03"
+      ]
+    },
+    {
+      "task_id": "review_17b9c97cf754",
+      "symbol": "2317.TW",
+      "task_type": "review_monitoring_event",
+      "title": "Review conflict event for 2317.TW",
+      "status": "pending",
+      "priority": "high",
+      "created_at": "2026-04-17T07:40:38.579726+00:00",
+      "due_at": "",
+      "draft_id": "",
+      "event_ids": [
+        "event_48bf10d8bb8a"
+      ],
+      "metadata": {
+        "impact": "break",
+        "branch_id": "branch_1a52eb4799ce",
+        "leaf_id": "leaf_91fd3d113b6a",
+        "conflict": true
+      },
+      "notes": [
+        "Break: 目標價修正：↓ -0.4%"
+      ]
+    },
+    {
+      "task_id": "review_404f321d7a36",
+      "symbol": "2317.TW",
+      "task_type": "review_monitoring_event",
+      "title": "Review conflict event for 2317.TW",
+      "status": "pending",
+      "priority": "normal",
+      "created_at": "2026-04-17T07:40:38.586383+00:00",
+      "due_at": "",
+      "draft_id": "",
+      "event_ids": [
+        "event_63d748884c0f"
+      ],
+      "metadata": {
+        "impact": "confirm",
+        "branch_id": "branch_1a52eb4799ce",
+        "leaf_id": "leaf_91fd3d113b6a",
+        "conflict": true
+      },
+      "notes": [
+        "Confirm: 法說會可用：法說可用"
+      ]
+    },
+    {
+      "task_id": "review_a6df1771aa5c",
+      "symbol": "2317.TW",
+      "task_type": "review_monitoring_event",
+      "title": "Review conflict event for 2317.TW",
+      "status": "pending",
+      "priority": "normal",
+      "created_at": "2026-04-17T07:41:05.310642+00:00",
+      "due_at": "",
+      "draft_id": "",
+      "event_ids": [
+        "event_60291f7e0e64"
+      ],
+      "metadata": {
+        "impact": "confirm",
+        "branch_id": "branch_1a52eb4799ce",
+        "leaf_id": "leaf_91fd3d113b6a",
+        "conflict": true
+      },
+      "notes": [
+        "Confirm: EPS 修正：↑ +0.03"
+      ]
+    },
+    {
+      "task_id": "review_f8b31678c140",
+      "symbol": "2317.TW",
+      "task_type": "review_monitoring_event",
+      "title": "Review conflict event for 2317.TW",
+      "status": "pending",
+      "priority": "high",
+      "created_at": "2026-04-17T07:41:05.312876+00:00",
+      "due_at": "",
+      "draft_id": "",
+      "event_ids": [
+        "event_ddc9eb347657"
+      ],
+      "metadata": {
+        "impact": "break",
+        "branch_id": "branch_1a52eb4799ce",
+        "leaf_id": "leaf_91fd3d113b6a",
+        "conflict": true
+      },
+      "notes": [
+        "Break: 目標價修正：↓ -0.4%"
+      ]
+    },
+    {
+      "task_id": "review_b345fd4993cb",
+      "symbol": "2317.TW",
+      "task_type": "review_monitoring_event",
+      "title": "Review conflict event for 2317.TW",
+      "status": "pending",
+      "priority": "normal",
+      "created_at": "2026-04-17T07:41:05.328860+00:00",
+      "due_at": "",
+      "draft_id": "",
+      "event_ids": [
+        "event_720ba55371fa"
+      ],
+      "metadata": {
+        "impact": "confirm",
+        "branch_id": "branch_1a52eb4799ce",
+        "leaf_id": "leaf_91fd3d113b6a",
+        "conflict": true
+      },
+      "notes": [
+        "Confirm: 法說會可用：法說可用"
+      ]
+    },
+    {
+      "task_id": "review_6deb307616ae",
+      "symbol": "2317.TW",
+      "task_type": "review_monitoring_event",
+      "title": "Review conflict event for 2317.TW",
+      "status": "pending",
+      "priority": "normal",
+      "created_at": "2026-04-17T07:41:41.023792+00:00",
+      "due_at": "",
+      "draft_id": "",
+      "event_ids": [
+        "event_84bdda797f2d"
+      ],
+      "metadata": {
+        "impact": "confirm",
+        "branch_id": "branch_1a52eb4799ce",
+        "leaf_id": "leaf_91fd3d113b6a",
+        "conflict": true
+      },
+      "notes": [
+        "Confirm: EPS 修正：↑ +0.03"
+      ]
+    },
+    {
+      "task_id": "review_3e6dd23e88f9",
+      "symbol": "2317.TW",
+      "task_type": "review_monitoring_event",
+      "title": "Review conflict event for 2317.TW",
+      "status": "pending",
+      "priority": "high",
+      "created_at": "2026-04-17T07:41:41.025095+00:00",
+      "due_at": "",
+      "draft_id": "",
+      "event_ids": [
+        "event_f2f928b82787"
+      ],
+      "metadata": {
+        "impact": "break",
+        "branch_id": "branch_1a52eb4799ce",
+        "leaf_id": "leaf_91fd3d113b6a",
+        "conflict": true
+      },
+      "notes": [
+        "Break: 目標價修正：↓ -0.4%"
+      ]
+    },
+    {
+      "task_id": "review_5c2218dff300",
+      "symbol": "2317.TW",
+      "task_type": "review_monitoring_event",
+      "title": "Review conflict event for 2317.TW",
+      "status": "pending",
+      "priority": "normal",
+      "created_at": "2026-04-17T07:41:41.032235+00:00",
+      "due_at": "",
+      "draft_id": "",
+      "event_ids": [
+        "event_4fff9f4fa5f8"
+      ],
+      "metadata": {
+        "impact": "confirm",
+        "branch_id": "branch_1a52eb4799ce",
+        "leaf_id": "leaf_91fd3d113b6a",
+        "conflict": true
+      },
+      "notes": [
+        "Confirm: 法說會可用：法說可用"
+      ]
+    },
+    {
+      "task_id": "review_42713826c495",
+      "symbol": "2317.TW",
+      "task_type": "review_monitoring_event",
+      "title": "Review conflict event for 2317.TW",
+      "status": "pending",
+      "priority": "normal",
+      "created_at": "2026-04-17T07:43:25.619342+00:00",
+      "due_at": "",
+      "draft_id": "",
+      "event_ids": [
+        "event_248bc764da90"
+      ],
+      "metadata": {
+        "impact": "confirm",
+        "branch_id": "branch_1a52eb4799ce",
+        "leaf_id": "leaf_91fd3d113b6a",
+        "conflict": true
+      },
+      "notes": [
+        "Confirm: EPS 修正：↑ +0.03"
+      ]
+    },
+    {
+      "task_id": "review_876e295251e7",
+      "symbol": "2317.TW",
+      "task_type": "review_monitoring_event",
+      "title": "Review conflict event for 2317.TW",
+      "status": "pending",
+      "priority": "high",
+      "created_at": "2026-04-17T07:43:25.620860+00:00",
+      "due_at": "",
+      "draft_id": "",
+      "event_ids": [
+        "event_6ea0dd9e5877"
+      ],
+      "metadata": {
+        "impact": "break",
+        "branch_id": "branch_1a52eb4799ce",
+        "leaf_id": "leaf_91fd3d113b6a",
+        "conflict": true
+      },
+      "notes": [
+        "Break: 目標價修正：↓ -0.4%"
+      ]
+    },
+    {
+      "task_id": "review_449bf728f860",
+      "symbol": "2317.TW",
+      "task_type": "review_monitoring_event",
+      "title": "Review conflict event for 2317.TW",
+      "status": "pending",
+      "priority": "normal",
+      "created_at": "2026-04-17T07:43:25.626718+00:00",
+      "due_at": "",
+      "draft_id": "",
+      "event_ids": [
+        "event_870870f738a1"
+      ],
+      "metadata": {
+        "impact": "confirm",
+        "branch_id": "branch_1a52eb4799ce",
+        "leaf_id": "leaf_91fd3d113b6a",
+        "conflict": true
+      },
+      "notes": [
+        "Confirm: 法說會可用：法說可用"
+      ]
+    },
+    {
+      "task_id": "review_5cf33d5bbc1e",
+      "symbol": "2317.TW",
+      "task_type": "review_monitoring_event",
+      "title": "Review conflict event for 2317.TW",
+      "status": "pending",
+      "priority": "normal",
+      "created_at": "2026-04-17T07:44:04.641455+00:00",
+      "due_at": "",
+      "draft_id": "",
+      "event_ids": [
+        "event_4bee2bd4e27f"
+      ],
+      "metadata": {
+        "impact": "confirm",
+        "branch_id": "branch_1a52eb4799ce",
+        "leaf_id": "leaf_91fd3d113b6a",
+        "conflict": true
+      },
+      "notes": [
+        "Confirm: EPS 修正：↑ +0.03"
+      ]
+    },
+    {
+      "task_id": "review_e282d6630e89",
+      "symbol": "2317.TW",
+      "task_type": "review_monitoring_event",
+      "title": "Review conflict event for 2317.TW",
+      "status": "pending",
+      "priority": "high",
+      "created_at": "2026-04-17T07:44:04.642849+00:00",
+      "due_at": "",
+      "draft_id": "",
+      "event_ids": [
+        "event_5ad4b6f15b8b"
+      ],
+      "metadata": {
+        "impact": "break",
+        "branch_id": "branch_1a52eb4799ce",
+        "leaf_id": "leaf_91fd3d113b6a",
+        "conflict": true
+      },
+      "notes": [
+        "Break: 目標價修正：↓ -0.4%"
+      ]
+    },
+    {
+      "task_id": "review_9047a05f9d97",
+      "symbol": "2317.TW",
+      "task_type": "review_monitoring_event",
+      "title": "Review conflict event for 2317.TW",
+      "status": "pending",
+      "priority": "normal",
+      "created_at": "2026-04-17T07:44:04.649091+00:00",
+      "due_at": "",
+      "draft_id": "",
+      "event_ids": [
+        "event_cd47d76c2049"
+      ],
+      "metadata": {
+        "impact": "confirm",
+        "branch_id": "branch_1a52eb4799ce",
+        "leaf_id": "leaf_91fd3d113b6a",
+        "conflict": true
+      },
+      "notes": [
+        "Confirm: 法說會可用：法說可用"
+      ]
+    },
+    {
+      "task_id": "review_b6d44d52e7f6",
+      "symbol": "2317.TW",
+      "task_type": "review_monitoring_event",
+      "title": "Review conflict event for 2317.TW",
+      "status": "pending",
+      "priority": "normal",
+      "created_at": "2026-04-17T07:46:54.678251+00:00",
+      "due_at": "",
+      "draft_id": "",
+      "event_ids": [
+        "event_71605f82cc5f"
+      ],
+      "metadata": {
+        "impact": "confirm",
+        "branch_id": "branch_1a52eb4799ce",
+        "leaf_id": "leaf_91fd3d113b6a",
+        "conflict": true
+      },
+      "notes": [
+        "Confirm: EPS 修正：↑ +0.03"
+      ]
+    },
+    {
+      "task_id": "review_c86867bb2aa1",
+      "symbol": "2317.TW",
+      "task_type": "review_monitoring_event",
+      "title": "Review conflict event for 2317.TW",
+      "status": "pending",
+      "priority": "high",
+      "created_at": "2026-04-17T07:46:54.679674+00:00",
+      "due_at": "",
+      "draft_id": "",
+      "event_ids": [
+        "event_af2b89a2a85d"
+      ],
+      "metadata": {
+        "impact": "break",
+        "branch_id": "branch_1a52eb4799ce",
+        "leaf_id": "leaf_91fd3d113b6a",
+        "conflict": true
+      },
+      "notes": [
+        "Break: 目標價修正：↓ -0.4%"
+      ]
+    },
+    {
+      "task_id": "review_aa1f9a032323",
+      "symbol": "2317.TW",
+      "task_type": "review_monitoring_event",
+      "title": "Review conflict event for 2317.TW",
+      "status": "pending",
+      "priority": "normal",
+      "created_at": "2026-04-17T07:46:54.686099+00:00",
+      "due_at": "",
+      "draft_id": "",
+      "event_ids": [
+        "event_6171ca9855c5"
+      ],
+      "metadata": {
+        "impact": "confirm",
+        "branch_id": "branch_1a52eb4799ce",
+        "leaf_id": "leaf_91fd3d113b6a",
+        "conflict": true
+      },
+      "notes": [
+        "Confirm: 法說會可用：法說可用"
+      ]
+    },
+    {
+      "task_id": "review_3d1e91705ef5",
+      "symbol": "2317.TW",
+      "task_type": "review_monitoring_event",
+      "title": "Review conflict event for 2317.TW",
+      "status": "pending",
+      "priority": "normal",
+      "created_at": "2026-04-17T07:47:45.263446+00:00",
+      "due_at": "",
+      "draft_id": "",
+      "event_ids": [
+        "event_f919ebb09dd9"
+      ],
+      "metadata": {
+        "impact": "confirm",
+        "branch_id": "branch_1a52eb4799ce",
+        "leaf_id": "leaf_91fd3d113b6a",
+        "conflict": true
+      },
+      "notes": [
+        "Confirm: EPS 修正：↑ +0.03"
+      ]
+    },
+    {
+      "task_id": "review_237034428f53",
+      "symbol": "2317.TW",
+      "task_type": "review_monitoring_event",
+      "title": "Review conflict event for 2317.TW",
+      "status": "pending",
+      "priority": "high",
+      "created_at": "2026-04-17T07:47:45.265154+00:00",
+      "due_at": "",
+      "draft_id": "",
+      "event_ids": [
+        "event_949762bf9644"
+      ],
+      "metadata": {
+        "impact": "break",
+        "branch_id": "branch_1a52eb4799ce",
+        "leaf_id": "leaf_91fd3d113b6a",
+        "conflict": true
+      },
+      "notes": [
+        "Break: 目標價修正：↓ -0.4%"
+      ]
+    },
+    {
+      "task_id": "review_b665318b222b",
+      "symbol": "2317.TW",
+      "task_type": "review_monitoring_event",
+      "title": "Review conflict event for 2317.TW",
+      "status": "pending",
+      "priority": "normal",
+      "created_at": "2026-04-17T07:47:45.272008+00:00",
+      "due_at": "",
+      "draft_id": "",
+      "event_ids": [
+        "event_5dc710daa90f"
+      ],
+      "metadata": {
+        "impact": "confirm",
+        "branch_id": "branch_1a52eb4799ce",
+        "leaf_id": "leaf_91fd3d113b6a",
+        "conflict": true
+      },
+      "notes": [
+        "Confirm: 法說會可用：法說可用"
+      ]
+    },
+    {
+      "task_id": "review_a9b7b40ff04f",
+      "symbol": "2317.TW",
+      "task_type": "review_monitoring_event",
+      "title": "Review conflict event for 2317.TW",
+      "status": "pending",
+      "priority": "normal",
+      "created_at": "2026-04-17T07:48:48.927120+00:00",
+      "due_at": "",
+      "draft_id": "",
+      "event_ids": [
+        "event_b11f6bdbb070"
+      ],
+      "metadata": {
+        "impact": "confirm",
+        "branch_id": "branch_1a52eb4799ce",
+        "leaf_id": "leaf_91fd3d113b6a",
+        "conflict": true
+      },
+      "notes": [
+        "Confirm: EPS 修正：↑ +0.03"
+      ]
+    },
+    {
+      "task_id": "review_761a72944468",
+      "symbol": "2317.TW",
+      "task_type": "review_monitoring_event",
+      "title": "Review conflict event for 2317.TW",
+      "status": "pending",
+      "priority": "high",
+      "created_at": "2026-04-17T07:48:48.928722+00:00",
+      "due_at": "",
+      "draft_id": "",
+      "event_ids": [
+        "event_d5e290ed6c59"
+      ],
+      "metadata": {
+        "impact": "break",
+        "branch_id": "branch_1a52eb4799ce",
+        "leaf_id": "leaf_91fd3d113b6a",
+        "conflict": true
+      },
+      "notes": [
+        "Break: 目標價修正：↓ -0.4%"
+      ]
+    },
+    {
+      "task_id": "review_81db2ee93a8c",
+      "symbol": "2317.TW",
+      "task_type": "review_monitoring_event",
+      "title": "Review conflict event for 2317.TW",
+      "status": "pending",
+      "priority": "normal",
+      "created_at": "2026-04-17T07:48:48.935515+00:00",
+      "due_at": "",
+      "draft_id": "",
+      "event_ids": [
+        "event_b52321505494"
+      ],
+      "metadata": {
+        "impact": "confirm",
+        "branch_id": "branch_1a52eb4799ce",
+        "leaf_id": "leaf_91fd3d113b6a",
+        "conflict": true
+      },
+      "notes": [
+        "Confirm: 法說會可用：法說可用"
+      ]
+    },
+    {
+      "task_id": "review_4504c666b3b3",
+      "symbol": "2317.TW",
+      "task_type": "review_monitoring_event",
+      "title": "Review conflict event for 2317.TW",
+      "status": "pending",
+      "priority": "normal",
+      "created_at": "2026-04-17T07:49:19.823225+00:00",
+      "due_at": "",
+      "draft_id": "",
+      "event_ids": [
+        "event_0a7c3f1c6546"
+      ],
+      "metadata": {
+        "impact": "confirm",
+        "branch_id": "branch_1a52eb4799ce",
+        "leaf_id": "leaf_91fd3d113b6a",
+        "conflict": true
+      },
+      "notes": [
+        "Confirm: EPS 修正：↑ +0.03"
+      ]
+    },
+    {
+      "task_id": "review_cd620c69da5e",
+      "symbol": "2317.TW",
+      "task_type": "review_monitoring_event",
+      "title": "Review conflict event for 2317.TW",
+      "status": "pending",
+      "priority": "high",
+      "created_at": "2026-04-17T07:49:19.826123+00:00",
+      "due_at": "",
+      "draft_id": "",
+      "event_ids": [
+        "event_a31db2fc28b7"
+      ],
+      "metadata": {
+        "impact": "break",
+        "branch_id": "branch_1a52eb4799ce",
+        "leaf_id": "leaf_91fd3d113b6a",
+        "conflict": true
+      },
+      "notes": [
+        "Break: 目標價修正：↓ -0.4%"
+      ]
+    },
+    {
+      "task_id": "review_c4845975a032",
+      "symbol": "2317.TW",
+      "task_type": "review_monitoring_event",
+      "title": "Review conflict event for 2317.TW",
+      "status": "pending",
+      "priority": "normal",
+      "created_at": "2026-04-17T07:49:19.832894+00:00",
+      "due_at": "",
+      "draft_id": "",
+      "event_ids": [
+        "event_91068c2f7a5b"
+      ],
+      "metadata": {
+        "impact": "confirm",
+        "branch_id": "branch_1a52eb4799ce",
+        "leaf_id": "leaf_91fd3d113b6a",
+        "conflict": true
+      },
+      "notes": [
+        "Confirm: 法說會可用：法說可用"
+      ]
+    },
+    {
+      "task_id": "review_3bccc3192e87",
+      "symbol": "2317.TW",
+      "task_type": "review_monitoring_event",
+      "title": "Review conflict event for 2317.TW",
+      "status": "pending",
+      "priority": "normal",
+      "created_at": "2026-04-17T07:49:40.789893+00:00",
+      "due_at": "",
+      "draft_id": "",
+      "event_ids": [
+        "event_ad0c205981b9"
+      ],
+      "metadata": {
+        "impact": "confirm",
+        "branch_id": "branch_1a52eb4799ce",
+        "leaf_id": "leaf_91fd3d113b6a",
+        "conflict": true
+      },
+      "notes": [
+        "Confirm: EPS 修正：↑ +0.03"
+      ]
+    },
+    {
+      "task_id": "review_eccc7112ff5a",
+      "symbol": "2317.TW",
+      "task_type": "review_monitoring_event",
+      "title": "Review conflict event for 2317.TW",
+      "status": "pending",
+      "priority": "high",
+      "created_at": "2026-04-17T07:49:40.791571+00:00",
+      "due_at": "",
+      "draft_id": "",
+      "event_ids": [
+        "event_ad11012dd715"
+      ],
+      "metadata": {
+        "impact": "break",
+        "branch_id": "branch_1a52eb4799ce",
+        "leaf_id": "leaf_91fd3d113b6a",
+        "conflict": true
+      },
+      "notes": [
+        "Break: 目標價修正：↓ -0.4%"
+      ]
+    },
+    {
+      "task_id": "review_e5d56632d3ae",
+      "symbol": "2317.TW",
+      "task_type": "review_monitoring_event",
+      "title": "Review conflict event for 2317.TW",
+      "status": "pending",
+      "priority": "normal",
+      "created_at": "2026-04-17T07:49:40.798157+00:00",
+      "due_at": "",
+      "draft_id": "",
+      "event_ids": [
+        "event_d9f1f24190ad"
+      ],
+      "metadata": {
+        "impact": "confirm",
+        "branch_id": "branch_1a52eb4799ce",
+        "leaf_id": "leaf_91fd3d113b6a",
+        "conflict": true
+      },
+      "notes": [
+        "Confirm: 法說會可用：法說可用"
+      ]
+    },
+    {
+      "task_id": "review_bdf86c320f6c",
+      "symbol": "2317.TW",
+      "task_type": "review_monitoring_event",
+      "title": "Review conflict event for 2317.TW",
+      "status": "pending",
+      "priority": "normal",
+      "created_at": "2026-04-17T08:49:40.397227+00:00",
+      "due_at": "",
+      "draft_id": "",
+      "event_ids": [
+        "event_9f2673470fdf"
+      ],
+      "metadata": {
+        "impact": "confirm",
+        "branch_id": "branch_1a52eb4799ce",
+        "leaf_id": "leaf_91fd3d113b6a",
+        "conflict": true
+      },
+      "notes": [
+        "Confirm: EPS 修正：↑ +0.03"
+      ]
+    },
+    {
+      "task_id": "review_6327215bb1b4",
+      "symbol": "2317.TW",
+      "task_type": "review_monitoring_event",
+      "title": "Review conflict event for 2317.TW",
+      "status": "pending",
+      "priority": "high",
+      "created_at": "2026-04-17T08:49:40.399107+00:00",
+      "due_at": "",
+      "draft_id": "",
+      "event_ids": [
+        "event_e8961fd14029"
+      ],
+      "metadata": {
+        "impact": "break",
+        "branch_id": "branch_1a52eb4799ce",
+        "leaf_id": "leaf_91fd3d113b6a",
+        "conflict": true
+      },
+      "notes": [
+        "Break: 目標價修正：↓ -0.4%"
+      ]
+    },
+    {
+      "task_id": "review_ffdb6e147edf",
+      "symbol": "2317.TW",
+      "task_type": "review_monitoring_event",
+      "title": "Review conflict event for 2317.TW",
+      "status": "pending",
+      "priority": "normal",
+      "created_at": "2026-04-17T08:49:40.410314+00:00",
+      "due_at": "",
+      "draft_id": "",
+      "event_ids": [
+        "event_cd35df84780f"
+      ],
+      "metadata": {
+        "impact": "confirm",
+        "branch_id": "branch_1a52eb4799ce",
+        "leaf_id": "leaf_91fd3d113b6a",
+        "conflict": true
+      },
+      "notes": [
+        "Confirm: 法說會可用：法說可用"
+      ]
     }
   ]
 }

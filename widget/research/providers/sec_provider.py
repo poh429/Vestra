@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import os
 from datetime import datetime, timezone
 from typing import Iterable, Optional
 
@@ -11,9 +10,8 @@ import requests
 from widget.research.models import ResearchSnapshot
 from widget.research.providers.base import ResearchProvider
 from widget.research.adr_mapping import resolve_sec_ticker, is_adr_mapped
-from widget.research.filing_ingestion.filing_raw_fetcher import FilingRawFetcher
-from widget.research.filing_ingestion.filing_section_parser import FilingSectionParser
-from widget.research.filing_ingestion.filing_diff_engine import FilingDiffEngine
+from widget.research.filing_ingestion.filing_ingestion_service import FilingIngestionService
+from widget.research.filing_ingestion.filing_registry import is_direct_filing_supported
 
 _HEADERS = {
     "User-Agent": "Vestra/1.1 (research@vestra.local)",
@@ -27,9 +25,7 @@ _COMPANY_FACTS_RAW_URL = "https://data.sec.gov/api/xbrl/companyfacts/CIK{cik}.js
 class SECProvider(ResearchProvider):
     def __init__(self):
         self._cik_cache: dict[str, str] = {}
-        self._fetcher = FilingRawFetcher()
-        self._parser = FilingSectionParser()
-        self._diff_engine = FilingDiffEngine()
+        self._filing_ingestion = FilingIngestionService()
 
     def supports(self, symbol: str, category: str) -> bool:
         if category == "Crypto":
@@ -68,9 +64,8 @@ class SECProvider(ResearchProvider):
             except Exception as e:
                 print(f"[SECProvider] Numeric facts failed for {symbol}: {e}")
 
-            # 3. ALWAYS try to enrich with raw filing text (v1.1-A)
-            # This ensures MD&A and Risks appear even if numeric data is missing (common for ADRs like TSM)
-            self._enrich_with_raw_filings(snapshot, sec_symbol, cik)
+            # 3. v1.3-b direct filing ingestion layer (whitelist-gated)
+            self._enrich_with_raw_filings(snapshot, symbol, cik)
             
             # If we have neither metrics nor filing text, discard
             if not snapshot.trailing_eps and not snapshot.source_metadata.get("mdna_current"):
@@ -81,70 +76,21 @@ class SECProvider(ResearchProvider):
             print(f"[SECProvider] {symbol}: {exc}")
             return None
 
-    def _enrich_with_raw_filings(self, snapshot: ResearchSnapshot, sec_symbol: str, cik: str):
-        """Orchestrate raw filing download, parsing, and diffing."""
-        try:
-            # 1. Discover filings
-            filing_metas = self._fetcher.get_latest_filings(sec_symbol, cik)
-            if not filing_metas:
-                return
-
-            # We need current and prior to do diff
-            current_meta = filing_metas[0]
-            prior_meta = next((f for f in filing_metas[1:] if f.form_type in ("10-K", "20-F", "10-Q")), None)
-
-            current_parsed = self._get_parsed_filing(current_meta)
-            prior_parsed = self._get_parsed_filing(prior_meta) if prior_meta else None
-
-            if not current_parsed:
+    def _enrich_with_raw_filings(self, snapshot: ResearchSnapshot, symbol: str, cik: str):
+        """Ingest raw filings into normalized metadata with graceful fallback."""
+        if not is_direct_filing_supported(symbol):
+            # Clean fallback for unsupported .TW names in v1.3-b whitelist mode.
+            if symbol.endswith(".TW") or symbol.endswith(".TWO"):
                 snapshot.source_metadata["filing_parser_quality"] = "none"
-                return
-
-            # 2. Diffing
-            diff_results = {}
-            if prior_parsed:
-                diff_results = self._diff_engine.diff_sections(current_parsed, prior_parsed)
-
-            # 3. Injection
-            sm = snapshot.source_metadata
-            sm.update({
-                "mdna_current": self._parser.clean_text_segment(current_parsed["sections"].get("mdna", "")),
-                "mdna_prior": self._parser.clean_text_segment(prior_parsed["sections"].get("mdna", "")) if prior_parsed else "",
-                "filing_new_risks": diff_results.get("new_risks", ""),
-                "filing_structure_current": self._parser.clean_text_segment(current_parsed["sections"].get("business", "")),
-                "filing_structure_prior": self._parser.clean_text_segment(prior_parsed["sections"].get("business", "")) if prior_parsed else "",
-                "filing_narrative_current": self._parser.clean_text_segment(current_parsed["sections"].get("mdna", "")),
-                "filing_narrative_prior": self._parser.clean_text_segment(prior_parsed["sections"].get("mdna", "")) if prior_parsed else "",
-                "segment_mix_current": self._parser.clean_text_segment(current_parsed["sections"].get("business", "")),
-                "segment_mix_prior": self._parser.clean_text_segment(prior_parsed["sections"].get("business", "")) if prior_parsed else "",
-                "filing_source_url": current_meta.url,
-                "filing_form_type": current_meta.form_type,
-                "filing_date": current_meta.filing_date,
-                "filing_parser_quality": current_parsed.get("parser_quality", "weak"),
-                "filing_available_sections": ",".join(current_parsed.get("available_sections", [])),
-            })
+                snapshot.source_metadata["filing_ingestion_reason"] = "unsupported_symbol"
+            return
+        try:
+            metadata = self._filing_ingestion.build_metadata(symbol, cik)
+            snapshot.source_metadata.update(metadata)
         except Exception as exc:
-            print(f"[SECProvider] enrichment failed for {sec_symbol}: {exc}")
-
-    def _get_parsed_filing(self, meta: Optional[Any]) -> Optional[dict]:
-        """Load from cache or parse and save."""
-        if not meta:
-            return None
-            
-        import json
-        cache_path = self._fetcher.get_parsed_cache_path(meta)
-        if os.path.exists(cache_path):
-            with open(cache_path, "r", encoding="utf-8") as f:
-                return json.load(f)
-
-        html = self._fetcher.download_filing(meta)
-        if not html:
-            return None
-
-        parsed = self._parser.parse_sections(html, meta.form_type)
-        with open(cache_path, "w", encoding="utf-8") as f:
-            json.dump(parsed, f, ensure_ascii=False)
-        return parsed
+            print(f"[SECProvider] enrichment failed for {symbol}: {exc}")
+            snapshot.source_metadata["filing_parser_quality"] = "none"
+            snapshot.source_metadata["filing_ingestion_reason"] = "exception"
 
     def _resolve_cik(self, ticker: str) -> Optional[str]:
         ticker = ticker.upper()

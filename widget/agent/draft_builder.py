@@ -101,7 +101,17 @@ def build_thesis_draft(
     facts = _dedupe_facts(filtered)
     branches = _build_branches(thesis_type, filtered)
     
-    # Smarter summary generation: deduplicate and join
+    from .draft_generator import DraftGenerator
+    generator = DraftGenerator(symbol, thesis_type)
+    
+    # Use the generator for grounded content
+    grounded_draft = generator.generate(
+        records=filtered,
+        numeric_facts=facts,
+        filing_insights={}, # TODO: Pass from caller if available
+        alpha_signals=[] # TODO: Pass from caller if available
+    )
+    
     unique_claims = []
     for r in filtered:
         claim = r.claim.strip()
@@ -140,45 +150,27 @@ def build_thesis_draft(
     except Exception as e:
         print(f"[DraftBuilder] Belief gap analysis failed: {e}")
 
-    return ThesisDraft(
-        symbol=symbol,
-        title=f"{symbol} AI thesis draft",
-        thesis_type=thesis_type,
-        top_question=top_question,
-        summary=summary,
-        branches=branches,
-        market_belief_map=MarketBeliefMap(
-            consensus_view=consensus,
-            variant_view=variant,
-            mispricing_hypothesis="若關鍵證據持續落地，市場可能低估後續 rerating 空間。",
-            confirming_signals=[record.title or record.topic for record in filtered[:3]],
-            disconfirming_signals=[
-                _KILL_CONDITIONS.get(record.topic, "")
-                for record in filtered[:2]
-                if _KILL_CONDITIONS.get(record.topic)
-            ],
-        ),
-        target_spec=TargetSpec(
-            symbol=symbol,
-            thesis_type=thesis_type,
-            top_question=top_question,
-            key_numeric_facts=facts[:8],
-            metadata={"eligible_evidence_count": len(filtered)},
-        ),
-        rerating_triggers=rerating_triggers,
-        market_belief_gap=belief_gap_data,
-        primary_claims=[record.claim for record in filtered[:3]],
-        break_conditions=[
-            leaf.kill_condition
-            for branch in branches
-            for leaf in branch.leaves
-            if leaf.kill_condition
-        ][:3],
-        confirm_conditions=[record.why_it_matters for record in filtered[:3]],
-        supporting_evidence=filtered,
-        status="needs_review",
-        metadata={"eligible_evidence_count": len(filtered)},
+    # Final assembly using generator's grounded output
+    draft = grounded_draft
+    draft.top_question = top_question
+    draft.summary = summary
+    draft.market_belief_gap = belief_gap_data
+    draft.market_belief_map = MarketBeliefMap(
+        consensus_view=consensus,
+        variant_view=draft.belief_gap_variant or variant,
+        mispricing_hypothesis="若關鍵證據持續落地，市場可能低估後續 rerating 空間。",
+        confirming_signals=[record.title or record.topic for record in filtered[:3]],
+        disconfirming_signals=[
+            _KILL_CONDITIONS.get(record.topic, "")
+            for record in filtered[:2]
+            if _KILL_CONDITIONS.get(record.topic)
+        ],
     )
+    
+    # Inherit existing branches logic for backward compatibility in the tree view
+    draft.branches = branches
+    
+    return draft
 
 
 def build_review_task_for_draft(draft: ThesisDraft) -> ReviewTask:

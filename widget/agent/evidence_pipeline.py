@@ -14,6 +14,7 @@ from widget.agent.verifier import (
     verification_status_for_field,
 )
 from widget.research.evidence_prefill import collect_evidence
+from .synthesizer import EvidenceSynthesizer
 from widget.research.models import ResearchSnapshot
 from widget.research.snapshot_store import SnapshotStore
 from widget.research.thesis_models import EvidenceField, EvidenceSummary
@@ -78,7 +79,12 @@ def extract_evidence_records(
         summary=summary,
     )
     records.extend(analysis.evidence_records)
-    return records
+    
+    # v1.3-a: Apply Synthesis Layer
+    synthesizer = EvidenceSynthesizer()
+    synthesized_records = synthesizer.synthesize(records)
+    
+    return synthesized_records
 
 
 def extract_and_persist_evidence(

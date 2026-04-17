@@ -2,9 +2,9 @@
   "schema_version": 1,
   "symbol": "2317.TW",
   "draft": {
-    "draft_id": "draft_425fa65ebf86",
+    "draft_id": "draft_38709a1e5f01",
     "symbol": "2317.TW",
-    "title": "2317.TW AI thesis draft",
+    "title": "",
     "thesis_type": "industry_recovery",
     "expected_window": "2Q",
     "top_question": "核心需求與庫存循環是否正在修復？",
@@ -12,12 +12,12 @@
     "tree_style": "top_question -> branches -> leaves -> kill_conditions",
     "branches": [
       {
-        "branch_id": "branch_9b50d9a2cab6",
+        "branch_id": "branch_1a52eb4799ce",
         "name": "市場與管理層確認",
         "question": "市場與管理層確認是否支持目前 thesis？",
         "leaves": [
           {
-            "leaf_id": "leaf_83902c598b5d",
+            "leaf_id": "leaf_91fd3d113b6a",
             "question": "法說會可用",
             "hypothesis": "法說會可用：法說可用",
             "data_required": [
@@ -26,7 +26,7 @@
             "conclusion": "法說可用",
             "kill_condition": "若管理層後續說法轉保守，需降低信心。",
             "supporting_evidence_ids": [
-              "evidence_51a07fce26fd"
+              "evidence_b8023fb7e756"
             ],
             "numeric_fact_names": [],
             "kill_conditions": [
@@ -55,9 +55,9 @@
       }
     ],
     "market_belief_map": {
-      "consensus_view": "市場目前仍在等待更多可驗證數據。",
-      "variant_view": "法說會可用：法說可用",
-      "mispricing_hypothesis": "若關鍵證據延續，市場可能低估後續 rerating 空間。",
+      "consensus_view": "市場對 2317.TW 的關注點較分散，尚未形成強烈共識。",
+      "variant_view": "市場目前過於聚焦短期復甦，可能忽視了法說會可用所隱含的長期結構性風險。",
+      "mispricing_hypothesis": "若關鍵證據持續落地，市場可能低估後續 rerating 空間。",
       "confirming_signals": [
         "法說會可用"
       ],
@@ -66,39 +66,26 @@
       ],
       "metadata": {}
     },
-    "target_spec": {
-      "target_id": "target_85aa5a16b954",
-      "symbol": "2317.TW",
-      "company_name": "",
-      "market": "",
-      "thesis_type": "industry_recovery",
-      "valuation_mode": "",
-      "horizon": "",
-      "top_question": "核心需求與庫存循環是否正在修復？",
-      "baseline_assumptions": [],
-      "key_numeric_facts": [],
-      "tags": [],
-      "metadata": {
-        "eligible_evidence_count": 1
-      },
-      "created_at": "2026-04-10T17:19:20.837548+00:00",
-      "updated_at": "2026-04-10T17:19:20.837548+00:00"
-    },
-    "rerating_triggers": [
-      "需等待更多已驗證證據，暫不建立 rerating trigger。"
-    ],
+    "target_spec": null,
+    "rerating_triggers": [],
     "primary_claims": [
-      "法說會可用：法說可用"
+      "[W] 產業庫存開始下降 (待驗證關鍵指標)",
+      "[P] 下游需求回溫",
+      "[P] 營收或出貨量季增"
     ],
     "break_conditions": [
-      "若管理層後續說法轉保守，需降低信心。"
+      "[W] 庫存續升兩季 (待驗證關鍵指標)",
+      "[P] 客戶持續砍單",
+      "[P] 營收連兩季未改善"
     ],
     "confirm_conditions": [
-      "用來驗證管理層近期是否提供新的溝通訊號。"
+      "[W] 庫存明確下降 (待驗證關鍵指標)",
+      "[W] EPS 上修 (待驗證關鍵指標)",
+      "[P] 管理層上調 guidance"
     ],
     "supporting_evidence": [
       {
-        "evidence_id": "evidence_51a07fce26fd",
+        "evidence_id": "evidence_b8023fb7e756",
         "symbol": "2317.TW",
         "evidence_type": "transcript",
         "topic": "transcript",
@@ -136,15 +123,28 @@
           "snapshot_symbol": "2317.TW",
           "accepted": true
         },
-        "created_at": "2026-04-10T17:19:18.492741+00:00"
+        "created_at": "2026-04-11T10:41:04.721804+00:00"
       }
     ],
-    "status": "approved",
+    "status": "draft",
     "source_mode": "ai_assisted",
-    "metadata": {
-      "eligible_evidence_count": 1
+    "market_belief_gap": {
+      "challenging_claims": [
+        "「法說會可用：法說可用」目前仍停留在敘事階段"
+      ],
+      "milestones": [],
+      "rerating_trigger": "需要管理層提供更具體（Specificity）的時間線或客戶進度"
     },
-    "created_at": "2026-04-10T17:19:20.837568+00:00",
-    "updated_at": "2026-04-10T17:19:20.837568+00:00"
+    "belief_gap_variant": "市場目前過於聚焦短期復甦，可能忽視了法說會可用所隱含的長期結構性風險。",
+    "risks_and_delays": [
+      "[P] 目前無明顯時程延後信號"
+    ],
+    "grounded_metadata": {},
+    "metadata": {
+      "generator_version": "1.2",
+      "evidence_count": 1
+    },
+    "created_at": "2026-04-11T10:41:09.302295+00:00",
+    "updated_at": "2026-04-11T10:41:09.302295+00:00"
   }
 }

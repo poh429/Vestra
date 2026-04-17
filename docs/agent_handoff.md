@@ -103,3 +103,90 @@ Found under `widget/agent/`:
 ## What the next agent should do
 只做 `docs/next_task.md` 定義的任務。
 不要自行擴張範圍。
+## v1.3-b Handoff Notes (Direct Filing Ingestion Layer)
+- Implemented direct filing ingestion foundation under `widget/research/filing_ingestion/`.
+- Added strict whitelist gate for direct filing ingestion:
+  - `2330.TW -> TSM`
+  - other `.TW` symbols clean fallback with `filing_parser_quality=none`.
+- Added three-layer cache paths:
+  - `cache/raw/`
+  - `cache/parsed/`
+  - `cache/index/`
+- Added normalized filing package -> `source_metadata` mapping compatible with:
+  - `widget/research/filing_insights.py`
+  - `widget/research/evidence_prefill.py`
+  - v1.3-a synthesizer via existing evidence pipeline path.
+- Guardrail preserved:
+  - parser output is text metadata only; no parser-derived numeric truth.
+
+## v1.4-a Handoff Notes (Framework Router + Coverage Workspace)
+- Added `widget/agent/coverage_workspace.py` for file-backed sidecar persistence under `coverage/<symbol>/`.
+- Added `widget/agent/framework_router.py` to generate:
+  - `root_question`
+  - `tree_style`
+  - `frameworks_selected`
+  - branch skeletons
+- Guardrails preserved:
+  - no live thesis mutation
+  - no evaluator rewrite
+  - no UI coupling
+
+## v1.4-b Handoff Notes (Tree Builder)
+- Added `widget/agent/tree_builder.py`.
+- Input:
+  - `TargetSpec`
+  - narrative sidecar
+  - framework router output
+  - optional evidence summary
+- Output:
+  - sidecar `tree.json`
+  - branch contracts with `why_this_branch_matters` and `criticality`
+  - leaf contracts with explicit `kill_condition` and `delayed_condition`
+- Default leaf state:
+  - `status=grey`
+  - `verdict=unknown`
+  - `confidence=null`
+- Wiring:
+  - `build_framework_plan(...)` -> `build_tree_contract(...)` -> `CoverageWorkspace.save_tree(...)`
+- Still intentionally excluded:
+  - scenario valuation
+  - coverage writer
+
+### Phase v1.4-c (Leaf Research Executor)
+- **Goal**: Process a single `tree.json` leaf contract against synthesized evidence and filing data to produce a verdict sidecar.
+- **Rules**:
+  - Must not mutate the live `thesis_evaluator.py` or active state.
+  - LLM is used for parsing logic, not treating descriptive text as verified numbers.
+  - Verdict is constrained to Enum (`supported`, `partially_supported`, `delayed`, `contradicted`, `unknown`).
+  - Missing evidence gracefully falls back to `unknown`.
+- **Wiring**:
+  - Reads `leaf` + `evidence`, executes via `LeafResearchExecutor.execute_leaf_research()`.
+  - Persists JSON via `CoverageWorkspace.save_leaf_results()`.
+
+### Phase v1.4-d (Scenario Valuation)
+- **Goal**: Synthesize leaf verdicts and the overarching tree into Bull, Base, and Bear scenarios outlining the implied market perspective.
+- **Rules**:
+  - `delayed` vs `contradicted` scenarios have distinct consequences on valuation logic. 
+  - If a numeric base is absent, model will regress to qualitative bounds.
+  - Adapter logic isolates LLM parse errors / timeouts.
+- **Wiring**:
+  - `ScenarioValuationEngine.evaluate_scenarios()` integrates inputs.
+  - Persists generic `ScenarioValuationResult` to sidecar mapping via `CoverageWorkspace.save_valuation(...)`.
+
+### Phase v1.5 (Coverage Writer)
+- **Goal**: Read strictly from the sidecar JSON structure to produce final analyst-readable markdown and traceable output states (`report_state.json`).
+- **Rules**:
+  - Ex-ante facts and verdicts are strictly inherited; LLM acts as an aggregator, not an author.
+  - Generates rigid markdown structure programmatically to block hallucinatory logic inserts.
+- **Wiring**:
+  - Uses `CoverageWriterEngine.generate_report()`
+  - Calls `CoverageWorkspace.save_report_state()` and `CoverageWorkspace.save_report_markdown()`
+
+### Phase v1.5.1 (Review Queue Bridge)
+- **Goal**: Create automated escalation `ReviewTask` records purely based on derived metrics from v1.4 logic, bridging sidecars to human intervention points.
+- **Rules**:
+  - LLM must **not** be used in this phase to prevent logic mutation.
+  - Generates discrete prioritization limits (e.g. `DELAY_CLUSTER_THRESHOLD`).
+- **Wiring**:
+  - `ReviewQueueBridge.generate_review_tasks()` processes variables via conditional checks.
+  - Calls `CoverageWorkspace.save_review_tasks()` alongside a generic sidecar payload.

@@ -240,6 +240,7 @@ class ThesisDefinition:
     thesis_type: str = "other"
     expected_window: str = "2Q"
     primary_claims: list[str] = field(default_factory=list)
+    risks_and_delays: list[str] = field(default_factory=list) # v1.2: Delayed vs Broken separation
     break_conditions: list[str] = field(default_factory=list)
     confirm_conditions: list[str] = field(default_factory=list)
     created_at: str = ""

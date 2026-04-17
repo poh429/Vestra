@@ -2,9 +2,9 @@
   "schema_version": 1,
   "symbol": "AAPL",
   "draft": {
-    "draft_id": "draft_05776c929544",
+    "draft_id": "draft_a50034b05efa",
     "symbol": "AAPL",
-    "title": "AAPL AI thesis draft",
+    "title": "",
     "thesis_type": "industry_recovery",
     "expected_window": "2Q",
     "top_question": "核心需求與庫存循環是否正在修復？",
@@ -12,12 +12,12 @@
     "tree_style": "top_question -> branches -> leaves -> kill_conditions",
     "branches": [
       {
-        "branch_id": "branch_191ec99ff0f0",
+        "branch_id": "branch_5fc39e0e27da",
         "name": "需求與庫存",
         "question": "需求與庫存是否支持目前 thesis？",
         "leaves": [
           {
-            "leaf_id": "leaf_778f25de15fe",
+            "leaf_id": "leaf_749d5761a2c3",
             "question": "庫存趨勢",
             "hypothesis": "庫存趨勢：→ 0.0%",
             "data_required": [
@@ -28,7 +28,7 @@
             "conclusion": "→ 0.0%",
             "kill_condition": "若庫存再度顯著上升，需重新檢視需求修復假設。",
             "supporting_evidence_ids": [
-              "evidence_80b11f726e0e"
+              "evidence_ca4690773bb5"
             ],
             "numeric_fact_names": [
               "inventory_trend_previous",
@@ -62,7 +62,7 @@
     ],
     "market_belief_map": {
       "consensus_view": "市場對 AAPL 的關注點較分散，尚未形成強烈共識。",
-      "variant_view": "領先訊號指示：庫存趨勢：→ 0.0% / 管理層共識：財報與法說互證可用 / 財報風險：偵測到新風險",
+      "variant_view": "市場目前過於聚焦短期復甦，可能忽視了庫存趨勢所隱含的長期結構性風險。",
       "mispricing_hypothesis": "若關鍵證據持續落地，市場可能低估後續 rerating 空間。",
       "confirming_signals": [
         "庫存趨勢",
@@ -74,104 +74,26 @@
       ],
       "metadata": {}
     },
-    "target_spec": {
-      "target_id": "target_3845a35d9b96",
-      "symbol": "AAPL",
-      "company_name": "",
-      "market": "",
-      "thesis_type": "industry_recovery",
-      "valuation_mode": "",
-      "horizon": "",
-      "top_question": "核心需求與庫存循環是否正在修復？",
-      "baseline_assumptions": [],
-      "key_numeric_facts": [
-        {
-          "name": "inventory_trend_previous",
-          "value": 5718000000.0,
-          "unit": "",
-          "as_of": "2026-04-10",
-          "period": "",
-          "source_label": "SEC",
-          "source_field": "InventoryNet",
-          "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json",
-          "source_quality": "filed",
-          "source_kind": "snapshot",
-          "metadata": {
-            "role": "previous"
-          }
-        },
-        {
-          "name": "inventory_trend_current",
-          "value": 5718000000.0,
-          "unit": "",
-          "as_of": "2026-04-11",
-          "period": "",
-          "source_label": "SEC",
-          "source_field": "InventoryNet",
-          "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json",
-          "source_quality": "filed",
-          "source_kind": "snapshot",
-          "metadata": {
-            "role": "current"
-          }
-        },
-        {
-          "name": "inventory_trend",
-          "value": 0.0,
-          "unit": "",
-          "as_of": "2026-04-11",
-          "period": "",
-          "source_label": "snapshot",
-          "source_field": "inventory delta",
-          "source_url": "",
-          "source_quality": "derived",
-          "source_kind": "snapshot",
-          "metadata": {
-            "role": "signal"
-          }
-        },
-        {
-          "name": "inventory_trend_delta_pct",
-          "value": 0.0,
-          "unit": "pct",
-          "as_of": "2026-04-11",
-          "period": "",
-          "source_label": "snapshot",
-          "source_field": "inventory delta",
-          "source_url": "",
-          "source_quality": "derived",
-          "source_kind": "snapshot",
-          "metadata": {
-            "role": "delta_pct"
-          }
-        }
-      ],
-      "tags": [],
-      "metadata": {
-        "eligible_evidence_count": 3
-      },
-      "created_at": "2026-04-11T04:12:00.811405+00:00",
-      "updated_at": "2026-04-11T04:12:00.811405+00:00"
-    },
-    "rerating_triggers": [
-      "需等待更多已驗證證據，暫不建立 rerating trigger。"
-    ],
+    "target_spec": null,
+    "rerating_triggers": [],
     "primary_claims": [
-      "庫存趨勢：→ 0.0%",
-      "管理層共識：財報與法說互證可用",
-      "財報風險：偵測到新風險"
+      "[G] 庫存趨勢：→ 0.0%",
+      "[P] 下游需求回溫",
+      "[P] 營收或出貨量季增"
     ],
     "break_conditions": [
-      "若庫存再度顯著上升，需重新檢視需求修復假設。"
+      "[G] 庫存趨勢：→ 0.0%",
+      "[P] 客戶持續砍單",
+      "[P] 營收連兩季未改善"
     ],
     "confirm_conditions": [
-      "用來判斷庫存去化或需求壓力是否改善。",
-      "用來補充 thesis 驗證證據。",
-      "用來補充 thesis 驗證證據。"
+      "[G] 庫存趨勢：→ 0.0%",
+      "[W] EPS 上修 (待驗證關鍵指標)",
+      "[P] 管理層上調 guidance"
     ],
     "supporting_evidence": [
       {
-        "evidence_id": "evidence_80b11f726e0e",
+        "evidence_id": "evidence_ca4690773bb5",
         "symbol": "AAPL",
         "evidence_type": "inventory_trend",
         "topic": "inventory_trend",
@@ -296,10 +218,10 @@
           "snapshot_symbol": "AAPL",
           "accepted": true
         },
-        "created_at": "2026-04-11T04:11:15.506060+00:00"
+        "created_at": "2026-04-11T10:41:42.999954+00:00"
       },
       {
-        "evidence_id": "evidence_8975fa6d7013",
+        "evidence_id": "evidence_9c441cb58489",
         "symbol": "AAPL",
         "evidence_type": "filing_mdna",
         "topic": "filing_mdna",
@@ -337,10 +259,10 @@
           "snapshot_symbol": "AAPL",
           "accepted": true
         },
-        "created_at": "2026-04-11T04:11:15.506081+00:00"
+        "created_at": "2026-04-11T10:41:42.999975+00:00"
       },
       {
-        "evidence_id": "evidence_33c27b3426ad",
+        "evidence_id": "evidence_2ff1656b33a1",
         "symbol": "AAPL",
         "evidence_type": "filing_risks",
         "topic": "filing_risks",
@@ -378,7 +300,7 @@
           "snapshot_symbol": "AAPL",
           "accepted": true
         },
-        "created_at": "2026-04-11T04:11:15.506091+00:00"
+        "created_at": "2026-04-11T10:41:42.999985+00:00"
       }
     ],
     "status": "approved",
@@ -391,10 +313,26 @@
       "milestones": [],
       "rerating_trigger": "需要庫存明確下行或毛利率轉折的數字驗證"
     },
-    "metadata": {
-      "eligible_evidence_count": 3
+    "belief_gap_variant": "市場目前過於聚焦短期復甦，可能忽視了庫存趨勢所隱含的長期結構性風險。",
+    "risks_and_delays": [
+      "[P] 目前無明顯時程延後信號"
+    ],
+    "grounded_metadata": {
+      "claim_0": [
+        "evidence_ca4690773bb5"
+      ],
+      "break_0": [
+        "evidence_ca4690773bb5"
+      ],
+      "confirm_0": [
+        "evidence_ca4690773bb5"
+      ]
     },
-    "created_at": "2026-04-11T04:12:00.811430+00:00",
-    "updated_at": "2026-04-11T04:12:00.811430+00:00"
+    "metadata": {
+      "generator_version": "1.2",
+      "evidence_count": 3
+    },
+    "created_at": "2026-04-11T10:42:28.406058+00:00",
+    "updated_at": "2026-04-11T10:42:28.406058+00:00"
   }
 }

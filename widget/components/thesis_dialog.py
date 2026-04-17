@@ -437,6 +437,11 @@ class ThesisDialog(tk.Toplevel):
         if existing and existing.primary_claims:
             self._claims_text.insert("1.0", "\n".join(existing.primary_claims))
 
+        tk.Label(parent, text="延後 / 風險提示（每行一條）", fg="#F44336", bg=bg, font=theme.FONT_SMALL).pack(anchor="w", **pad)
+        self._risks_text = self._text_area(parent, 2)
+        if existing and getattr(existing, "risks_and_delays", []):
+            self._risks_text.insert("1.0", "\n".join(existing.risks_and_delays))
+
         tk.Label(parent, text="什麼叫看錯（每行一條）", fg=fg, bg=bg, font=theme.FONT_SMALL).pack(anchor="w", **pad)
         self._break_text = self._text_area(parent, 3)
         if existing and existing.break_conditions:
@@ -844,16 +849,19 @@ class ThesisDialog(tk.Toplevel):
                 ).pack(fill="x", padx=6, pady=(4, 0))
 
             challenging = gap.get("challenging_claims", [])
-            if challenging:
+            variant_view = getattr(draft, "belief_gap_variant", "")
+            if challenging or variant_view:
                 row = tk.Frame(self._draft_frame, bg=bg)
                 row.pack(fill="x", padx=6, pady=(2, 0))
                 tk.Label(
-                    row, text="Challenging:", fg="#FF9800", bg=bg,
+                    row, text="Market Belief Gap:", fg="#FF9800", bg=bg,
                     font=("Segoe UI", 7, "bold"), anchor="w"
                 ).pack(side="left")
+                
+                content = variant_view or ", ".join(challenging)
                 tk.Label(
-                    row, text=", ".join(challenging), fg=theme.FG_DIM, bg=bg,
-                    font=("Segoe UI", 6), anchor="w"
+                    row, text=content, fg=theme.FG_DIM, bg=bg,
+                    font=("Segoe UI", 6), anchor="w", wraplength=350, justify="left"
                 ).pack(side="left", padx=4)
 
             milestones = gap.get("milestones", [])
@@ -869,18 +877,16 @@ class ThesisDialog(tk.Toplevel):
                     font=("Segoe UI", 6), anchor="w"
                 ).pack(side="left", padx=4)
 
-        for branch in draft.branches[:2]:
+        if getattr(draft, "risks_and_delays", []):
             tk.Label(
-                self._draft_frame,
-                text=f"- {branch.name}: {len(branch.leaves)} leaves",
-                fg=theme.FG, bg=bg, font=("Segoe UI", 7), anchor="w"
-            ).pack(fill="x", padx=10)
-            for leaf in branch.leaves[:2]:
+                self._draft_frame, text="Risks & Delays:",
+                fg="#F44336", bg=bg, font=("Segoe UI", 7, "bold"), anchor="w"
+            ).pack(fill="x", padx=6, pady=(4, 0))
+            for risk in draft.risks_and_delays[:2]:
                 tk.Label(
-                    self._draft_frame,
-                    text=f"  · {leaf.conclusion}",
+                    self._draft_frame, text=f"  ! {risk}",
                     fg=theme.FG_DIM, bg=bg, font=("Segoe UI", 7), anchor="w"
-                ).pack(fill="x", padx=16)
+                ).pack(fill="x", padx=10)
 
         if draft.rerating_triggers:
             tk.Label(
@@ -933,6 +939,40 @@ class ThesisDialog(tk.Toplevel):
         defn = self._draft.to_thesis_definition()
         if self._existing:
             defn.created_at = self._existing.created_at
+            
+        # UI Update for human review before final save (v1.2)
+        self._claims_text.delete("1.0", "end")
+        self._claims_text.insert("1.0", "\n".join(defn.primary_claims))
+        self._risks_text.delete("1.0", "end")
+        self._risks_text.insert("1.0", "\n".join(defn.risks_and_delays))
+        self._break_text.delete("1.0", "end")
+        self._break_text.insert("1.0", "\n".join(defn.break_conditions))
+        self._confirm_text.delete("1.0", "end")
+        self._confirm_text.insert("1.0", "\n".join(defn.confirm_conditions))
+        
+        # Color coding tags for the text areas
+        for widget in [self._claims_text, self._risks_text, self._break_text, self._confirm_text]:
+            widget.tag_config("grounded", foreground="#4CAF50")
+            widget.tag_config("placeholder", foreground="#888888")
+            widget.tag_config("waiting", foreground="#FF9800", font=("Segoe UI", 8, "italic"))
+            
+            content = widget.get("1.0", "end").split("\n")
+            widget.delete("1.0", "end")
+            for line in content:
+                if not line.strip(): continue
+                tag = "placeholder"
+                clean_line = line
+                if line.startswith("[G]"):
+                    tag = "grounded"
+                    clean_line = line[3:].strip()
+                elif line.startswith("[P]"):
+                    tag = "placeholder"
+                    clean_line = line[3:].strip()
+                elif line.startswith("[W]"):
+                    tag = "waiting"
+                    clean_line = line[3:].strip()
+                widget.insert("end", clean_line + "\n", tag)
+
         self._result = defn
         if self._on_save:
             self._on_save(defn)

@@ -250,6 +250,9 @@ class ThesisDraft:
     status: str = "draft"
     source_mode: str = "ai_assisted"
     market_belief_gap: dict = field(default_factory=dict)
+    belief_gap_variant: str = ""       # Formal "What market doesn't believe" field
+    risks_and_delays: list[str] = field(default_factory=list)
+    grounded_metadata: dict[str, list[str]] = field(default_factory=dict) # Line index -> [source_ids]
     metadata: dict[str, Any] = field(default_factory=dict)
     created_at: str = ""
     updated_at: str = ""
@@ -280,7 +283,9 @@ class ThesisDraft:
             EvidenceRecord.from_dict(item)
             for item in data.get("supporting_evidence", [])
         ]
-        return cls(**data)
+        # Ensure new fields are initialized
+        known_data = {k: v for k, v in data.items() if k in known}
+        return cls(**known_data)
 
     @classmethod
     def from_thesis_definition(
@@ -313,6 +318,7 @@ class ThesisDraft:
             thesis_type=self.thesis_type,
             expected_window=self.expected_window,
             primary_claims=list(self.primary_claims),
+            risks_and_delays=list(self.risks_and_delays),
             break_conditions=list(self.break_conditions),
             confirm_conditions=list(self.confirm_conditions),
         )
@@ -410,3 +416,194 @@ class ReviewTask:
     def from_dict(cls, payload: dict[str, Any]) -> "ReviewTask":
         known = {f.name for f in fields(cls)}
         return cls(**{k: v for k, v in payload.items() if k in known})
+
+
+@dataclass
+class LeafResearchResult:
+    """Per-leaf verdict and evidence validation sidecar result for v1.4-c.
+    
+    Verdicts strictly follow: supported, partially_supported, delayed, contradicted, unknown.
+    """
+
+    leaf_id: str = ""
+    branch_id: str = ""
+    hypothesis: str = ""
+    verdict: str = "unknown"
+    confidence: str = "low"
+    supporting_evidence_ids: list[str] = field(default_factory=list)
+    missing_evidence_topics: list[str] = field(default_factory=list)
+    delayed_progress: str = ""
+    delayed_state: str = "none"  # none, slipping, halted
+    falsification_progress: str = ""
+    falsification_state: str = "none"  # none, warning, breached
+    notes: list[str] = field(default_factory=list)
+    source_summary: str = ""
+    reason_codes: list[str] = field(default_factory=list)
+    llm_status: Optional[str] = None
+    metadata: dict[str, Any] = field(default_factory=dict)
+    created_at: str = ""
+
+    def __post_init__(self) -> None:
+        if not self.created_at:
+            self.created_at = _utc_now_iso()
+
+    def to_dict(self) -> dict[str, Any]:
+        return _serialize(self)
+
+    @classmethod
+    def from_dict(cls, payload: dict[str, Any]) -> "LeafResearchResult":
+        known = {f.name for f in fields(cls)}
+        data = {k: v for k, v in payload.items() if k in known}
+        return cls(**data)
+
+
+@dataclass
+class ScenarioCase:
+    """A specific scenario (bull, base, bear) description within valuation."""
+    
+    narrative: str = ""
+    assumptions: list[str] = field(default_factory=list)
+    implied_financials: dict[str, str] = field(default_factory=dict)
+    probability: str = "unknown"
+
+    def to_dict(self) -> dict[str, Any]:
+        return _serialize(self)
+
+    @classmethod
+    def from_dict(cls, payload: dict[str, Any]) -> "ScenarioCase":
+        known = {f.name for f in fields(cls)}
+        return cls(**{k: v for k, v in payload.items() if k in known})
+
+
+@dataclass
+class ScenarioValuationResult:
+    """Sidecar payload for v1.4-d scenario valuation."""
+    
+    schema_version: str = "1.0"
+    symbol: str = ""
+    valuation_mode: str = "qualitative" # qualitative, quantitative
+    bull_case: Optional[ScenarioCase] = None
+    base_case: Optional[ScenarioCase] = None
+    bear_case: Optional[ScenarioCase] = None
+    market_implied_view: str = ""
+    rerating_triggers: list[str] = field(default_factory=list)
+    branch_under_question: list[str] = field(default_factory=list)
+    expectation_risk: str = ""
+    confidence: str = "low"
+    metadata: dict[str, Any] = field(default_factory=dict)
+    llm_status: Optional[str] = None
+    created_at: str = ""
+
+    def __post_init__(self) -> None:
+        if not self.created_at:
+            self.created_at = _utc_now_iso()
+        if not self.bull_case:
+            self.bull_case = ScenarioCase()
+        if not self.base_case:
+            self.base_case = ScenarioCase()
+        if not self.bear_case:
+            self.bear_case = ScenarioCase()
+
+    def to_dict(self) -> dict[str, Any]:
+        return _serialize(self)
+
+    @classmethod
+    def from_dict(cls, payload: dict[str, Any]) -> "ScenarioValuationResult":
+        known = {f.name for f in fields(cls)}
+        data = {k: v for k, v in payload.items() if k in known}
+        if "bull_case" in data and isinstance(data["bull_case"], dict):
+            data["bull_case"] = ScenarioCase.from_dict(data["bull_case"])
+        if "base_case" in data and isinstance(data["base_case"], dict):
+            data["base_case"] = ScenarioCase.from_dict(data["base_case"])
+        if "bear_case" in data and isinstance(data["bear_case"], dict):
+            data["bear_case"] = ScenarioCase.from_dict(data["bear_case"])
+        return cls(**data)
+
+
+@dataclass
+class CoverageReportState:
+    """Sidecar payload for v1.5 coverage writer report state."""
+    
+    symbol: str = ""
+    root_question: str = ""
+    overall_assessment: str = ""
+    market_belief_gap: str = ""
+    branch_under_question: list[str] = field(default_factory=list)
+    bull_base_bear_summary: dict[str, str] = field(default_factory=dict)
+    major_triggers: list[str] = field(default_factory=list)
+    red_flags: list[str] = field(default_factory=list)
+    must_watch_metrics: list[str] = field(default_factory=list)
+    open_evidence_gaps: list[str] = field(default_factory=list)
+    confidence: str = "low"
+    llm_status: Optional[str] = None
+    metadata: dict[str, Any] = field(default_factory=dict)
+    created_at: str = ""
+
+    def __post_init__(self) -> None:
+        if not self.created_at:
+            self.created_at = _utc_now_iso()
+
+    def to_dict(self) -> dict[str, Any]:
+        return _serialize(self)
+
+    @classmethod
+    def from_dict(cls, payload: dict[str, Any]) -> "CoverageReportState":
+        known = {f.name for f in fields(cls)}
+        data = {k: v for k, v in payload.items() if k in known}
+        return cls(**data)
+
+
+@dataclass
+class ReviewTask:
+    """A deterministic task generated for human review based on sidecar evaluation."""
+    
+    task_id: str = ""
+    symbol: str = ""
+    task_type: str = ""  # e.g., contradicted_leaf, clustered_delay, belief_gap_shift, valuation_risk_escalation, critical_evidence_gap
+    priority: str = "low"  # low, medium, high, critical
+    related_branch_ids: list[str] = field(default_factory=list)
+    related_leaf_ids: list[str] = field(default_factory=list)
+    summary: str = ""
+    rationale: str = ""
+    source_refs: list[str] = field(default_factory=list)
+    created_at: str = ""
+
+    def __post_init__(self) -> None:
+        if not self.task_id:
+            self.task_id = _new_id("rtask")
+        if not self.created_at:
+            self.created_at = _utc_now_iso()
+
+    def to_dict(self) -> dict[str, Any]:
+        return _serialize(self)
+
+    @classmethod
+    def from_dict(cls, payload: dict[str, Any]) -> "ReviewTask":
+        known = {f.name for f in fields(cls)}
+        return cls(**{k: v for k, v in payload.items() if k in known})
+
+
+@dataclass
+class ReviewSummarySidecar:
+    """Sidecar payload tracking generation of review tasks per symbol."""
+    
+    symbol: str = ""
+    escalated_task_ids: list[str] = field(default_factory=list)
+    metadata: dict[str, Any] = field(default_factory=dict)
+    created_at: str = ""
+
+    def __post_init__(self) -> None:
+        if not self.created_at:
+            self.created_at = _utc_now_iso()
+
+    def to_dict(self) -> dict[str, Any]:
+        return _serialize(self)
+
+    @classmethod
+    def from_dict(cls, payload: dict[str, Any]) -> "ReviewSummarySidecar":
+        known = {f.name for f in fields(cls)}
+        return cls(**{k: v for k, v in payload.items() if k in known})
+
+
+
+

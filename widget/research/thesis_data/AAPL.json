@@ -2,17 +2,22 @@
   "thesis_type": "industry_recovery",
   "expected_window": "2Q",
   "primary_claims": [
-    "庫存趨勢：→ 0.0%",
-    "管理層共識：財報與法說互證可用",
-    "財報風險：偵測到新風險"
+    "[G] 庫存趨勢：→ 0.0%",
+    "[P] 下游需求回溫",
+    "[P] 營收或出貨量季增"
+  ],
+  "risks_and_delays": [
+    "[P] 目前無明顯時程延後信號"
   ],
   "break_conditions": [
-    "若庫存再度顯著上升，需重新檢視需求修復假設。"
+    "[G] 庫存趨勢：→ 0.0%",
+    "[P] 客戶持續砍單",
+    "[P] 營收連兩季未改善"
   ],
   "confirm_conditions": [
-    "用來判斷庫存去化或需求壓力是否改善。",
-    "用來補充 thesis 驗證證據。",
-    "用來補充 thesis 驗證證據。"
+    "[G] 庫存趨勢：→ 0.0%",
+    "[W] EPS 上修 (待驗證關鍵指標)",
+    "[P] 管理層上調 guidance"
   ],
   "created_at": "2026-04-11T04:13:14.766275+00:00",
   "guidance_observations": [],

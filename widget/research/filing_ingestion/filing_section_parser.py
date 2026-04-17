@@ -1,114 +1,125 @@
-"""SEC Filing section parser using Regex and BeautifulSoup."""
+"""Section parser for SEC filing HTML with deterministic quality grading."""
 
 from __future__ import annotations
 
 import re
-from typing import Any, Optional
+from typing import Any
 
 from bs4 import BeautifulSoup
 
+_CORE_SECTIONS = ("business_overview", "mdna", "risk_factors")
+
+_FORM_HEADER_MAPS = {
+    "10-K": {
+        "business_overview": [r"ITEM\s+1\.\s+BUSINESS", r"ITEM\s+1\s+BUSINESS"],
+        "risk_factors": [r"ITEM\s+1A\.\s+RISK\s+FACTORS", r"ITEM\s+1A\s+RISK\s+FACTORS"],
+        "mdna": [r"ITEM\s+7\.\s+MANAGEMENT", r"ITEM\s+7\s+MANAGEMENT"],
+    },
+    "10-Q": {
+        "mdna": [r"ITEM\s+2\.\s+MANAGEMENT", r"ITEM\s+2\s+MANAGEMENT"],
+        "risk_factors": [r"ITEM\s+1A\.\s+RISK\s+FACTORS", r"ITEM\s+1A\s+RISK\s+FACTORS"],
+    },
+    "20-F": {
+        "business_overview": [r"ITEM\s+4\.\s+INFORMATION\s+ON\s+THE\s+COMPANY", r"ITEM\s+4\.\s+INFORMATION"],
+        "risk_factors": [r"ITEM\s+3\.D\.\s+RISK\s+FACTORS", r"ITEM\s+3\.D\s+RISK\s+FACTORS"],
+        "mdna": [r"ITEM\s+5\.\s+OPERATING\s+AND\s+FINANCIAL\s+REVIEW", r"OPERATING\s+AND\s+FINANCIAL\s+REVIEW"],
+    },
+    "6-K": {
+        "business_overview": [r"OPERATING\s+HIGHLIGHTS", r"BUSINESS\s+UPDATE", r"INVESTOR\s+PRESENTATION"],
+        "risk_factors": [r"RISK\s+FACTORS", r"UNCERTAINTIES"],
+        "mdna": [r"MANAGEMENT\s+DISCUSSION", r"FINANCIAL\s+RESULTS", r"EARNINGS\s+CALL"],
+    },
+}
+
 
 class FilingSectionParser:
-    def __init__(self):
-        # Maps Form Type to (Section Name -> Header Patterns)
-        self.header_maps = {
-            "10-K": {
-                "business": [r"ITEM\s+1\.\s+BUSINESS", r"ITEM\s+1\s+BUSINESS"],
-                "risk_factors": [r"ITEM\s+1A\.\s+RISK\s+FACTORS", r"ITEM\s+1A\s+RISK\s+FACTORS"],
-                "mdna": [r"ITEM\s+7\.\s+MANAGEMENT", r"ITEM\s+7\s+MANAGEMENT"],
-            },
-            "10-Q": {
-                "mdna": [r"ITEM\s+2\.\s+MANAGEMENT", r"ITEM\s+2\s+MANAGEMENT"],
-                "risk_factors": [r"ITEM\s+1A\.\s+RISK\s+FACTORS", r"ITEM\s+1A\s+RISK\s+FACTORS"],
-            },
-            "20-F": {
-                "risk_factors": [r"ITEM\s+3\.D\.\s+RISK\s+FACTORS", r"ITEM\s+3\.D\s+RISK\s+FACTORS"],
-                "business": [r"ITEM\s+4\.\s+INFORMATION\s+ON\s+THE\s+COMPANY"],
-                "mdna": [r"ITEM\s+5\.\s+OPERATING\s+AND\s+FINANCIAL\s+REVIEW"],
-            }
-        }
-
     def parse_sections(self, html_content: str, form_type: str) -> dict[str, Any]:
-        """Extract sections from filing HTML based on form type template."""
-        sections = {}
-        available_sections = []
-        missing_sections = []
-        
-        soup = BeautifulSoup(html_content, "lxml") if "lxml" in html_content else BeautifulSoup(html_content, "html.parser")
-        # Removing script/style tags for cleaner text extraction
-        for script in soup(["script", "style"]):
-            script.decompose()
-
-        # SEC filings are often huge; we use text-based regex searching to find index 
-        # and then extract content between headers.
+        soup = BeautifulSoup(html_content, "html.parser")
+        for node in soup(["script", "style", "noscript"]):
+            node.decompose()
         full_text = soup.get_text(separator="\n", strip=True)
-        
-        headers = self.header_maps.get(form_type, self.header_maps["10-K"])
-        
-        # Build list of potential header positions
-        found_headers = []
-        for section_id, patterns in headers.items():
-            for pattern in patterns:
-                match = re.search(pattern, full_text, re.IGNORECASE)
-                if match:
-                    found_headers.append({
-                        "id": section_id,
-                        "start": match.start(),
-                        "end": match.end(),
-                        "pattern": pattern
-                    })
-                    break # Use first found pattern for this section
-        
-        # Sort headers by position in document
-        found_headers.sort(key=lambda x: x["start"])
-        
-        for i, header in enumerate(found_headers):
-            start_pos = header["end"]
-            # Content goes until next header or end of doc
-            end_pos = found_headers[i+1]["start"] if (i + 1 < len(found_headers)) else len(full_text)
-            
-            section_text = full_text[start_pos:end_pos].strip()
-            # Basic sanity check: if text is too small, maybe it's just the TOC entry
-            if len(section_text) < 500:
-                # Try finding the NEXT occurrence if this one feels like a TOC
-                next_match = re.search(header["pattern"], full_text[header["end"]:], re.IGNORECASE)
-                if next_match:
-                    new_start = header["end"] + next_match.end()
-                    # Re-calculate segment
-                    next_header_pos = len(full_text)
-                    for h in found_headers:
-                        if h["start"] > new_start:
-                            next_header_pos = h["start"]
-                            break
-                    section_text = full_text[new_start:next_header_pos].strip()
 
-            if len(section_text) > 200:
-                sections[header["id"]] = section_text
-                available_sections.append(header["id"])
-            else:
-                missing_sections.append(header["id"])
+        sections: dict[str, str] = {}
+        diagnostics = {"toc_candidates_skipped": 0}
+        headers = _FORM_HEADER_MAPS.get(form_type, _FORM_HEADER_MAPS["10-K"])
 
-        for h_id in headers:
-            if h_id not in available_sections:
-                if h_id not in missing_sections:
-                    missing_sections.append(h_id)
+        anchors = []
+        for section_name, patterns in headers.items():
+            match_info = self._find_best_anchor(full_text, patterns)
+            if match_info is None:
+                continue
+            start, end, pattern = match_info
+            anchors.append(
+                {
+                    "name": section_name,
+                    "start": start,
+                    "end": end,
+                    "pattern": pattern,
+                }
+            )
+        anchors.sort(key=lambda item: item["start"])
 
-        quality = "high"
-        if len(available_sections) < len(headers):
-            quality = "partial"
-        if not available_sections:
-            quality = "weak"
+        for idx, anchor in enumerate(anchors):
+            section_start = anchor["end"]
+            section_end = anchors[idx + 1]["start"] if idx + 1 < len(anchors) else len(full_text)
+            segment = full_text[section_start:section_end].strip()
+            cleaned = self.clean_text_segment(segment)
+            if self._looks_like_toc(cleaned):
+                diagnostics["toc_candidates_skipped"] += 1
+                continue
+            if len(cleaned) >= 120:
+                sections[anchor["name"]] = cleaned
 
+        available_sections = sorted(name for name, text in sections.items() if text)
+        missing_sections = sorted(set(_CORE_SECTIONS) - set(available_sections))
+        quality = self._grade_quality(sections, available_sections, form_type)
         return {
             "sections": sections,
             "available_sections": available_sections,
             "missing_sections": missing_sections,
             "parser_quality": quality,
-            "parse_errors": []
+            "parse_errors": [],
+            "diagnostics": diagnostics,
         }
 
     def clean_text_segment(self, text: str, max_chars: int = 20000) -> str:
-        """Truncate and clean text segment for analysis consumption."""
-        # Remove repeated newlines
         cleaned = re.sub(r"\n{3,}", "\n\n", text)
-        return cleaned[:max_chars]
+        return cleaned[:max_chars].strip()
+
+    @staticmethod
+    def _find_best_anchor(text: str, patterns: list[str]) -> tuple[int, int, str] | None:
+        best: tuple[int, int, str] | None = None
+        for pattern in patterns:
+            matches = list(re.finditer(pattern, text, flags=re.IGNORECASE))
+            if not matches:
+                continue
+            # Prefer later matches to avoid TOC entry hits near beginning.
+            chosen = matches[min(1, len(matches) - 1)]
+            if best is None or chosen.start() > best[0]:
+                best = (chosen.start(), chosen.end(), pattern)
+        return best
+
+    @staticmethod
+    def _looks_like_toc(segment: str) -> bool:
+        if not segment:
+            return True
+        sample = segment[:500].lower()
+        return sample.count("item ") >= 3 and len(segment) < 500
+
+    @staticmethod
+    def _grade_quality(sections: dict[str, str], available_sections: list[str], form_type: str) -> str:
+        if not available_sections:
+            return "none"
+        core_present = sum(1 for name in _CORE_SECTIONS if sections.get(name))
+        long_sections = sum(1 for text in sections.values() if len(text) >= 600)
+        # 6-K filings are less structured; keep grade conservative.
+        if form_type == "6-K":
+            if long_sections >= 2:
+                return "partial"
+            return "weak"
+        if core_present >= 3 and long_sections >= 2:
+            return "high"
+        if core_present >= 1:
+            return "partial"
+        return "weak"
+

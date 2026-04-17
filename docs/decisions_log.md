@@ -188,3 +188,150 @@ Phase 7 UI Progressive Disclosure 與 AnalystPanel
 
 ### Why
 避免主畫面卡片因過多資訊導致 UI 卡頓或資訊超載。採用 progressive disclosure (漸進式揭露) 模式，不僅讓既有使用者維持簡潔的報價圖表體驗，也讓高手的分析資訊井然有序地統一在單一 Toplevel 面板中。
+## Decision 014
+### Topic
+v1.3-b Direct Filing Ingestion initial coverage
+
+### Decision
+Adopt strict whitelist-first ingestion:
+- enable direct filing ingestion only for `2330.TW -> TSM`
+- all other `.TW` symbols use clean fallback metadata
+
+### Why
+Direct filing parsing quality varies by filer/form and can create noisy false confidence.
+Whitelist-first rollout gives deterministic quality control and limits blast radius.
+
+### Guardrails
+- parser outputs text metadata, not verified numeric truth
+- ingestion/parser failure must not break research snapshot pipeline
+- keep `filing_insights.py` and v1.3-a synthesis path backward compatible
+
+---
+
+## Decision 015
+### Topic
+v1.3-b filing cache architecture
+
+### Decision
+Use explicit 3-layer cache:
+- `raw` for immutable downloaded filing HTML
+- `parsed` for parser output JSON
+- `index` for symbol-level latest ingestion package
+
+### Why
+Separating cache responsibilities improves reliability, replayability, and debugging.
+It also enables parser upgrades without re-downloading immutable filing blobs.
+
+---
+
+## Decision 016
+### Topic
+v1.4-a framework routing and workspace persistence
+
+### Decision
+Add sidecar-first coverage routing:
+- `framework_router.py` selects frameworks and branch skeletons
+- `coverage_workspace.py` persists coverage artifacts under `coverage/<symbol>/`
+
+### Why
+Vestra needs workspace-first orchestration instead of relying on chat memory.
+Routing and persistence are prerequisites for deterministic tree construction and later leaf execution.
+
+### Guardrails
+- no UI dependency
+- no live thesis mutation
+- no evaluator rewrite
+
+---
+
+## Decision 017
+### Topic
+v1.4-b tree builder contract shape
+
+### Decision
+Formalize a sidecar `tree.json` contract with:
+- branch contracts
+- falsifiable leaf contracts
+- explicit `kill_condition`
+- explicit `delayed_condition`
+
+### Why
+The system needs a durable tree structure that can drive leaf execution later without rewriting the existing thesis state machine.
+Separating delayed from broken at the leaf contract level preserves existing analyst discipline.
+
+### Guardrails
+- do not write verdicts into live thesis state
+- default leaf state stays `grey / unknown / null confidence`
+- no scenario valuation or coverage writer in this phase
+
+---
+
+## Decision 018
+### Topic
+v1.4-c Leaf Research execution and verdict sidecar
+
+### Decision
+Implement `LeafResearchExecutor` to produce a rigid sidecar (`LeafResearchResult`) bounded by an Enum of verdicts (`supported`, `partially_supported`, `delayed`, `contradicted`, `unknown`) backed by explicit rule fallbacks instead of pure LLM narrative.
+
+### Why
+To enforce strict discipline:
+- Distinguish between "mechanism intact but timing shifted" (`delayed`) vs "core assumption denied" (`contradicted`).
+- Missing or sparse data strictly falls back to `unknown` rather than allowing AI to confidently hallucinate numeric truths.
+
+### Guardrails
+- LLM response parsing is completely sandboxed via an isolated `llm_adapter.py`.
+- Deterministic pre-checks prevent LLM calls if evidence is weak.
+- Outputs saved statically to `coverage/<symbol>/leaf_results.json` via `CoverageWorkspace`.
+- `thesis_evaluator.py` is entirely bypassed in this flow.
+
+---
+
+## Decision 019
+### Topic
+v1.4-d Scenario Valuation logic and fallback restrictions
+
+### Decision
+Extract Scenario valuation out of the live thesis state. It acts strictly as a structured synthesizer of `tree.json` and `leaf_results.json` to formulate Bull/Base/Bear scenarios (`valuation.json`).
+
+### Why
+To ensure the output explicitly answers "what the market implies" and isolates the impact of "delayed" vs "contradicted" branch signals without polluting core logic. 
+
+### Guardrails
+- When numeric contexts are inadequate or missing, the `valuation_mode` forcefully defaults to `qualitative`.
+- A missing tree structure safely fallbacks to `llm_status="skipped_no_evidence"`.
+
+---
+
+## Decision 020
+### Topic
+v1.5 Coverage Writer formulation constraints
+
+### Decision
+Implement `CoverageWriterEngine` to translate sidecar artifacts (`tree.json`, `leaf_results.json`, `valuation.json`) into human-readable Markdown (`report.md`) and state tracked references (`report_state.json`) without initiating new analysis.
+
+### Why
+Writing the coverage report must be deterministic to preserve the lineage of evidence. If AI is given freedom to rewrite the outcome during drafting, all previous structured logic (verdicts, delays, numerical cases) could be hallucinated over.
+
+### Guardrails
+- Markdown layout is hard-coded programmatically in Python (`_format_markdown`); the AI only fills out the explicit JSON states (`overall_assessment`).
+- `open_evidence_gaps` are anchored against unresolved leaves (`unknown` verdicts).
+- Sidecar isolation ensures zero disruption to the active review queue or live thesis environment.
+
+---
+
+## Decision 021
+### Topic
+v1.5.1 Review Queue Bridge Translation Method
+
+### Decision
+Generate `ReviewTask` payloads purely via deterministic mapping out of aggregated sidecars (`leaf_results`, `valuation`, `report_state`). The LLM is bypassed in this step.
+
+### Why
+To build trust and strictly enforce review conditions (e.g., `DELAY_CLUSTER_THRESHOLD`), the bridge must never hallucinate new threats or silence existing anomalies. High/Critical queue assignments must directly trace back to structured prior outputs.
+
+### Guardrails
+- `contradicted` leaves assert high/critical escalations independently.
+- `delayed` leaves cluster before asserting an escalation to avoid alert fatigue.
+- `valuation_risk_escalation` strictly links back to numeric/modeled thresholds set in v1.4-d.
+
+
