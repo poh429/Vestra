@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "symbol": "2330.TW",
+  "payload": {
+    "schema_version": 1,
+    "symbol": "2330.TW",
+    "filer": "TSM",
+    "form_type": "6-K",
+    "filing_date": "2026-04-17",
+    "accession_number": "0001046179-26-000203",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/1046179/000104617926000203/tsm-boardx20260417x6k.htm",
+    "raw_html_path": "C:\\stock_project\\Vestra\\widget\\research\\filing_ingestion\\cache\\raw\\1046179\\TSM_000104617926000203_2026-04-17_6-K.html",
+    "parsed_cache_path": "C:\\stock_project\\Vestra\\widget\\research\\filing_ingestion\\cache\\parsed\\1046179\\TSM_000104617926000203_2026-04-17_6-K.json",
+    "parser_quality": "none",
+    "available_sections": [],
+    "missing_sections": [
+      "business_overview",
+      "mdna",
+      "risk_factors"
+    ],
+    "sections": {
+      "business_overview": "",
+      "mdna": "",
+      "risk_factors": "",
+      "guidance_related": "",
+      "capital_allocation": ""
+    },
+    "prior_form_type": "6-K",
+    "prior_filing_date": "2026-04-16",
+    "prior_accession_number": "0001046179-26-000201",
+    "prior_sections": {
+      "business_overview": "",
+      "mdna": "",
+      "risk_factors": "",
+      "guidance_related": "",
+      "capital_allocation": ""
+    },
+    "diff": {
+      "new_risks": "",
+      "narrative_shifts": [],
+      "segment_mix_shift": "unknown",
+      "metadata": {}
+    },
+    "diagnostics": {
+      "current_parser_quality": "none",
+      "prior_parser_quality": "none",
+      "current_available_count": 0,
+      "prior_available_count": 0
+    }
+  }
+}

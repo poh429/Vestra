@@ -17,8 +17,8 @@ import tkinter as tk
 from tkinter import messagebox
 import re
 from typing import Callable, Optional
-
 from widget.style import theme
+from widget.agent.coverage_workspace import CoverageWorkspace
 
 
 # ── tiny helpers ─────────────────────────────────────────────────────────────
@@ -64,6 +64,7 @@ class CardWindow(tk.Toplevel):
         self._tf      = item_cfg.get("timeframe", "日線")
         self._mode    = item_cfg.get("chart_mode", "Line")
         
+        self._is_analysing = False
         self._last_ticker_data = {}
         self._last_research = None
         self._last_fundamentals = None
@@ -174,6 +175,7 @@ class CardWindow(tk.Toplevel):
             self._ctx.add_command(label="📝 法說會逐字稿 (AlphaMemo)", command=self._open_alpha_memo)
         self._ctx.add_command(label="📋 設定投資邏輯", command=self._open_thesis_dialog)
         self._ctx.add_command(label="📊 分析面板 (Analyst OS)", command=self._open_analyst_panel)
+        self._ctx.add_command(label="🔄 執行完整分析", command=self._run_full_analysis)
         _mk_ctx_sep(self._ctx)
         self._ctx.add_command(label="✕ 關閉此卡片",    command=self._remove_self)
 
@@ -895,6 +897,47 @@ class CardWindow(tk.Toplevel):
         except Exception as e:
             print(f"[AnalystPanel] error opening panel: {e}")
 
+    def _run_full_analysis(self):
+        """Trigger v1.6 full sidecar analysis via global scheduler or background thread."""
+        self._is_analysing = True
+        self._update_analyst_badges()
+
+        def _on_done(result=None):
+            # Refresh badges on the main thread when done
+            self._is_analysing = False
+            try:
+                if self.winfo_exists():
+                    self.after(0, self._update_analyst_badges)
+            except Exception:
+                pass
+
+        # Try to use Global Scheduler Integration (v1.7-c)
+        mgr = self.master
+        scheduler = getattr(mgr, "_scheduler", None)
+        if scheduler:
+            try:
+                # Dispatch as a high priority manual event with explicit mode (v1.8 fix)
+                scheduler.dispatch_event("full_coverage_analysis", self.symbol, metadata={"mode": "full_analysis"})
+                # No blind timer; _update_analyst_badges handles polling.
+                return
+            except Exception as e:
+                print(f"[RunFullAnalysis] Scheduler dispatch failed: {e}")
+
+        # Fallback to local thread if no scheduler exists
+        def _worker():
+            try:
+                from widget.agent.analysis_orchestrator import AnalysisOrchestrator
+                from widget.agent.models import AnalysisRequest
+                orchestrator = AnalysisOrchestrator(on_complete=_on_done)
+                # Force full_analysis instead of refresh for explicit UI click
+                request = AnalysisRequest(symbol=self.symbol, mode="full_analysis")
+                orchestrator.run(request)
+            except Exception as e:
+                print(f"[FullAnalysis] Local worker error for {self.symbol}: {e}")
+                _on_done()
+
+        threading.Thread(target=_worker, name=f"Analysis_{self.symbol}", daemon=True).start()
+
     def _update_analyst_badges(self):
         """Update the 3 small header badges: thesis state, review pending, scheduler."""
         if self._display != "chart":
@@ -917,29 +960,48 @@ class CardWindow(tk.Toplevel):
             else:
                 thesis_badge.config(text="")
 
-        # 2. Review pending badge
+        # 2. Review pending badge (live queue + sidecar bridge)
         review_badge = getattr(self, "_review_badge", None)
         if review_badge and review_badge.winfo_exists():
             try:
                 from widget.agent.review_queue import ReviewQueueStore
                 tasks = ReviewQueueStore().list_for_symbol(self.symbol)
                 pending = sum(1 for t in tasks if t.status == "pending")
-                if pending > 0:
-                    review_badge.config(text=f" ⚠{pending}", fg="#FF9800")
-                else:
-                    review_badge.config(text="")
             except Exception:
+                pending = 0
+            # Also count sidecar bridge tasks
+            try:
+                from widget.agent.sidecar_loader import load_sidecar_review_tasks
+                sidecar = load_sidecar_review_tasks(self.symbol)
+                pending += sum(1 for t in sidecar if t.get("status", "pending") == "pending")
+            except Exception:
+                pass
+            if pending > 0:
+                review_badge.config(text=f" ⚠{pending}", fg="#FF9800")
+            else:
                 review_badge.config(text="")
 
         # 3. Scheduler heartbeat badge
         sched_badge = getattr(self, "_sched_badge", None)
         if sched_badge and sched_badge.winfo_exists():
+            # If we just clicked or it's running
+            if getattr(self, "_is_analysing", False):
+                sched_badge.config(text=" ⟳...", fg="#BB86FC") # Vibrant purple for activity
+                return
+
             mgr = self.master
             scheduler = getattr(mgr, "_scheduler", None)
             if scheduler:
+                # Check diagnostic for "running" or check subscription
+                from widget.agent.coverage_workspace import CoverageWorkspace
+                diag = CoverageWorkspace().load_run_diagnostic(self.symbol)
+                
                 schedules = getattr(scheduler, "_schedules", {})
                 is_subscribed = any(self.symbol in syms for syms in schedules.values())
-                if is_subscribed:
+                
+                if diag and diag.get("status") == "running":
+                    sched_badge.config(text=" ⟳...", fg="#BB86FC")
+                elif is_subscribed:
                     sched_badge.config(text=" ⟳", fg=theme.FG_DIM)
                 else:
                     sched_badge.config(text="")

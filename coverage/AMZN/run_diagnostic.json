@@ -1,0 +1,16 @@
+{
+  "symbol": "AMZN",
+  "mode": "full_analysis",
+  "status": "completed",
+  "steps_completed": [],
+  "steps_skipped": [],
+  "steps_failed": {},
+  "active_step": "framework_router",
+  "active_detail": "Discovery: Identifying core thesis story for AMZN...",
+  "review_tasks_generated": 0,
+  "report_path": null,
+  "report_state_path": null,
+  "elapsed_seconds": 0.0,
+  "metadata": {},
+  "created_at": "2026-04-19T03:11:19.919123+00:00"
+}

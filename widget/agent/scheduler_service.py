@@ -24,6 +24,7 @@ _PRIORITY_MAP = {
     "post_close_daily_audit": "medium",
     "weekly_peer_check": "low",
     "monthly_tree_audit": "low",
+    "full_coverage_analysis": "low",
 }
 
 
@@ -45,8 +46,34 @@ class SchedulerService:
 
         self._schedules: Dict[str, List[str]] = self._load_config()
         self._last_run: Dict[str, Dict[str, float]] = self._load_state()
+        self._status_map: Dict[str, str] = {}
 
         self._register_default_jobs()
+        self._auto_subscribe_covered_symbols()
+
+    def _auto_subscribe_covered_symbols(self) -> None:
+        """Scan workspace and auto-subscribe symbols with active/watched coverage status."""
+        from widget.agent.coverage_workspace import CoverageWorkspace
+        ws = CoverageWorkspace()
+        try:
+            if not ws._root.exists():
+                return
+            for symbol_dir in ws._root.iterdir():
+                if symbol_dir.is_dir():
+                    symbol = symbol_dir.name
+                    if (symbol_dir / "tree.json").exists():
+                        # Load status from target_spec.json
+                        spec = ws.load_target_spec(symbol)
+                        status = spec.coverage_status if spec else "watched"
+                        self._status_map[symbol] = status
+                        
+                        if status in ["active", "watched"]:
+                            self.subscribe("full_coverage_analysis", symbol)
+                            logger.info(f"[Scheduler] Auto-subscribed {symbol} ({status}) to full_coverage_analysis")
+                        else:
+                            logger.info(f"[Scheduler] Skipped {symbol} (status={status})")
+        except Exception as e:
+            logger.error(f"[Scheduler] Error during auto-subscription: {e}")
 
     def _register_default_jobs(self) -> None:
         from widget.agent.jobs import (
@@ -63,6 +90,9 @@ class SchedulerService:
         self._worker.register_handler("quarterly_rebuild", quarterly_rebuild)
         self._worker.register_handler("alphamemo_transcript_ingest", alphamemo_transcript_ingest)
         self._worker.register_handler("review_queue_digest", review_queue_digest)
+
+        from widget.agent.jobs import full_coverage_analysis
+        self._worker.register_handler("full_coverage_analysis", full_coverage_analysis)
 
     def _load_config(self) -> Dict[str, List[str]]:
         """Load symbols subscribed to different job types."""
@@ -110,11 +140,11 @@ class SchedulerService:
             self._schedules[job_type].remove(symbol)
             self._save_config()
 
-    def dispatch_event(self, job_type: str, symbol: str) -> None:
+    def dispatch_event(self, job_type: str, symbol: str, metadata: Optional[Dict] = None) -> None:
         """Manually trigger an event-driven job regardless of schedule (but respecting quota)."""
         priority = _PRIORITY_MAP.get(job_type, "medium")
         if self._quota.consume(priority=priority):
-            self._worker.enqueue(job_type, symbol, priority)
+            self._worker.enqueue(job_type, symbol, priority, metadata=metadata)
             self._mark_run(job_type, symbol)
         else:
             logger.warning(f"Quota exceeded. Dropped manual job {job_type} for {symbol}.")
@@ -160,6 +190,7 @@ class SchedulerService:
             "monthly_tree_audit": 86400 * 30,           # ~30 days
             "quarterly_rebuild": 86400 * 90,            # ~90 days
             "review_queue_digest": 86400,               # 1 day
+            "full_coverage_analysis": 21600,            # 6 hours
         }
 
         for job_type, symbols in self._schedules.items():
@@ -170,8 +201,19 @@ class SchedulerService:
             priority = _PRIORITY_MAP.get(job_type, "medium")
 
             for symbol in symbols:
+                # Per-symbol interval logic for full_coverage_analysis
+                current_interval = interval
+                if job_type == "full_coverage_analysis":
+                    status = self._status_map.get(symbol, "active")
+                    if status == "active":
+                        current_interval = 21600  # 6h
+                    elif status == "watched":
+                        current_interval = 86400  # 24h
+                    else:
+                        continue # paused/archived
+                
                 last_run = self._last_run.get(job_type, {}).get(symbol, 0)
-                if (now - last_run) >= interval:
+                if (now - last_run) >= current_interval:
                     # Time to run. Check quota.
                     if self._quota.consume(priority=priority):
                         self._worker.enqueue(job_type, symbol, priority)

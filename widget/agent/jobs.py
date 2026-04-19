@@ -99,3 +99,49 @@ def review_queue_digest(symbol: str, task: Dict[str, Any]) -> None:
         # Future UI Extension: Emit 'system_alert' to main event bus
     else:
         logger.info("Review queue digest: No pending tasks.")
+
+
+def full_coverage_analysis(symbol: str, task: Dict[str, Any]) -> None:
+    """v1.6 — Run the full sidecar analysis pipeline for a symbol."""
+    logger.info(f"Running full_coverage_analysis for {symbol}")
+    try:
+        from widget.agent.analysis_orchestrator import AnalysisOrchestrator
+        from widget.agent.models import AnalysisRequest
+        
+        # metadata is the dict containing job details
+        metadata = task.get("metadata", {})
+        mode = metadata.get("mode", "refresh")
+        
+        orchestrator = AnalysisOrchestrator()
+        result = orchestrator.run(AnalysisRequest(symbol=symbol, mode=mode))
+        
+        logger.info(
+            f"[full_coverage_analysis] {symbol}: status={result.status}, "
+            f"steps={result.steps_completed}, elapsed={result.elapsed_seconds}s"
+        )
+    except Exception as e:
+        logger.error(f"[full_coverage_analysis] Critical crash for {symbol}: {e}", exc_info=True)
+        # Emit emergency ReviewTask for background crash
+        try:
+            from widget.agent.review_queue import ReviewTask, ReviewQueueStore
+            from widget.agent.coverage_workspace import CoverageWorkspace
+            import uuid
+            from datetime import datetime, timezone
+            
+            error_task = ReviewTask(
+                task_id=str(uuid.uuid4()),
+                symbol=symbol,
+                title="❌ Background Analysis Crashed",
+                summary=f"Automated analysis pipeline crashed for {symbol}.",
+                rationale=f"Fatal error during coverage sync: {e}. Orchestrator run aborted. Human review required to verify thesis data freshness.",
+                priority="high",
+                status="pending",
+                task_type="coverage_sync_failed",
+                created_at=datetime.now(timezone.utc).isoformat()
+            )
+            ReviewQueueStore().upsert(error_task)
+            CoverageWorkspace().save_review_tasks(symbol, [error_task.to_dict()])
+        except Exception as notify_err:
+            logger.error(f"Failed to emit crash notification: {notify_err}")
+
+

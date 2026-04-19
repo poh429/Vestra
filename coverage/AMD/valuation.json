@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0",
+  "symbol": "AMD",
+  "valuation_mode": "qualitative",
+  "bull_case": {
+    "narrative": "",
+    "assumptions": [],
+    "implied_financials": {},
+    "probability": "unknown"
+  },
+  "base_case": {
+    "narrative": "",
+    "assumptions": [],
+    "implied_financials": {},
+    "probability": "unknown"
+  },
+  "bear_case": {
+    "narrative": "",
+    "assumptions": [],
+    "implied_financials": {},
+    "probability": "unknown"
+  },
+  "market_implied_view": "Analysis interrupted due to LLM adapter failure.",
+  "rerating_triggers": [],
+  "branch_under_question": [],
+  "expectation_risk": "unknown",
+  "confidence": "low",
+  "metadata": {
+    "reason_codes": [
+      "PROVIDER_ERROR"
+    ]
+  },
+  "llm_status": "error",
+  "created_at": "2026-04-19T03:15:22.797649+00:00"
+}

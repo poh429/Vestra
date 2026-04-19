@@ -1,0 +1,20 @@
+{
+  "symbol": "4569.TW",
+  "mode": "refresh",
+  "status": "failed",
+  "steps_completed": [],
+  "steps_skipped": [
+    "framework_router"
+  ],
+  "steps_failed": {
+    "tree_builder": "Refresh mode requires valid tree.json. Error: legacy_tree"
+  },
+  "active_step": "",
+  "active_detail": "",
+  "review_tasks_generated": 0,
+  "report_path": null,
+  "report_state_path": null,
+  "elapsed_seconds": 0.0,
+  "metadata": {},
+  "created_at": "2026-04-19T02:16:46.995000+00:00"
+}

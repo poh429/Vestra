@@ -1,0 +1,42 @@
+{
+  "symbol": "6706.TW",
+  "thesis_type": "other",
+  "tree_style": "process",
+  "root_question": "目前 thesis 的核心可驗證問題是什麼？",
+  "frameworks_selected": [
+    {
+      "id": "decision_tree_risk_map",
+      "label": "Decision Tree Risk Map",
+      "category": "risk_decision"
+    },
+    {
+      "id": "rerating_trigger_map",
+      "label": "Rerating Trigger Map",
+      "category": "risk_decision"
+    }
+  ],
+  "branches": [
+    {
+      "branch_id": "A",
+      "name": "Core thesis path",
+      "framework": "Decision Tree Risk Map",
+      "framework_id": "decision_tree_risk_map",
+      "question": "核心 thesis 依賴哪些可驗證條件？",
+      "priority": 0,
+      "metadata": {
+        "thesis_type": "other",
+        "company_archetype": "",
+        "evidence_hint": ""
+      },
+      "leaves": []
+    }
+  ],
+  "market_belief_seed": "",
+  "variant_candidates": [],
+  "top_question_candidates": [],
+  "metadata": {
+    "company_archetype": "",
+    "consensus_view": [],
+    "evidence_overview": {}
+  }
+}

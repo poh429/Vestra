@@ -1,0 +1,14 @@
+{
+  "sections": {},
+  "available_sections": [],
+  "missing_sections": [
+    "business_overview",
+    "mdna",
+    "risk_factors"
+  ],
+  "parser_quality": "none",
+  "parse_errors": [],
+  "diagnostics": {
+    "toc_candidates_skipped": 0
+  }
+}

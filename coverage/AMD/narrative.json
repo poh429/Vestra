@@ -1,0 +1,10 @@
+{
+  "story": "AMD presents a classic tech semiconductor recovery narrative where the market remains uncertain about whether recent data center and AI GPU market share gains against NVIDIA are structural or cyclical, creating a valuation gap that could close if AMD's MI300X AI chip ramp exceeds the conservative expectations embedded in current pricing, though bears point to execution risks, intense competition, and potential overestimation of AI infrastructure spending durability as key reasons for skepticism.",
+  "thesis_type": "recovery",
+  "company_archetype": "cyclical_recovery",
+  "belief_gap_seed": "Market appears to be pricing AMD's AI GPU opportunity conservatively, potentially underweighting the structural nature of its data center market share gains versus NVIDIA, while bulls may be overestimating the durability of AI infrastructure capex cycles and AMD's ability to sustain premium pricing against a deeply resourced competitor.",
+  "top_question_candidates": [
+    "Can AMD's MI300X and future AI GPU generations sustain meaningful market share against NVIDIA's CUDA ecosystem moat?",
+    "Is the current AI infrastructure spending cycle structural enough to support AMD's data center growth targets through 2025-2026?"
+  ]
+}

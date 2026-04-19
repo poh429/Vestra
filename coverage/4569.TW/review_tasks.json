@@ -1,0 +1,21 @@
+[
+  {
+    "task_id": "rtask_6a358c60fae8",
+    "symbol": "4569.TW",
+    "task_type": "valuation_risk_escalation",
+    "priority": "high",
+    "status": "pending",
+    "title": "⚠ 估值風險升級",
+    "related_branch_ids": [],
+    "related_leaf_ids": [],
+    "summary": "Elevated expectation risk in valuation model.",
+    "rationale": "Model indicated risk level: high",
+    "notes": [
+      "Expectation risk: high"
+    ],
+    "source_refs": [
+      "VALUATION_SIDECAR"
+    ],
+    "created_at": "2026-04-18T14:50:46.035555+00:00"
+  }
+]

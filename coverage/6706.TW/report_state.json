@@ -1,0 +1,20 @@
+{
+  "symbol": "6706.TW",
+  "root_question": "目前 thesis 的核心可驗證問題是什麼？",
+  "overall_assessment": "",
+  "market_belief_gap": "Insufficient data to determine market implied view.",
+  "branch_under_question": [],
+  "bull_base_bear_summary": {},
+  "major_triggers": [],
+  "red_flags": [],
+  "must_watch_metrics": [],
+  "open_evidence_gaps": [],
+  "confidence": "medium",
+  "llm_status": "success",
+  "metadata": {
+    "delayed_leaf_count": 0,
+    "contradicted_leaf_count": 0,
+    "unknown_leaf_count": 0
+  },
+  "created_at": "2026-04-18T17:17:55.647302+00:00"
+}
