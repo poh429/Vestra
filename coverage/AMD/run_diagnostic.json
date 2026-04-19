@@ -3,22 +3,19 @@
   "mode": "full_analysis",
   "status": "completed",
   "steps_completed": [
-    "tree_builder",
-    "search_agent",
-    "scenario_valuation"
+    "framework_router",
+    "tree_builder"
   ],
-  "steps_skipped": [
-    "leaf_research_executor"
-  ],
-  "steps_failed": {
-    "framework_router": "CoverageWorkspace.save_target_spec() takes 2 positional arguments but 3 were given"
-  },
-  "active_step": "coverage_writer",
-  "active_detail": "Synthesizing markdown report for AMD...",
+  "steps_skipped": [],
+  "steps_failed": {},
+  "active_step": "leaf_research_executor",
+  "active_detail": "Evaluating leaf: The thesis has identifiable invalidation points that can be monitored before permanent damage occurs.",
   "review_tasks_generated": 0,
   "report_path": null,
   "report_state_path": null,
   "elapsed_seconds": 0.0,
-  "metadata": {},
-  "created_at": "2026-04-19T03:12:17.850879+00:00"
+  "metadata": {
+    "tree_rebuild_reason": "legacy_tree"
+  },
+  "created_at": "2026-04-19T04:07:20.771734+00:00"
 }

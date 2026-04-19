@@ -1,20 +1,21 @@
 {
   "symbol": "2344.TW",
-  "mode": "refresh",
-  "status": "failed",
-  "steps_completed": [],
-  "steps_skipped": [
-    "framework_router"
+  "mode": "full_analysis",
+  "status": "completed",
+  "steps_completed": [
+    "framework_router",
+    "tree_builder"
   ],
-  "steps_failed": {
-    "tree_builder": "Refresh mode requires valid tree.json. Error: legacy_tree"
-  },
-  "active_step": "",
-  "active_detail": "",
+  "steps_skipped": [],
+  "steps_failed": {},
+  "active_step": "leaf_research_executor",
+  "active_detail": "Evaluating leaf: The thesis has identifiable invalidation points that can be monitored before permanent damage occurs.",
   "review_tasks_generated": 0,
   "report_path": null,
   "report_state_path": null,
   "elapsed_seconds": 0.0,
-  "metadata": {},
-  "created_at": "2026-04-19T02:16:46.997262+00:00"
+  "metadata": {
+    "tree_rebuild_reason": "legacy_tree"
+  },
+  "created_at": "2026-04-19T04:11:58.314436+00:00"
 }

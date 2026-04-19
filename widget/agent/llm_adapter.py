@@ -21,7 +21,7 @@ if str(_root) not in sys.path:
     sys.path.insert(0, str(_root))
 
 try:
-    from llm_core import call_openrouter, call_google_sdk, call_nvidia_nim, initialize_services
+    from llm_core import call_openrouter, call_google_sdk, call_nvidia_nim, call_cherry_studio, initialize_services
     print(f"  [Vestra-Adapter] Successfully loaded internal llm_core from: {_root}")
 except ImportError as e:
     # Error diagnostic
@@ -31,6 +31,7 @@ except ImportError as e:
     call_openrouter = None
     call_google_sdk = None
     call_nvidia_nim = None
+    call_cherry_studio = None
     initialize_services = lambda: None
 
 
@@ -68,31 +69,33 @@ class StructuredLLMAdapter:
             # 3. Track providers errors
             errors = []
 
-            # 4. Ultra-Low Latency Provider: NVIDIA NIM (Minimax)
+            # 4. PRIMARY: NVIDIA NIM (Minimax) Direct Cloud — with retry
             if call_nvidia_nim:
-                # User specifically requested minimaxai/minimax-m2.7
-                res = call_nvidia_nim("minimaxai/minimax-m2.7", [
-                    {"role": "system", "content": "You are a senior financial analyst. Reply strictly with raw JSON."},
-                    {"role": "user", "content": prompt}
-                ], temperature=0.1)
-                if res:
-                    return self._safe_parse(res)
-                errors.append("NVIDIA NIM (Minimax) returned None.")
+                for attempt in range(2):
+                    res = call_nvidia_nim("minimaxai/minimax-m2.7", [
+                        {"role": "system", "content": "You are a senior financial analyst. Reply strictly with raw JSON."},
+                        {"role": "user", "content": prompt}
+                    ], temperature=0.1)
+                    if res:
+                        return self._safe_parse(res)
+                    if attempt == 0:
+                        import time
+                        time.sleep(2)  # Brief pause before retry
+                errors.append("NVIDIA NIM (Minimax) failed after 2 attempts.")
 
-            # 5. Primary Provider: Direct Google SDK (Fastest & most stable)
+            # 5. SECONDARY: Direct Google SDK
             if call_google_sdk:
                 res = call_google_sdk("gemini-2.0-flash", prompt, temperature=0.1)
                 if res:
                     return self._safe_parse(res)
                 errors.append("Google SDK returned None.")
 
-            # 5. Secondary Provider: OpenRouter Multi-Model Chain (User preferred Gemma)
+            # 6. TERTIARY: OpenRouter Multi-Model Chain
             if call_openrouter:
                 messages = [
                     {"role": "system", "content": "You are a senior financial analyst. Reply strictly with a raw valid JSON object. No markdown blocks."},
                     {"role": "user", "content": prompt}
                 ]
-                # High-tier free models - Using User's requested Gemma + Gemini/Llama fallbacks
                 models = [
                     "google/gemma-4-31b-it:free",
                     "google/gemma-2-9b-it:free",
@@ -103,7 +106,17 @@ class StructuredLLMAdapter:
                 res = call_openrouter(models, messages, temperature=0.1)
                 if res:
                     return self._safe_parse(res)
-                errors.append("OpenRouter chain failed (Likely 429/404).")
+                errors.append("OpenRouter chain failed.")
+
+            # 7. LAST RESORT: Cherry Studio local relay (only if running)
+            if call_cherry_studio:
+                res = call_cherry_studio("minimaxai/minimax-m2.7", [
+                    {"role": "system", "content": "You are a senior financial analyst. Reply strictly with raw JSON."},
+                    {"role": "user", "content": prompt}
+                ], temperature=0.1)
+                if res:
+                    return self._safe_parse(res)
+                errors.append("Cherry Studio local relay returned None.")
 
             raise Exception(f"All LLM providers failed. Log: {'; '.join(errors)}")
             
@@ -112,8 +125,9 @@ class StructuredLLMAdapter:
                 "verdict": "unknown",
                 "llm_status": "error",
                 "reason_codes": ["PROVIDER_ERROR"],
-                "notes": [f"Dual-Track Engine Error: {e}"]
+                "notes": [f"Real LLM Engine Error: {e}"]
             }
+
 
     def _mock_call(self, prompt: str) -> str:
         """Internal mock for v1.4-c isolation testing."""

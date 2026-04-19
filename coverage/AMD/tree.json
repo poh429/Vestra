@@ -2,8 +2,8 @@
   "schema_version": 1,
   "symbol": "AMD",
   "thesis_type": "other",
-  "root_question": "目前 thesis 的核心可驗證問題是什麼？",
-  "formal_root_question": "目前 thesis 的核心可驗證問題是什麼？",
+  "root_question": "Can AMD's MI300X and future AI GPU generations sustain meaningful market share against NVIDIA's CUDA ecosystem moat?",
+  "formal_root_question": "Can AMD's MI300X and future AI GPU generations sustain meaningful market share against NVIDIA's CUDA ecosystem moat?",
   "tree_style": "process",
   "frameworks_selected": [
     {
@@ -92,7 +92,7 @@
       }
     }
   ],
-  "market_belief_seed": "",
+  "market_belief_seed": "Market appears to be pricing AMD's AI GPU opportunity conservatively, potentially underweighting the structural nature of its data center market share gains versus NVIDIA, while bulls may be overestimating the durability of AI infrastructure capex cycles and AMD's ability to sustain premium pricing against a deeply resourced competitor.",
   "variant_candidates": [],
   "metadata": {
     "company_archetype": "",

@@ -7,6 +7,7 @@ import time
 import hashlib
 import sqlite3
 from datetime import datetime, date, timedelta
+from pathlib import Path
 from dotenv import load_dotenv
 
 try:
@@ -57,7 +58,21 @@ def _get_connection():
 
 def initialize_services():
     global ollama_client, google_client_ready, github_client
-    load_dotenv()
+    
+    # Enhanced .env discovery: search current and parent directory
+    current_dir = Path(__file__).resolve().parent
+    dotenv_paths = [
+        current_dir / ".env",
+        current_dir.parent / ".env",
+        Path.cwd() / ".env"
+    ]
+    env_found = False
+    for p in dotenv_paths:
+        if p.exists():
+            load_dotenv(p)
+            env_found = True
+            break
+            
     _init_cache_table()
     _cleanup_cache()
     
@@ -254,7 +269,7 @@ def call_nvidia_nim(model_name, messages, temperature=0.3):
 
     try:
         url = "https://integrate.api.nvidia.com/v1/chat/completions"
-        response = requests.post(url, headers=header, json=payload, timeout=60)
+        response = requests.post(url, headers=header, json=payload, timeout=120)
         response.raise_for_status()
         data = response.json()
         
@@ -265,7 +280,50 @@ def call_nvidia_nim(model_name, messages, temperature=0.3):
         print(f"  [NVIDIA NIM] {model_name} Error: {e}")
         return None
 
-# --- 4. Ollama Cloud Caller ---
+# --- 5. Cherry Studio Caller (Local Aggregator REST) ---
+def call_cherry_studio(model_name, messages, temperature=0.3):
+    cherry_key = os.getenv("CHERRY_STUDIO_API_KEY")
+    cherry_base = os.getenv("CHERRY_STUDIO_BASE_URL")
+    if not cherry_key or not cherry_base: return None
+    
+    # Smart Formatting: Cherry Studio requires 'provider:model_id'
+    # If user provides 'minimaxai/minimax-m2.7', and they use NVIDIA provider
+    # we can try to guess or let the adapter handle it. 
+    # Here we favor the user-requested format.
+    final_model = model_name
+    if "/" in model_name and ":" not in model_name:
+        # Default to nvidia if it looks like a path, as per user's confirmation
+        final_model = f"nvidia:{model_name}"
+
+    prompt_str = json.dumps(messages, sort_keys=True)
+    cached = _get_cache(final_model, prompt_str)
+    if cached: return cached
+
+    header = {
+        "Authorization": f"Bearer {cherry_key}",
+        "Content-Type": "application/json"
+    }
+    payload = {
+        "model": final_model,
+        "messages": messages,
+        "temperature": temperature,
+        "max_tokens": 4096
+    }
+
+    try:
+        url = f"{cherry_base}/chat/completions"
+        response = requests.post(url, headers=header, json=payload, timeout=60)
+        response.raise_for_status()
+        data = response.json()
+        
+        content = data["choices"][0]["message"]["content"]
+        _set_cache(final_model, prompt_str, content)
+        return content
+    except Exception as e:
+        print(f"  [Cherry Studio] {final_model} Error: {e}")
+        return None
+
+# --- 6. Ollama Cloud Caller ---
 def call_ollama_cloud(model, messages, temperature=0.3):
     if not ollama_client: return None
     prompt_str = json.dumps(messages, sort_keys=True)
