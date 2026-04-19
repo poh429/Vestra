@@ -898,12 +898,15 @@ class CardWindow(tk.Toplevel):
             print(f"[AnalystPanel] error opening panel: {e}")
 
     def _run_full_analysis(self):
-        """Trigger v1.6 full sidecar analysis via global scheduler or background thread."""
+        """Trigger v1.6 full sidecar analysis via a fresh background thread.
+        
+        Always spawns a new AnalysisOrchestrator to guarantee fresh LLM calls
+        (bypassing scheduler cache that may serve stale/failed results).
+        """
         self._is_analysing = True
         self._update_analyst_badges()
 
         def _on_done(result=None):
-            # Refresh badges on the main thread when done
             self._is_analysing = False
             try:
                 if self.winfo_exists():
@@ -911,29 +914,15 @@ class CardWindow(tk.Toplevel):
             except Exception:
                 pass
 
-        # Try to use Global Scheduler Integration (v1.7-c)
-        mgr = self.master
-        scheduler = getattr(mgr, "_scheduler", None)
-        if scheduler:
-            try:
-                # Dispatch as a high priority manual event with explicit mode (v1.8 fix)
-                scheduler.dispatch_event("full_coverage_analysis", self.symbol, metadata={"mode": "full_analysis"})
-                # No blind timer; _update_analyst_badges handles polling.
-                return
-            except Exception as e:
-                print(f"[RunFullAnalysis] Scheduler dispatch failed: {e}")
-
-        # Fallback to local thread if no scheduler exists
         def _worker():
             try:
                 from widget.agent.analysis_orchestrator import AnalysisOrchestrator
                 from widget.agent.models import AnalysisRequest
                 orchestrator = AnalysisOrchestrator(on_complete=_on_done)
-                # Force full_analysis instead of refresh for explicit UI click
                 request = AnalysisRequest(symbol=self.symbol, mode="full_analysis")
                 orchestrator.run(request)
             except Exception as e:
-                print(f"[FullAnalysis] Local worker error for {self.symbol}: {e}")
+                print(f"[FullAnalysis] Worker error for {self.symbol}: {e}")
                 _on_done()
 
         threading.Thread(target=_worker, name=f"Analysis_{self.symbol}", daemon=True).start()
