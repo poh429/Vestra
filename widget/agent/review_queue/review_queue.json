@@ -3884,6 +3884,27 @@
         "VALUATION_SIDECAR"
       ],
       "created_at": "2026-04-19T02:19:16.233349+00:00"
+    },
+    {
+      "task_id": "rtask_ef3968f33a00",
+      "symbol": "TEST",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [
+        "Core thesis path"
+      ],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-19T03:28:58.603975+00:00"
     }
   ]
 }

@@ -143,7 +143,9 @@ class SchedulerService:
     def dispatch_event(self, job_type: str, symbol: str, metadata: Optional[Dict] = None) -> None:
         """Manually trigger an event-driven job regardless of schedule (but respecting quota)."""
         priority = _PRIORITY_MAP.get(job_type, "medium")
+        logger.info(f"[Scheduler] Manual dispatch: {job_type} for {symbol} (priority={priority})")
         if self._quota.consume(priority=priority):
+            logger.info(f"[Scheduler] Enqueueing {job_type} for {symbol}")
             self._worker.enqueue(job_type, symbol, priority, metadata=metadata)
             self._mark_run(job_type, symbol)
         else:

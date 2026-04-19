@@ -875,6 +875,8 @@ class CardWindow(tk.Toplevel):
 
             # Retrieve scheduler/quota from WidgetManager if available
             mgr = self.master
+            print(f"[AnalystPanel] CardWindow.master type: {type(mgr)}")
+            print(f"[AnalystPanel] Has _scheduler attr: {hasattr(mgr, '_scheduler')}")
             scheduler_svc = getattr(mgr, '_scheduler', None)
             quota_guard = getattr(mgr, '_quota_guard', None)
 
@@ -913,10 +915,13 @@ class CardWindow(tk.Toplevel):
 
         # Try to use Global Scheduler Integration (v1.7-c)
         mgr = self.master
+        print(f"[RunFullAnalysis] CardWindow.master type: {type(mgr)}")
+        print(f"[RunFullAnalysis] Has _scheduler attr: {hasattr(mgr, '_scheduler')}")
         scheduler = getattr(mgr, "_scheduler", None)
         if scheduler:
             try:
                 # Dispatch as a high priority manual event with explicit mode (v1.8 fix)
+                print(f"[RunFullAnalysis] Dispatching to scheduler: {self.symbol}")
                 scheduler.dispatch_event("full_coverage_analysis", self.symbol, metadata={"mode": "full_analysis"})
                 # No blind timer; _update_analyst_badges handles polling.
                 return
@@ -924,6 +929,7 @@ class CardWindow(tk.Toplevel):
                 print(f"[RunFullAnalysis] Scheduler dispatch failed: {e}")
 
         # Fallback to local thread if no scheduler exists
+        print(f"[RunFullAnalysis] Falling back to local thread for {self.symbol}")
         def _worker():
             try:
                 from widget.agent.analysis_orchestrator import AnalysisOrchestrator
