@@ -138,7 +138,7 @@ class CoverageWorkspace:
         return created
 
     @staticmethod
-    def _write_json(path: Path, payload: dict[str, Any]) -> Path:
+    def _write_json(path: Path, payload: Any) -> Path:
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
         return path
@@ -162,4 +162,3 @@ class CoverageWorkspace:
             return json.loads(path.read_text(encoding="utf-8"))
         except (json.JSONDecodeError, OSError):
             return None
-

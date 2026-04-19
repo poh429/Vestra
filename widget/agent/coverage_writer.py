@@ -60,13 +60,13 @@ class CoverageWriterEngine:
                 contradicted_leaves.append(lid)
             elif verdict in ("unknown", "partially_supported"):
                 unknown_leaves.append(lid)
-                
+
         # 3. Prompt Construction
         prompt = self._build_prompt(
-            symbol, 
-            tree_data, 
-            valuation_data, 
-            narrative_data, 
+            symbol,
+            tree_data,
+            valuation_data,
+            narrative_data,
             leaf_results,
             delayed_leaves,
             contradicted_leaves,
@@ -87,11 +87,15 @@ class CoverageWriterEngine:
             )
             return state, self._format_markdown(state)
 
-        # 6. Hydrate the Report State 
+        root_question = (
+            tree_data.get("formal_root_question") or tree_data.get("root_question") or "N/A"
+        )
+
+        # 6. Hydrate the Report State
         # (Merging AI layout with known deterministic arrays)
         state = CoverageReportState(
             symbol=symbol,
-            root_question=str(tree_data.get("root_question", "N/A")),
+            root_question=str(root_question),
             overall_assessment=str(parsed.get("overall_assessment", "")),
             market_belief_gap=str(parsed.get("market_belief_gap", valuation_data.get("market_implied_view", ""))),
             branch_under_question=list(set(valuation_data.get("branch_under_question", []) + parsed.get("branch_under_question", []))),
@@ -111,13 +115,13 @@ class CoverageWriterEngine:
 
         # 7. Format to Markdown
         markdown_text = self._format_markdown(state)
-        
+
         return state, markdown_text
 
     def _build_prompt(
         self,
-        symbol: str, 
-        tree_data: dict[str, Any], 
+        symbol: str,
+        tree_data: dict[str, Any],
         valuation_data: dict[str, Any],
         narrative_data: dict[str, Any],
         leaf_results: dict[str, Any],
@@ -169,10 +173,10 @@ class CoverageWriterEngine:
             "## Execution & Monitoring",
             "### Major Triggers",
         ]
-        
+
         for t in state.major_triggers:
             lines.append(f"- {t}")
-            
+
         lines.extend([
             "",
             "### Red Flags",
