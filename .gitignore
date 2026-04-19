@@ -1,38 +1,45 @@
-# Python
+```
+# Dependencies
 __pycache__/
-*.py[cod]
+*.pyc
 *.pyo
 *.pyd
-*.egg-info/
+
+# Build and distribution artifacts
 dist/
 build/
-*.egg
+*.egg-info/
 
 # Virtual environments
-.venv/
 venv/
+.venv/
 env/
+.ENV/
 
-# Environment variables (API keys — NEVER commit these!)
-.env
-*.env
-
-# OS
-.DS_Store
-Thumbs.db
-desktop.ini
-
-# IDE / Editor
+# IDE specific
 .vscode/
 .idea/
-*.suo
-*.user
+*.swp
+*.swo
 
 # Logs
 *.log
-logs/
 
-# Data cache
-*.csv
-*.pkl
-*.parquet
+# Coverage reports
+.coverage
+htmlcov/
+coverage/
+
+# Testing
+.pytest_cache/
+.mypy_cache/
+
+# Environment files
+.env
+.env.local
+*.env.*
+
+# OS generated files
+.DS_Store
+Thumbs.db
+```
