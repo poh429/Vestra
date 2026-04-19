@@ -1,0 +1,17 @@
+{
+  "symbol": "BE",
+  "mode": "refresh",
+  "status": "failed",
+  "steps_completed": [],
+  "steps_skipped": [
+    "framework_router"
+  ],
+  "steps_failed": {
+    "tree_builder": "Refresh mode requires existing tree.json"
+  },
+  "review_tasks_generated": 0,
+  "report_path": null,
+  "report_state_path": null,
+  "elapsed_seconds": 0.0,
+  "created_at": "2026-04-18T13:08:29.773956+00:00"
+}

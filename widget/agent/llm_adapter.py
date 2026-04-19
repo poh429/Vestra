@@ -10,38 +10,105 @@ Responsible for:
 from __future__ import annotations
 
 import json
+import os
+import sys
+from pathlib import Path
 from typing import Any, Optional
+
+# Add project root to sys.path to access llm_core
+_root = Path(__file__).resolve().parents[3]
+if str(_root) not in sys.path:
+    sys.path.insert(0, str(_root))
+
+try:
+    from llm_core import call_openrouter, call_google_sdk, call_nvidia_nim, initialize_services
+except ImportError:
+    # Safe fallback if run out of root context
+    call_openrouter = None
+    call_google_sdk = None
+    call_nvidia_nim = None
+    initialize_services = lambda: None
 
 
 class StructuredLLMAdapter:
     """Handles communications with the underlying LLM provider for structured JSON responses."""
 
-    def __init__(self, config: Optional[dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None, mock: bool = False):
         self.config = config or {}
+        self.mock = mock
 
     def invoke(self, prompt: str) -> dict[str, Any]:
         """
-        Stub implementation.
-        In production, this manages litellm/vertex/openai provider connectivity, timeouts, 
-        and JSON repairing. Returns a parsed dictionary. If it fails, returns an 
-        error structure instead of throwing so business logic can fallback.
+        Invokes the actual LLM via llm_core openrouter calls unless mock=True.
         """
+        if self.mock or not call_openrouter:
+            # V1.4-c isolation capability
+            try:
+                raw_text = self._mock_call(prompt)
+                return self._safe_parse(raw_text)
+            except TimeoutError:
+                return {"verdict": "unknown", "llm_status": "timeout", "reason_codes": ["PROVIDER_TIMEOUT"], "notes": ["LLM Adapter Error: Request timed out."]}
+            except Exception as e:
+                return {"verdict": "unknown", "llm_status": "error", "reason_codes": ["PROVIDER_ERROR"], "notes": [f"LLM Adapter Error: {e}"]}
+
+        # Production Execution
         try:
-            raw_text = self._mock_call(prompt)
-            return self._safe_parse(raw_text)
-        except TimeoutError:
-            return {
-                "verdict": "unknown",
-                "llm_status": "timeout",
-                "reason_codes": ["PROVIDER_TIMEOUT"],
-                "notes": ["LLM Adapter Error: Request timed out."]
-            }
+            # 1. Environment Setup: Automap keys for Google SDK stability
+            if not os.getenv("GOOGLE_API_KEY") and os.getenv("GEMINI_API_KEY"):
+                os.environ["GOOGLE_API_KEY"] = os.getenv("GEMINI_API_KEY")
+            
+            # 2. Ensure services are initialized with current environment
+            if initialize_services:
+                initialize_services()
+
+            # 3. Track providers errors
+            errors = []
+
+            # 4. Ultra-Low Latency Provider: NVIDIA NIM (Minimax)
+            if call_nvidia_nim:
+                # User specifically requested minimaxai/minimax-m2.7
+                res = call_nvidia_nim("minimaxai/minimax-m2.7", [
+                    {"role": "system", "content": "You are a senior financial analyst. Reply strictly with raw JSON."},
+                    {"role": "user", "content": prompt}
+                ], temperature=0.1)
+                if res:
+                    return self._safe_parse(res)
+                errors.append("NVIDIA NIM (Minimax) returned None.")
+
+            # 5. Primary Provider: Direct Google SDK (Fastest & most stable)
+            if call_google_sdk:
+                res = call_google_sdk("gemini-2.0-flash", prompt, temperature=0.1)
+                if res:
+                    return self._safe_parse(res)
+                errors.append("Google SDK returned None.")
+
+            # 5. Secondary Provider: OpenRouter Multi-Model Chain (User preferred Gemma)
+            if call_openrouter:
+                messages = [
+                    {"role": "system", "content": "You are a senior financial analyst. Reply strictly with a raw valid JSON object. No markdown blocks."},
+                    {"role": "user", "content": prompt}
+                ]
+                # High-tier free models - Using User's requested Gemma + Gemini/Llama fallbacks
+                models = [
+                    "google/gemma-4-31b-it:free",
+                    "google/gemma-2-9b-it:free",
+                    "google/gemma-2-27b-it:free",
+                    "google/gemini-2.0-flash-exp:free",
+                    "meta-llama/llama-3.3-70b-instruct:free"
+                ]
+                res = call_openrouter(models, messages, temperature=0.1)
+                if res:
+                    return self._safe_parse(res)
+                errors.append("OpenRouter chain failed (Likely 429/404).")
+
+            raise Exception(f"All LLM providers failed. Log: {'; '.join(errors)}")
+            
         except Exception as e:
             return {
                 "verdict": "unknown",
                 "llm_status": "error",
                 "reason_codes": ["PROVIDER_ERROR"],
-                "notes": [f"LLM Adapter Error: {e}"]
+                "notes": [f"Dual-Track Engine Error: {e}"]
             }
 
     def _mock_call(self, prompt: str) -> str:

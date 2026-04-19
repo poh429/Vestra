@@ -190,3 +190,36 @@ Found under `widget/agent/`:
 - **Wiring**:
   - `ReviewQueueBridge.generate_review_tasks()` processes variables via conditional checks.
   - Calls `CoverageWorkspace.save_review_tasks()` alongside a generic sidecar payload.
+
+### Phase v1.5.2 (Minimal UI Hook)
+- **Goal**: Wire sidecar pipeline outputs into the existing AnalystPanel and CardWindow header with zero structural overhaul.
+- **Rules**:
+  - Read-only consumption of sidecar JSON; no write-back from UI.
+  - No changes to `thesis_evaluator.py` or live thesis state.
+  - All new imports wrapped in `try/except` to prevent breakage if sidecars are absent.
+- **Wiring**:
+  - `AnalystPanel` Tab 5 ("覆蓋報告") reads `report_state.json` and `valuation.json` via `sidecar_loader.py`.
+  - Status bar badge merges live + sidecar pending review counts.
+  - CardWindow `_update_analyst_badges` includes sidecar counts via `sidecar_loader.load_sidecar_review_tasks()`.
+  - `ReviewTask` model extended with `status`, `title`, `notes` for backward-compatible UI rendering.
+
+### Phase v1.6 (Analysis Orchestrator)
+- **Goal**: Single entry-point (`AnalysisOrchestrator.run()`) chaining the full sidecar pipeline: framework_router → tree_builder → leaf_research → valuation → writer → bridge.
+- **Modes**: `full_analysis` (all 6 steps), `refresh` (reuse tree, re-run leaf+), `rebuild` (reuse narrative, rebuild tree+).
+- **Rules**:
+  - Never imports `thesis_evaluator.py` or `ThesisStore`.
+  - Each step writes sidecar JSON before the next step reads it (crash recovery).
+  - Freshness check: skip leaf re-evaluation if results < 6h old (unless `force=True`).
+  - High-risk findings flow through `review_queue_bridge` → `ReviewQueueStore.upsert()`.
+- **Wiring**:
+  - Registered as `full_coverage_analysis` job in `scheduler_service.py` / `jobs.py`.
+  - CardWindow context menu "🔄 執行完整分析" dispatches via background thread.
+  - `on_complete` callback refreshes header badges.
+
+### Phase v1.6 Validation Sprint
+- **Bugs Fixed**: 6 critical issues — 3 API mismatches (nonexistent classes/methods), 1 data loss bug (`_read_json` dropping lists), 1 false positive in isolation test, 1 redundant rebuild.
+- **Tests**: 23 tests across 8 categories (full_analysis, refresh, rebuild, failure, review gate, thesis isolation, workspace, models). All passing.
+- **Verdict**: v1.6 is stable and ready for production use. May proceed to v1.7.
+
+
+

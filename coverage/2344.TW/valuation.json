@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0",
+  "symbol": "2344.TW",
+  "valuation_mode": "qualitative",
+  "bull_case": {
+    "narrative": "",
+    "assumptions": [],
+    "implied_financials": {},
+    "probability": "unknown"
+  },
+  "base_case": {
+    "narrative": "",
+    "assumptions": [],
+    "implied_financials": {},
+    "probability": "unknown"
+  },
+  "bear_case": {
+    "narrative": "",
+    "assumptions": [],
+    "implied_financials": {},
+    "probability": "unknown"
+  },
+  "market_implied_view": "Insufficient data to determine market implied view.",
+  "rerating_triggers": [],
+  "branch_under_question": [],
+  "expectation_risk": "high",
+  "confidence": "low",
+  "metadata": {
+    "reason": "Missing tree branches or leaf results."
+  },
+  "llm_status": "skipped_no_evidence",
+  "created_at": "2026-04-18T15:25:08.612969+00:00"
+}

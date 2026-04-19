@@ -1,0 +1,25 @@
+{
+  "A1": {
+    "leaf_id": "A1",
+    "branch_id": "A",
+    "hypothesis": "The thesis has identifiable invalidation points that can be monitored before permanent damage occurs.",
+    "verdict": "unknown",
+    "confidence": "low",
+    "supporting_evidence_ids": [],
+    "missing_evidence_topics": [],
+    "delayed_progress": "",
+    "delayed_state": "none",
+    "falsification_progress": "",
+    "falsification_state": "none",
+    "notes": [
+      "Real LLM Engine Error: LLM returned empty response or all fallback models failed."
+    ],
+    "source_summary": "",
+    "reason_codes": [
+      "PROVIDER_ERROR"
+    ],
+    "llm_status": "error",
+    "metadata": {},
+    "created_at": "2026-04-19T02:28:51.528363+00:00"
+  }
+}

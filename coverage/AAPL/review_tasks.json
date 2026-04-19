@@ -1,0 +1,17 @@
+[
+  {
+    "task_id": "d5bb2000-02cc-49fe-84be-c9541f2f71a4",
+    "symbol": "AAPL",
+    "task_type": "system_crash",
+    "priority": "high",
+    "status": "pending",
+    "title": "❌ Background Analysis Crashed",
+    "related_branch_ids": [],
+    "related_leaf_ids": [],
+    "summary": "Automated analysis pipeline crashed for AAPL.",
+    "rationale": "Error: 'NoneType' object has no attribute 'save_run_diagnostic'. The sidecar coverage sync is now stale. Please check orchestrator logs.",
+    "notes": [],
+    "source_refs": [],
+    "created_at": "2026-04-18T11:38:25.727204+00:00"
+  }
+]

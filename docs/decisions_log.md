@@ -334,4 +334,61 @@ To build trust and strictly enforce review conditions (e.g., `DELAY_CLUSTER_THRE
 - `delayed` leaves cluster before asserting an escalation to avoid alert fatigue.
 - `valuation_risk_escalation` strictly links back to numeric/modeled thresholds set in v1.4-d.
 
+---
+
+## Decision 022
+### Topic
+v1.5.2 Minimal UI Hook isolation strategy
+
+### Decision
+Wire sidecar outputs into the existing UI via a thin read-only `sidecar_loader.py` helper. Add one new tab (Tab 5 "覆蓋報告") and merge review counts into the existing badge system. No UI overhaul, no structural refactor.
+
+### Why
+The UI must surface sidecar insights progressively without breaking the existing 4-tab AnalystPanel or the CardWindow header badge flow. All new data paths are read-only with `try/except` guards to degrade gracefully if sidecar files don't yet exist.
+
+### Guardrails
+- `sidecar_loader.py` is stateless and read-only; it never writes or caches.
+- `ReviewTask` model additions (`status`, `title`, `notes`) are backward-compatible with defaults.
+- Tab 5 is purely additive; Tabs 1–4 are unchanged.
+- CardWindow badge merges counts but never mutates sidecar payloads.
+
+---
+
+## Decision 023
+### Topic
+v1.6 Analysis Orchestrator pipeline design
+
+### Decision
+Implement a single `AnalysisOrchestrator.run()` entry point that chains 6 sidecar steps sequentially, with 3 mode options (`full_analysis`, `refresh`, `rebuild`). Each step writes sidecar JSON to disk before the next step reads it.
+
+### Why
+The sidecar pipeline (v1.4–v1.5.1) was a collection of independent engines. Without an orchestrator, triggering a full analysis required manually calling 6 separate functions in the correct order. The orchestrator centralises this while preserving crash recovery (disk-persisted intermediates) and mode flexibility (skip expensive steps when only a refresh is needed).
+
+### Guardrails
+- Zero imports of `thesis_evaluator.py` or `ThesisStore` — live thesis state is never touched.
+- Critical step failures (framework_router, tree_builder) abort the pipeline cleanly.
+- Non-critical step failures produce a `partial` result — downstream steps still attempt with available data.
+- Freshness check prevents redundant LLM calls within 6h unless `force=True`.
+- UI dispatch uses a daemon thread to keep the tkinter main loop responsive.
+
+---
+
+## Decision 024
+### Topic
+v1.6 Validation Sprint — API mismatch and data loss fixes
+
+### Decision
+Rewrite all 6 step implementations in `analysis_orchestrator.py` to use the actual module-level APIs (`initialize_coverage_workspace`, `build_tree_contract`, `execute_leaf_research`) instead of nonexistent class-based wrappers. Fix `CoverageWorkspace._read_json` to support list payloads via new `_read_json_any` method.
+
+### Why
+The orchestrator was written against assumed class APIs (`FrameworkRouter`, `TreeBuilder.build`, `LeafResearchExecutor.execute_all`) that did not exist in the actual v1.4 implementations. Additionally, `load_review_tasks()` silently returned `None` for valid list-typed JSON, causing the sidecar UI hook (v1.5.2) to never display bridge-generated tasks.
+
+### Guardrails
+- Per-leaf error isolation: a failing leaf produces `verdict=unknown` instead of crashing the entire pipeline.
+- `_step_tree_builder` checks for existing tree before re-building (idempotent after step 1).
+- 23 tests across 8 validation categories confirm all modes, fallback paths, and isolation constraints.
+
+
+
+
 

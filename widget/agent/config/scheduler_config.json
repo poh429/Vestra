@@ -1,0 +1,13 @@
+{
+  "post_close_daily_audit": [],
+  "weekly_peer_check": [],
+  "review_queue_digest": [
+    "SYSTEM"
+  ],
+  "full_coverage_analysis": [
+    "6706.TW",
+    "4569.TW",
+    "2344.TW",
+    "AMD"
+  ]
+}

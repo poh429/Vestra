@@ -44,10 +44,12 @@ class ReviewQueueBridge:
                     symbol=symbol,
                     task_type="contradicted_leaf",
                     priority=prio,
+                    title=f"❌ 核心假設被否定：{res.get('hypothesis', 'Unknown')}",
                     related_branch_ids=[res.get("branch_id", "")],
                     related_leaf_ids=[lid],
                     summary=f"Core hypothesis contradicted: {res.get('hypothesis', 'Unknown')}",
                     rationale=res.get("falsification_progress", "No detail provided."),
+                    notes=[res.get("falsification_progress", "")],
                     source_refs=res.get("reason_codes", [])
                 ))
 
@@ -66,10 +68,12 @@ class ReviewQueueBridge:
                 symbol=symbol,
                 task_type="clustered_delay",
                 priority="high",
+                title=f"⏳ 叢集延遲：{len(delayed_leaves)} 個項目",
                 related_branch_ids=bids,
                 related_leaf_ids=lids,
                 summary=f"Clustered delays detected across {len(delayed_leaves)} elements.",
                 rationale="Multiple mechanisms exhibit timing slips without structural negation. Analyst should review timeline.",
+                notes=[f"Delayed leaves: {', '.join(lids)}"],
                 source_refs=["CLUSTER_TIMEOUT_RISK"]
             ))
 
@@ -80,8 +84,10 @@ class ReviewQueueBridge:
                 symbol=symbol,
                 task_type="belief_gap_shift",
                 priority="medium",
+                title="📊 市場認知差距偏移",
                 summary="Market belief gap divergence detected.",
                 rationale=market_gap,
+                notes=[market_gap],
                 source_refs=["VALUATION_SIDECAR"]
             ))
             
@@ -91,9 +97,11 @@ class ReviewQueueBridge:
                 symbol=symbol,
                 task_type="valuation_risk_escalation",
                 priority="high",
+                title="⚠ 估值風險升級",
                 related_branch_ids=valuation_data.get("branch_under_question", []),
                 summary="Elevated expectation risk in valuation model.",
                 rationale=f"Model indicated risk level: {exp_risk}",
+                notes=[f"Expectation risk: {exp_risk}"],
                 source_refs=["VALUATION_SIDECAR"]
             ))
 
@@ -104,8 +112,10 @@ class ReviewQueueBridge:
                 symbol=symbol,
                 task_type="critical_evidence_gap",
                 priority="medium",
+                title=f"🔍 {len(gaps)} 個證據缺口待驗證",
                 summary=f"Found {len(gaps)} open evidence gaps demanding validation.",
                 rationale=" | ".join(gaps),
+                notes=gaps[:3],
                 source_refs=["REPORT_SIDECAR"]
             ))
 

@@ -5,1378 +5,3885 @@
       "task_id": "review_be96b2b46c3c",
       "symbol": "AMZN",
       "task_type": "review_draft",
-      "title": "Review AI draft for AMZN",
-      "status": "pending",
       "priority": "normal",
-      "created_at": "2026-04-10T13:25:03.311702+00:00",
-      "due_at": "",
-      "draft_id": "draft_5f6359bc2c88",
-      "event_ids": [],
-      "metadata": {
-        "thesis_type": "industry_recovery",
-        "summary": "庫存趨勢：→ 0.0%",
-        "evidence_count": 1
-      },
+      "status": "pending",
+      "title": "Review AI draft for AMZN",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "",
+      "rationale": "",
       "notes": [
         "Review top question and summary.",
         "Check whether leaves are supported by verified or accepted evidence."
-      ]
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-10T13:25:03.311702+00:00"
     },
     {
       "task_id": "review_45fd44979916",
       "symbol": "2330.TW",
       "task_type": "review_draft",
-      "title": "Review AI draft for 2330.TW",
-      "status": "approved",
       "priority": "normal",
-      "created_at": "2026-04-10T16:54:07.492769+00:00",
-      "due_at": "",
-      "draft_id": "draft_3ce09607fdaf",
-      "event_ids": [],
-      "metadata": {
-        "thesis_type": "industry_recovery",
-        "summary": "法說會可用：法說可用",
-        "evidence_count": 1
-      },
+      "status": "approved",
+      "title": "Review AI draft for 2330.TW",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "",
+      "rationale": "",
       "notes": [
         "Review top question and summary.",
         "Check whether leaves are supported by verified or accepted evidence."
-      ]
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-10T16:54:07.492769+00:00"
     },
     {
       "task_id": "review_7e6f8ce3f772",
       "symbol": "2330.TW",
       "task_type": "review_draft",
-      "title": "Review AI draft for 2330.TW",
-      "status": "approved",
       "priority": "normal",
-      "created_at": "2026-04-10T16:59:21.274620+00:00",
-      "due_at": "",
-      "draft_id": "draft_8182476481b8",
-      "event_ids": [],
-      "metadata": {
-        "thesis_type": "industry_recovery",
-        "summary": "法說會可用：法說可用",
-        "evidence_count": 1
-      },
+      "status": "approved",
+      "title": "Review AI draft for 2330.TW",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "",
+      "rationale": "",
       "notes": [
         "Review top question and summary.",
         "Check whether leaves are supported by verified or accepted evidence."
-      ]
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-10T16:59:21.274620+00:00"
     },
     {
       "task_id": "review_62e3ef5f0334",
       "symbol": "2330.TW",
       "task_type": "review_draft",
-      "title": "Review AI draft for 2330.TW",
-      "status": "approved",
       "priority": "normal",
-      "created_at": "2026-04-10T16:59:55.820400+00:00",
-      "due_at": "",
-      "draft_id": "draft_1ded539f63bd",
-      "event_ids": [],
-      "metadata": {
-        "thesis_type": "industry_recovery",
-        "summary": "法說會可用：法說可用",
-        "evidence_count": 1
-      },
+      "status": "approved",
+      "title": "Review AI draft for 2330.TW",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "",
+      "rationale": "",
       "notes": [
         "Review top question and summary.",
         "Check whether leaves are supported by verified or accepted evidence."
-      ]
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-10T16:59:55.820400+00:00"
     },
     {
       "task_id": "review_5fd170f0f901",
       "symbol": "2317.TW",
       "task_type": "review_draft",
-      "title": "Review AI draft for 2317.TW",
-      "status": "approved",
       "priority": "normal",
-      "created_at": "2026-04-10T17:11:48.723059+00:00",
-      "due_at": "",
-      "draft_id": "draft_97be5b4bb66c",
-      "event_ids": [],
-      "metadata": {
-        "thesis_type": "industry_recovery",
-        "summary": "法說會可用：法說可用",
-        "evidence_count": 1
-      },
+      "status": "approved",
+      "title": "Review AI draft for 2317.TW",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "",
+      "rationale": "",
       "notes": [
         "Review top question and summary.",
         "Check whether leaves are supported by verified or accepted evidence."
-      ]
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-10T17:11:48.723059+00:00"
     },
     {
       "task_id": "review_e05e8ded929b",
       "symbol": "2317.TW",
       "task_type": "review_draft",
-      "title": "Review AI draft for 2317.TW",
-      "status": "approved",
       "priority": "normal",
-      "created_at": "2026-04-10T17:19:20.838452+00:00",
-      "due_at": "",
-      "draft_id": "draft_425fa65ebf86",
-      "event_ids": [],
-      "metadata": {
-        "thesis_type": "industry_recovery",
-        "summary": "法說會可用：法說可用",
-        "evidence_count": 1
-      },
+      "status": "approved",
+      "title": "Review AI draft for 2317.TW",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "",
+      "rationale": "",
       "notes": [
         "Review top question and summary.",
         "Check whether leaves are supported by verified or accepted evidence."
-      ]
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-10T17:19:20.838452+00:00"
     },
     {
       "task_id": "review_39d7bbcf5f45",
       "symbol": "2454.TW",
       "task_type": "review_draft",
-      "title": "Review AI draft for 2454.TW",
-      "status": "approved",
       "priority": "normal",
-      "created_at": "2026-04-10T17:19:53.055662+00:00",
-      "due_at": "",
-      "draft_id": "draft_8dfd1fa767a3",
-      "event_ids": [],
-      "metadata": {
-        "thesis_type": "industry_recovery",
-        "summary": "法說會可用：法說可用",
-        "evidence_count": 1
-      },
+      "status": "approved",
+      "title": "Review AI draft for 2454.TW",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "",
+      "rationale": "",
       "notes": [
         "Review top question and summary.",
         "Check whether leaves are supported by verified or accepted evidence."
-      ]
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-10T17:19:53.055662+00:00"
     },
     {
       "task_id": "review_156fbc97ba64",
       "symbol": "2454.TW",
       "task_type": "review_monitoring_event",
-      "title": "Review conflict event for 2454.TW",
-      "status": "pending",
       "priority": "high",
-      "created_at": "2026-04-10T17:36:08.006193+00:00",
-      "due_at": "",
-      "draft_id": "",
-      "event_ids": [
-        "event_8a7b67895f20"
-      ],
-      "metadata": {
-        "impact": "break",
-        "branch_id": "branch_bb722c7f97fa",
-        "leaf_id": "leaf_f4c9072a6007",
-        "conflict": true
-      },
+      "status": "pending",
+      "title": "Review conflict event for 2454.TW",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "",
+      "rationale": "",
       "notes": [
         "Break: EPS 修正：↓ -0.06"
-      ]
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-10T17:36:08.006193+00:00"
     },
     {
       "task_id": "review_9c84c9e42196",
       "symbol": "2454.TW",
       "task_type": "review_monitoring_event",
-      "title": "Review conflict event for 2454.TW",
-      "status": "pending",
       "priority": "normal",
-      "created_at": "2026-04-10T17:36:08.007186+00:00",
-      "due_at": "",
-      "draft_id": "",
-      "event_ids": [
-        "event_67b954d6553b"
-      ],
-      "metadata": {
-        "impact": "delay",
-        "branch_id": "branch_bb722c7f97fa",
-        "leaf_id": "leaf_f4c9072a6007",
-        "conflict": true
-      },
+      "status": "pending",
+      "title": "Review conflict event for 2454.TW",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "",
+      "rationale": "",
       "notes": [
         "Delay: 目標價修正：→ +0.0%"
-      ]
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-10T17:36:08.007186+00:00"
     },
     {
       "task_id": "review_cab50bed8567",
       "symbol": "2454.TW",
       "task_type": "review_monitoring_event",
-      "title": "Review conflict event for 2454.TW",
-      "status": "pending",
       "priority": "normal",
-      "created_at": "2026-04-10T17:36:08.014111+00:00",
-      "due_at": "",
-      "draft_id": "",
-      "event_ids": [
-        "event_80a81f139bb2"
-      ],
-      "metadata": {
-        "impact": "confirm",
-        "branch_id": "branch_bb722c7f97fa",
-        "leaf_id": "leaf_f4c9072a6007",
-        "conflict": true
-      },
+      "status": "pending",
+      "title": "Review conflict event for 2454.TW",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "",
+      "rationale": "",
       "notes": [
         "Confirm: 法說會可用：法說可用"
-      ]
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-10T17:36:08.014111+00:00"
     },
     {
       "task_id": "review_e180f4608b32",
       "symbol": "2330.TW",
       "task_type": "review_draft",
-      "title": "Review AI draft for 2330.TW",
-      "status": "dismissed",
       "priority": "normal",
-      "created_at": "2026-04-11T01:48:51.832611+00:00",
-      "due_at": "",
-      "draft_id": "draft_061a3df2a33c",
-      "event_ids": [],
-      "metadata": {
-        "thesis_type": "industry_recovery",
-        "summary": "法說會可用：法說可用",
-        "evidence_count": 1
-      },
+      "status": "dismissed",
+      "title": "Review AI draft for 2330.TW",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "",
+      "rationale": "",
       "notes": [
         "Review top question and summary.",
         "Check whether leaves are supported by verified or accepted evidence."
-      ]
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-11T01:48:51.832611+00:00"
     },
     {
       "task_id": "review_f0d7b3f6a5fa",
       "symbol": "2330.TW",
       "task_type": "review_draft",
-      "title": "Review AI draft for 2330.TW",
-      "status": "approved",
       "priority": "normal",
-      "created_at": "2026-04-11T02:11:28.280292+00:00",
-      "due_at": "",
-      "draft_id": "draft_3f1b16539823",
-      "event_ids": [],
-      "metadata": {
-        "thesis_type": "industry_recovery",
-        "summary": "法說會可用：法說可用 / 財報敘事：財報敘事可用",
-        "evidence_count": 2
-      },
+      "status": "approved",
+      "title": "Review AI draft for 2330.TW",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "",
+      "rationale": "",
       "notes": [
         "Review top question and summary.",
         "Check whether leaves are supported by verified or accepted evidence."
-      ]
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-11T02:11:28.280292+00:00"
     },
     {
       "task_id": "review_6f3daca99448",
       "symbol": "2330.TW",
       "task_type": "review_draft",
-      "title": "Review AI draft for 2330.TW",
-      "status": "approved",
       "priority": "normal",
-      "created_at": "2026-04-11T02:52:42.591210+00:00",
-      "due_at": "",
-      "draft_id": "draft_8bf74c1c011d",
-      "event_ids": [],
-      "metadata": {
-        "thesis_type": "industry_recovery",
-        "summary": "管理層共識：財報與法說互證可用",
-        "evidence_count": 1
-      },
+      "status": "approved",
+      "title": "Review AI draft for 2330.TW",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "",
+      "rationale": "",
       "notes": [
         "Review top question and summary.",
         "Check whether leaves are supported by verified or accepted evidence."
-      ]
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-11T02:52:42.591210+00:00"
     },
     {
       "task_id": "review_4e3a395cb339",
       "symbol": "AAPL",
       "task_type": "review_draft",
-      "title": "Review AI draft for AAPL",
-      "status": "approved",
       "priority": "normal",
-      "created_at": "2026-04-11T04:12:00.812565+00:00",
-      "due_at": "",
-      "draft_id": "draft_05776c929544",
-      "event_ids": [],
-      "metadata": {
-        "thesis_type": "industry_recovery",
-        "summary": "庫存趨勢：→ 0.0% / 管理層共識：財報與法說互證可用 / 財報風險：偵測到新風險",
-        "evidence_count": 3
-      },
+      "status": "approved",
+      "title": "Review AI draft for AAPL",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "",
+      "rationale": "",
       "notes": [
         "Review top question and summary.",
         "Check whether leaves are supported by verified or accepted evidence."
-      ]
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-11T04:12:00.812565+00:00"
     },
     {
       "task_id": "review_96029e4bcd03",
       "symbol": "2317.TW",
       "task_type": "review_draft",
-      "title": "Review AI draft for 2317.TW",
-      "status": "pending",
       "priority": "normal",
-      "created_at": "2026-04-11T10:41:09.302926+00:00",
-      "due_at": "",
-      "draft_id": "draft_38709a1e5f01",
-      "event_ids": [],
-      "metadata": {
-        "thesis_type": "industry_recovery",
-        "summary": "法說會可用：法說可用",
-        "evidence_count": 1
-      },
+      "status": "pending",
+      "title": "Review AI draft for 2317.TW",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "",
+      "rationale": "",
       "notes": [
         "Review top question and summary.",
         "Check whether leaves are supported by verified or accepted evidence."
-      ]
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-11T10:41:09.302926+00:00"
     },
     {
       "task_id": "review_21c17d8824cb",
       "symbol": "AAPL",
       "task_type": "review_draft",
-      "title": "Review AI draft for AAPL",
-      "status": "approved",
       "priority": "normal",
-      "created_at": "2026-04-11T10:42:28.406979+00:00",
-      "due_at": "",
-      "draft_id": "draft_a50034b05efa",
-      "event_ids": [],
-      "metadata": {
-        "thesis_type": "industry_recovery",
-        "summary": "庫存趨勢：→ 0.0% / 管理層共識：財報與法說互證可用 / 財報風險：偵測到新風險",
-        "evidence_count": 3
-      },
+      "status": "approved",
+      "title": "Review AI draft for AAPL",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "",
+      "rationale": "",
       "notes": [
         "Review top question and summary.",
         "Check whether leaves are supported by verified or accepted evidence."
-      ]
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-11T10:42:28.406979+00:00"
     },
     {
       "task_id": "review_37fa267a5803",
       "symbol": "2317.TW",
       "task_type": "review_monitoring_event",
-      "title": "Review conflict event for 2317.TW",
-      "status": "pending",
       "priority": "normal",
-      "created_at": "2026-04-17T07:32:42.435660+00:00",
-      "due_at": "",
-      "draft_id": "",
-      "event_ids": [
-        "event_05362ff4c20b"
-      ],
-      "metadata": {
-        "impact": "confirm",
-        "branch_id": "branch_1a52eb4799ce",
-        "leaf_id": "leaf_91fd3d113b6a",
-        "conflict": true
-      },
+      "status": "pending",
+      "title": "Review conflict event for 2317.TW",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "",
+      "rationale": "",
       "notes": [
         "Confirm: EPS 修正：↑ +0.03"
-      ]
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-17T07:32:42.435660+00:00"
     },
     {
       "task_id": "review_4c2b5b177a95",
       "symbol": "2317.TW",
       "task_type": "review_monitoring_event",
-      "title": "Review conflict event for 2317.TW",
-      "status": "pending",
       "priority": "high",
-      "created_at": "2026-04-17T07:32:42.436477+00:00",
-      "due_at": "",
-      "draft_id": "",
-      "event_ids": [
-        "event_cbed60d6013c"
-      ],
-      "metadata": {
-        "impact": "break",
-        "branch_id": "branch_1a52eb4799ce",
-        "leaf_id": "leaf_91fd3d113b6a",
-        "conflict": true
-      },
+      "status": "pending",
+      "title": "Review conflict event for 2317.TW",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "",
+      "rationale": "",
       "notes": [
         "Break: 目標價修正：↓ -0.4%"
-      ]
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-17T07:32:42.436477+00:00"
     },
     {
       "task_id": "review_e70000256420",
       "symbol": "2317.TW",
       "task_type": "review_monitoring_event",
-      "title": "Review conflict event for 2317.TW",
-      "status": "pending",
       "priority": "normal",
-      "created_at": "2026-04-17T07:32:42.441227+00:00",
-      "due_at": "",
-      "draft_id": "",
-      "event_ids": [
-        "event_8d3c5a2592fd"
-      ],
-      "metadata": {
-        "impact": "confirm",
-        "branch_id": "branch_1a52eb4799ce",
-        "leaf_id": "leaf_91fd3d113b6a",
-        "conflict": true
-      },
+      "status": "pending",
+      "title": "Review conflict event for 2317.TW",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "",
+      "rationale": "",
       "notes": [
         "Confirm: 法說會可用：法說可用"
-      ]
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-17T07:32:42.441227+00:00"
     },
     {
       "task_id": "review_4168d8d89e15",
       "symbol": "2317.TW",
       "task_type": "review_monitoring_event",
-      "title": "Review conflict event for 2317.TW",
-      "status": "pending",
       "priority": "normal",
-      "created_at": "2026-04-17T07:36:19.171280+00:00",
-      "due_at": "",
-      "draft_id": "",
-      "event_ids": [
-        "event_c03930b20259"
-      ],
-      "metadata": {
-        "impact": "confirm",
-        "branch_id": "branch_1a52eb4799ce",
-        "leaf_id": "leaf_91fd3d113b6a",
-        "conflict": true
-      },
+      "status": "pending",
+      "title": "Review conflict event for 2317.TW",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "",
+      "rationale": "",
       "notes": [
         "Confirm: EPS 修正：↑ +0.03"
-      ]
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-17T07:36:19.171280+00:00"
     },
     {
       "task_id": "review_6570e50bba4e",
       "symbol": "2317.TW",
       "task_type": "review_monitoring_event",
-      "title": "Review conflict event for 2317.TW",
-      "status": "pending",
       "priority": "high",
-      "created_at": "2026-04-17T07:36:19.172256+00:00",
-      "due_at": "",
-      "draft_id": "",
-      "event_ids": [
-        "event_d59cc22e7750"
-      ],
-      "metadata": {
-        "impact": "break",
-        "branch_id": "branch_1a52eb4799ce",
-        "leaf_id": "leaf_91fd3d113b6a",
-        "conflict": true
-      },
+      "status": "pending",
+      "title": "Review conflict event for 2317.TW",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "",
+      "rationale": "",
       "notes": [
         "Break: 目標價修正：↓ -0.4%"
-      ]
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-17T07:36:19.172256+00:00"
     },
     {
       "task_id": "review_8562c0cb9293",
       "symbol": "2317.TW",
       "task_type": "review_monitoring_event",
-      "title": "Review conflict event for 2317.TW",
-      "status": "pending",
       "priority": "normal",
-      "created_at": "2026-04-17T07:36:19.180633+00:00",
-      "due_at": "",
-      "draft_id": "",
-      "event_ids": [
-        "event_5c16864509a2"
-      ],
-      "metadata": {
-        "impact": "confirm",
-        "branch_id": "branch_1a52eb4799ce",
-        "leaf_id": "leaf_91fd3d113b6a",
-        "conflict": true
-      },
+      "status": "pending",
+      "title": "Review conflict event for 2317.TW",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "",
+      "rationale": "",
       "notes": [
         "Confirm: 法說會可用：法說可用"
-      ]
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-17T07:36:19.180633+00:00"
     },
     {
       "task_id": "review_d1084b722203",
       "symbol": "2317.TW",
       "task_type": "review_monitoring_event",
-      "title": "Review conflict event for 2317.TW",
-      "status": "pending",
       "priority": "normal",
-      "created_at": "2026-04-17T07:38:13.659731+00:00",
-      "due_at": "",
-      "draft_id": "",
-      "event_ids": [
-        "event_e5c65897fc07"
-      ],
-      "metadata": {
-        "impact": "confirm",
-        "branch_id": "branch_1a52eb4799ce",
-        "leaf_id": "leaf_91fd3d113b6a",
-        "conflict": true
-      },
+      "status": "pending",
+      "title": "Review conflict event for 2317.TW",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "",
+      "rationale": "",
       "notes": [
         "Confirm: EPS 修正：↑ +0.03"
-      ]
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-17T07:38:13.659731+00:00"
     },
     {
       "task_id": "review_0c1d122b0d96",
       "symbol": "2317.TW",
       "task_type": "review_monitoring_event",
-      "title": "Review conflict event for 2317.TW",
-      "status": "pending",
       "priority": "high",
-      "created_at": "2026-04-17T07:38:13.661084+00:00",
-      "due_at": "",
-      "draft_id": "",
-      "event_ids": [
-        "event_1d27164b7436"
-      ],
-      "metadata": {
-        "impact": "break",
-        "branch_id": "branch_1a52eb4799ce",
-        "leaf_id": "leaf_91fd3d113b6a",
-        "conflict": true
-      },
+      "status": "pending",
+      "title": "Review conflict event for 2317.TW",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "",
+      "rationale": "",
       "notes": [
         "Break: 目標價修正：↓ -0.4%"
-      ]
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-17T07:38:13.661084+00:00"
     },
     {
       "task_id": "review_8f5c8ccd5e63",
       "symbol": "2317.TW",
       "task_type": "review_monitoring_event",
-      "title": "Review conflict event for 2317.TW",
-      "status": "pending",
       "priority": "normal",
-      "created_at": "2026-04-17T07:38:13.668843+00:00",
-      "due_at": "",
-      "draft_id": "",
-      "event_ids": [
-        "event_1e3f01091b1f"
-      ],
-      "metadata": {
-        "impact": "confirm",
-        "branch_id": "branch_1a52eb4799ce",
-        "leaf_id": "leaf_91fd3d113b6a",
-        "conflict": true
-      },
+      "status": "pending",
+      "title": "Review conflict event for 2317.TW",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "",
+      "rationale": "",
       "notes": [
         "Confirm: 法說會可用：法說可用"
-      ]
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-17T07:38:13.668843+00:00"
     },
     {
       "task_id": "review_82b07aa54bc0",
       "symbol": "2317.TW",
       "task_type": "review_monitoring_event",
-      "title": "Review conflict event for 2317.TW",
-      "status": "pending",
       "priority": "normal",
-      "created_at": "2026-04-17T07:39:53.994382+00:00",
-      "due_at": "",
-      "draft_id": "",
-      "event_ids": [
-        "event_e10368b02f05"
-      ],
-      "metadata": {
-        "impact": "confirm",
-        "branch_id": "branch_1a52eb4799ce",
-        "leaf_id": "leaf_91fd3d113b6a",
-        "conflict": true
-      },
+      "status": "pending",
+      "title": "Review conflict event for 2317.TW",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "",
+      "rationale": "",
       "notes": [
         "Confirm: EPS 修正：↑ +0.03"
-      ]
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-17T07:39:53.994382+00:00"
     },
     {
       "task_id": "review_c47b9796be2d",
       "symbol": "2317.TW",
       "task_type": "review_monitoring_event",
-      "title": "Review conflict event for 2317.TW",
-      "status": "pending",
       "priority": "high",
-      "created_at": "2026-04-17T07:39:53.995445+00:00",
-      "due_at": "",
-      "draft_id": "",
-      "event_ids": [
-        "event_10e668851b5b"
-      ],
-      "metadata": {
-        "impact": "break",
-        "branch_id": "branch_1a52eb4799ce",
-        "leaf_id": "leaf_91fd3d113b6a",
-        "conflict": true
-      },
+      "status": "pending",
+      "title": "Review conflict event for 2317.TW",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "",
+      "rationale": "",
       "notes": [
         "Break: 目標價修正：↓ -0.4%"
-      ]
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-17T07:39:53.995445+00:00"
     },
     {
       "task_id": "review_2d956d9f3b8c",
       "symbol": "2317.TW",
       "task_type": "review_monitoring_event",
-      "title": "Review conflict event for 2317.TW",
-      "status": "pending",
       "priority": "normal",
-      "created_at": "2026-04-17T07:39:54.003482+00:00",
-      "due_at": "",
-      "draft_id": "",
-      "event_ids": [
-        "event_9e9bcfdee047"
-      ],
-      "metadata": {
-        "impact": "confirm",
-        "branch_id": "branch_1a52eb4799ce",
-        "leaf_id": "leaf_91fd3d113b6a",
-        "conflict": true
-      },
+      "status": "pending",
+      "title": "Review conflict event for 2317.TW",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "",
+      "rationale": "",
       "notes": [
         "Confirm: 法說會可用：法說可用"
-      ]
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-17T07:39:54.003482+00:00"
     },
     {
       "task_id": "review_826fdc53d910",
       "symbol": "2317.TW",
       "task_type": "review_monitoring_event",
-      "title": "Review conflict event for 2317.TW",
-      "status": "pending",
       "priority": "normal",
-      "created_at": "2026-04-17T07:40:38.578262+00:00",
-      "due_at": "",
-      "draft_id": "",
-      "event_ids": [
-        "event_03cf79593d84"
-      ],
-      "metadata": {
-        "impact": "confirm",
-        "branch_id": "branch_1a52eb4799ce",
-        "leaf_id": "leaf_91fd3d113b6a",
-        "conflict": true
-      },
+      "status": "pending",
+      "title": "Review conflict event for 2317.TW",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "",
+      "rationale": "",
       "notes": [
         "Confirm: EPS 修正：↑ +0.03"
-      ]
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-17T07:40:38.578262+00:00"
     },
     {
       "task_id": "review_17b9c97cf754",
       "symbol": "2317.TW",
       "task_type": "review_monitoring_event",
-      "title": "Review conflict event for 2317.TW",
-      "status": "pending",
       "priority": "high",
-      "created_at": "2026-04-17T07:40:38.579726+00:00",
-      "due_at": "",
-      "draft_id": "",
-      "event_ids": [
-        "event_48bf10d8bb8a"
-      ],
-      "metadata": {
-        "impact": "break",
-        "branch_id": "branch_1a52eb4799ce",
-        "leaf_id": "leaf_91fd3d113b6a",
-        "conflict": true
-      },
+      "status": "pending",
+      "title": "Review conflict event for 2317.TW",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "",
+      "rationale": "",
       "notes": [
         "Break: 目標價修正：↓ -0.4%"
-      ]
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-17T07:40:38.579726+00:00"
     },
     {
       "task_id": "review_404f321d7a36",
       "symbol": "2317.TW",
       "task_type": "review_monitoring_event",
-      "title": "Review conflict event for 2317.TW",
-      "status": "pending",
       "priority": "normal",
-      "created_at": "2026-04-17T07:40:38.586383+00:00",
-      "due_at": "",
-      "draft_id": "",
-      "event_ids": [
-        "event_63d748884c0f"
-      ],
-      "metadata": {
-        "impact": "confirm",
-        "branch_id": "branch_1a52eb4799ce",
-        "leaf_id": "leaf_91fd3d113b6a",
-        "conflict": true
-      },
+      "status": "pending",
+      "title": "Review conflict event for 2317.TW",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "",
+      "rationale": "",
       "notes": [
         "Confirm: 法說會可用：法說可用"
-      ]
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-17T07:40:38.586383+00:00"
     },
     {
       "task_id": "review_a6df1771aa5c",
       "symbol": "2317.TW",
       "task_type": "review_monitoring_event",
-      "title": "Review conflict event for 2317.TW",
-      "status": "pending",
       "priority": "normal",
-      "created_at": "2026-04-17T07:41:05.310642+00:00",
-      "due_at": "",
-      "draft_id": "",
-      "event_ids": [
-        "event_60291f7e0e64"
-      ],
-      "metadata": {
-        "impact": "confirm",
-        "branch_id": "branch_1a52eb4799ce",
-        "leaf_id": "leaf_91fd3d113b6a",
-        "conflict": true
-      },
+      "status": "pending",
+      "title": "Review conflict event for 2317.TW",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "",
+      "rationale": "",
       "notes": [
         "Confirm: EPS 修正：↑ +0.03"
-      ]
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-17T07:41:05.310642+00:00"
     },
     {
       "task_id": "review_f8b31678c140",
       "symbol": "2317.TW",
       "task_type": "review_monitoring_event",
-      "title": "Review conflict event for 2317.TW",
-      "status": "pending",
       "priority": "high",
-      "created_at": "2026-04-17T07:41:05.312876+00:00",
-      "due_at": "",
-      "draft_id": "",
-      "event_ids": [
-        "event_ddc9eb347657"
-      ],
-      "metadata": {
-        "impact": "break",
-        "branch_id": "branch_1a52eb4799ce",
-        "leaf_id": "leaf_91fd3d113b6a",
-        "conflict": true
-      },
+      "status": "pending",
+      "title": "Review conflict event for 2317.TW",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "",
+      "rationale": "",
       "notes": [
         "Break: 目標價修正：↓ -0.4%"
-      ]
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-17T07:41:05.312876+00:00"
     },
     {
       "task_id": "review_b345fd4993cb",
       "symbol": "2317.TW",
       "task_type": "review_monitoring_event",
-      "title": "Review conflict event for 2317.TW",
-      "status": "pending",
       "priority": "normal",
-      "created_at": "2026-04-17T07:41:05.328860+00:00",
-      "due_at": "",
-      "draft_id": "",
-      "event_ids": [
-        "event_720ba55371fa"
-      ],
-      "metadata": {
-        "impact": "confirm",
-        "branch_id": "branch_1a52eb4799ce",
-        "leaf_id": "leaf_91fd3d113b6a",
-        "conflict": true
-      },
+      "status": "pending",
+      "title": "Review conflict event for 2317.TW",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "",
+      "rationale": "",
       "notes": [
         "Confirm: 法說會可用：法說可用"
-      ]
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-17T07:41:05.328860+00:00"
     },
     {
       "task_id": "review_6deb307616ae",
       "symbol": "2317.TW",
       "task_type": "review_monitoring_event",
-      "title": "Review conflict event for 2317.TW",
-      "status": "pending",
       "priority": "normal",
-      "created_at": "2026-04-17T07:41:41.023792+00:00",
-      "due_at": "",
-      "draft_id": "",
-      "event_ids": [
-        "event_84bdda797f2d"
-      ],
-      "metadata": {
-        "impact": "confirm",
-        "branch_id": "branch_1a52eb4799ce",
-        "leaf_id": "leaf_91fd3d113b6a",
-        "conflict": true
-      },
+      "status": "pending",
+      "title": "Review conflict event for 2317.TW",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "",
+      "rationale": "",
       "notes": [
         "Confirm: EPS 修正：↑ +0.03"
-      ]
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-17T07:41:41.023792+00:00"
     },
     {
       "task_id": "review_3e6dd23e88f9",
       "symbol": "2317.TW",
       "task_type": "review_monitoring_event",
-      "title": "Review conflict event for 2317.TW",
-      "status": "pending",
       "priority": "high",
-      "created_at": "2026-04-17T07:41:41.025095+00:00",
-      "due_at": "",
-      "draft_id": "",
-      "event_ids": [
-        "event_f2f928b82787"
-      ],
-      "metadata": {
-        "impact": "break",
-        "branch_id": "branch_1a52eb4799ce",
-        "leaf_id": "leaf_91fd3d113b6a",
-        "conflict": true
-      },
+      "status": "pending",
+      "title": "Review conflict event for 2317.TW",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "",
+      "rationale": "",
       "notes": [
         "Break: 目標價修正：↓ -0.4%"
-      ]
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-17T07:41:41.025095+00:00"
     },
     {
       "task_id": "review_5c2218dff300",
       "symbol": "2317.TW",
       "task_type": "review_monitoring_event",
-      "title": "Review conflict event for 2317.TW",
-      "status": "pending",
       "priority": "normal",
-      "created_at": "2026-04-17T07:41:41.032235+00:00",
-      "due_at": "",
-      "draft_id": "",
-      "event_ids": [
-        "event_4fff9f4fa5f8"
-      ],
-      "metadata": {
-        "impact": "confirm",
-        "branch_id": "branch_1a52eb4799ce",
-        "leaf_id": "leaf_91fd3d113b6a",
-        "conflict": true
-      },
+      "status": "pending",
+      "title": "Review conflict event for 2317.TW",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "",
+      "rationale": "",
       "notes": [
         "Confirm: 法說會可用：法說可用"
-      ]
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-17T07:41:41.032235+00:00"
     },
     {
       "task_id": "review_42713826c495",
       "symbol": "2317.TW",
       "task_type": "review_monitoring_event",
-      "title": "Review conflict event for 2317.TW",
-      "status": "pending",
       "priority": "normal",
-      "created_at": "2026-04-17T07:43:25.619342+00:00",
-      "due_at": "",
-      "draft_id": "",
-      "event_ids": [
-        "event_248bc764da90"
-      ],
-      "metadata": {
-        "impact": "confirm",
-        "branch_id": "branch_1a52eb4799ce",
-        "leaf_id": "leaf_91fd3d113b6a",
-        "conflict": true
-      },
+      "status": "pending",
+      "title": "Review conflict event for 2317.TW",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "",
+      "rationale": "",
       "notes": [
         "Confirm: EPS 修正：↑ +0.03"
-      ]
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-17T07:43:25.619342+00:00"
     },
     {
       "task_id": "review_876e295251e7",
       "symbol": "2317.TW",
       "task_type": "review_monitoring_event",
-      "title": "Review conflict event for 2317.TW",
-      "status": "pending",
       "priority": "high",
-      "created_at": "2026-04-17T07:43:25.620860+00:00",
-      "due_at": "",
-      "draft_id": "",
-      "event_ids": [
-        "event_6ea0dd9e5877"
-      ],
-      "metadata": {
-        "impact": "break",
-        "branch_id": "branch_1a52eb4799ce",
-        "leaf_id": "leaf_91fd3d113b6a",
-        "conflict": true
-      },
+      "status": "pending",
+      "title": "Review conflict event for 2317.TW",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "",
+      "rationale": "",
       "notes": [
         "Break: 目標價修正：↓ -0.4%"
-      ]
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-17T07:43:25.620860+00:00"
     },
     {
       "task_id": "review_449bf728f860",
       "symbol": "2317.TW",
       "task_type": "review_monitoring_event",
-      "title": "Review conflict event for 2317.TW",
-      "status": "pending",
       "priority": "normal",
-      "created_at": "2026-04-17T07:43:25.626718+00:00",
-      "due_at": "",
-      "draft_id": "",
-      "event_ids": [
-        "event_870870f738a1"
-      ],
-      "metadata": {
-        "impact": "confirm",
-        "branch_id": "branch_1a52eb4799ce",
-        "leaf_id": "leaf_91fd3d113b6a",
-        "conflict": true
-      },
+      "status": "pending",
+      "title": "Review conflict event for 2317.TW",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "",
+      "rationale": "",
       "notes": [
         "Confirm: 法說會可用：法說可用"
-      ]
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-17T07:43:25.626718+00:00"
     },
     {
       "task_id": "review_5cf33d5bbc1e",
       "symbol": "2317.TW",
       "task_type": "review_monitoring_event",
-      "title": "Review conflict event for 2317.TW",
-      "status": "pending",
       "priority": "normal",
-      "created_at": "2026-04-17T07:44:04.641455+00:00",
-      "due_at": "",
-      "draft_id": "",
-      "event_ids": [
-        "event_4bee2bd4e27f"
-      ],
-      "metadata": {
-        "impact": "confirm",
-        "branch_id": "branch_1a52eb4799ce",
-        "leaf_id": "leaf_91fd3d113b6a",
-        "conflict": true
-      },
+      "status": "pending",
+      "title": "Review conflict event for 2317.TW",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "",
+      "rationale": "",
       "notes": [
         "Confirm: EPS 修正：↑ +0.03"
-      ]
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-17T07:44:04.641455+00:00"
     },
     {
       "task_id": "review_e282d6630e89",
       "symbol": "2317.TW",
       "task_type": "review_monitoring_event",
-      "title": "Review conflict event for 2317.TW",
-      "status": "pending",
       "priority": "high",
-      "created_at": "2026-04-17T07:44:04.642849+00:00",
-      "due_at": "",
-      "draft_id": "",
-      "event_ids": [
-        "event_5ad4b6f15b8b"
-      ],
-      "metadata": {
-        "impact": "break",
-        "branch_id": "branch_1a52eb4799ce",
-        "leaf_id": "leaf_91fd3d113b6a",
-        "conflict": true
-      },
+      "status": "pending",
+      "title": "Review conflict event for 2317.TW",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "",
+      "rationale": "",
       "notes": [
         "Break: 目標價修正：↓ -0.4%"
-      ]
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-17T07:44:04.642849+00:00"
     },
     {
       "task_id": "review_9047a05f9d97",
       "symbol": "2317.TW",
       "task_type": "review_monitoring_event",
-      "title": "Review conflict event for 2317.TW",
-      "status": "pending",
       "priority": "normal",
-      "created_at": "2026-04-17T07:44:04.649091+00:00",
-      "due_at": "",
-      "draft_id": "",
-      "event_ids": [
-        "event_cd47d76c2049"
-      ],
-      "metadata": {
-        "impact": "confirm",
-        "branch_id": "branch_1a52eb4799ce",
-        "leaf_id": "leaf_91fd3d113b6a",
-        "conflict": true
-      },
+      "status": "pending",
+      "title": "Review conflict event for 2317.TW",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "",
+      "rationale": "",
       "notes": [
         "Confirm: 法說會可用：法說可用"
-      ]
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-17T07:44:04.649091+00:00"
     },
     {
       "task_id": "review_b6d44d52e7f6",
       "symbol": "2317.TW",
       "task_type": "review_monitoring_event",
-      "title": "Review conflict event for 2317.TW",
-      "status": "pending",
       "priority": "normal",
-      "created_at": "2026-04-17T07:46:54.678251+00:00",
-      "due_at": "",
-      "draft_id": "",
-      "event_ids": [
-        "event_71605f82cc5f"
-      ],
-      "metadata": {
-        "impact": "confirm",
-        "branch_id": "branch_1a52eb4799ce",
-        "leaf_id": "leaf_91fd3d113b6a",
-        "conflict": true
-      },
+      "status": "pending",
+      "title": "Review conflict event for 2317.TW",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "",
+      "rationale": "",
       "notes": [
         "Confirm: EPS 修正：↑ +0.03"
-      ]
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-17T07:46:54.678251+00:00"
     },
     {
       "task_id": "review_c86867bb2aa1",
       "symbol": "2317.TW",
       "task_type": "review_monitoring_event",
-      "title": "Review conflict event for 2317.TW",
-      "status": "pending",
       "priority": "high",
-      "created_at": "2026-04-17T07:46:54.679674+00:00",
-      "due_at": "",
-      "draft_id": "",
-      "event_ids": [
-        "event_af2b89a2a85d"
-      ],
-      "metadata": {
-        "impact": "break",
-        "branch_id": "branch_1a52eb4799ce",
-        "leaf_id": "leaf_91fd3d113b6a",
-        "conflict": true
-      },
+      "status": "pending",
+      "title": "Review conflict event for 2317.TW",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "",
+      "rationale": "",
       "notes": [
         "Break: 目標價修正：↓ -0.4%"
-      ]
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-17T07:46:54.679674+00:00"
     },
     {
       "task_id": "review_aa1f9a032323",
       "symbol": "2317.TW",
       "task_type": "review_monitoring_event",
-      "title": "Review conflict event for 2317.TW",
-      "status": "pending",
       "priority": "normal",
-      "created_at": "2026-04-17T07:46:54.686099+00:00",
-      "due_at": "",
-      "draft_id": "",
-      "event_ids": [
-        "event_6171ca9855c5"
-      ],
-      "metadata": {
-        "impact": "confirm",
-        "branch_id": "branch_1a52eb4799ce",
-        "leaf_id": "leaf_91fd3d113b6a",
-        "conflict": true
-      },
+      "status": "pending",
+      "title": "Review conflict event for 2317.TW",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "",
+      "rationale": "",
       "notes": [
         "Confirm: 法說會可用：法說可用"
-      ]
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-17T07:46:54.686099+00:00"
     },
     {
       "task_id": "review_3d1e91705ef5",
       "symbol": "2317.TW",
       "task_type": "review_monitoring_event",
-      "title": "Review conflict event for 2317.TW",
-      "status": "pending",
       "priority": "normal",
-      "created_at": "2026-04-17T07:47:45.263446+00:00",
-      "due_at": "",
-      "draft_id": "",
-      "event_ids": [
-        "event_f919ebb09dd9"
-      ],
-      "metadata": {
-        "impact": "confirm",
-        "branch_id": "branch_1a52eb4799ce",
-        "leaf_id": "leaf_91fd3d113b6a",
-        "conflict": true
-      },
+      "status": "pending",
+      "title": "Review conflict event for 2317.TW",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "",
+      "rationale": "",
       "notes": [
         "Confirm: EPS 修正：↑ +0.03"
-      ]
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-17T07:47:45.263446+00:00"
     },
     {
       "task_id": "review_237034428f53",
       "symbol": "2317.TW",
       "task_type": "review_monitoring_event",
-      "title": "Review conflict event for 2317.TW",
-      "status": "pending",
       "priority": "high",
-      "created_at": "2026-04-17T07:47:45.265154+00:00",
-      "due_at": "",
-      "draft_id": "",
-      "event_ids": [
-        "event_949762bf9644"
-      ],
-      "metadata": {
-        "impact": "break",
-        "branch_id": "branch_1a52eb4799ce",
-        "leaf_id": "leaf_91fd3d113b6a",
-        "conflict": true
-      },
+      "status": "pending",
+      "title": "Review conflict event for 2317.TW",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "",
+      "rationale": "",
       "notes": [
         "Break: 目標價修正：↓ -0.4%"
-      ]
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-17T07:47:45.265154+00:00"
     },
     {
       "task_id": "review_b665318b222b",
       "symbol": "2317.TW",
       "task_type": "review_monitoring_event",
-      "title": "Review conflict event for 2317.TW",
-      "status": "pending",
       "priority": "normal",
-      "created_at": "2026-04-17T07:47:45.272008+00:00",
-      "due_at": "",
-      "draft_id": "",
-      "event_ids": [
-        "event_5dc710daa90f"
-      ],
-      "metadata": {
-        "impact": "confirm",
-        "branch_id": "branch_1a52eb4799ce",
-        "leaf_id": "leaf_91fd3d113b6a",
-        "conflict": true
-      },
+      "status": "pending",
+      "title": "Review conflict event for 2317.TW",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "",
+      "rationale": "",
       "notes": [
         "Confirm: 法說會可用：法說可用"
-      ]
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-17T07:47:45.272008+00:00"
     },
     {
       "task_id": "review_a9b7b40ff04f",
       "symbol": "2317.TW",
       "task_type": "review_monitoring_event",
-      "title": "Review conflict event for 2317.TW",
-      "status": "pending",
       "priority": "normal",
-      "created_at": "2026-04-17T07:48:48.927120+00:00",
-      "due_at": "",
-      "draft_id": "",
-      "event_ids": [
-        "event_b11f6bdbb070"
-      ],
-      "metadata": {
-        "impact": "confirm",
-        "branch_id": "branch_1a52eb4799ce",
-        "leaf_id": "leaf_91fd3d113b6a",
-        "conflict": true
-      },
+      "status": "pending",
+      "title": "Review conflict event for 2317.TW",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "",
+      "rationale": "",
       "notes": [
         "Confirm: EPS 修正：↑ +0.03"
-      ]
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-17T07:48:48.927120+00:00"
     },
     {
       "task_id": "review_761a72944468",
       "symbol": "2317.TW",
       "task_type": "review_monitoring_event",
-      "title": "Review conflict event for 2317.TW",
-      "status": "pending",
       "priority": "high",
-      "created_at": "2026-04-17T07:48:48.928722+00:00",
-      "due_at": "",
-      "draft_id": "",
-      "event_ids": [
-        "event_d5e290ed6c59"
-      ],
-      "metadata": {
-        "impact": "break",
-        "branch_id": "branch_1a52eb4799ce",
-        "leaf_id": "leaf_91fd3d113b6a",
-        "conflict": true
-      },
+      "status": "pending",
+      "title": "Review conflict event for 2317.TW",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "",
+      "rationale": "",
       "notes": [
         "Break: 目標價修正：↓ -0.4%"
-      ]
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-17T07:48:48.928722+00:00"
     },
     {
       "task_id": "review_81db2ee93a8c",
       "symbol": "2317.TW",
       "task_type": "review_monitoring_event",
-      "title": "Review conflict event for 2317.TW",
-      "status": "pending",
       "priority": "normal",
-      "created_at": "2026-04-17T07:48:48.935515+00:00",
-      "due_at": "",
-      "draft_id": "",
-      "event_ids": [
-        "event_b52321505494"
-      ],
-      "metadata": {
-        "impact": "confirm",
-        "branch_id": "branch_1a52eb4799ce",
-        "leaf_id": "leaf_91fd3d113b6a",
-        "conflict": true
-      },
+      "status": "pending",
+      "title": "Review conflict event for 2317.TW",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "",
+      "rationale": "",
       "notes": [
         "Confirm: 法說會可用：法說可用"
-      ]
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-17T07:48:48.935515+00:00"
     },
     {
       "task_id": "review_4504c666b3b3",
       "symbol": "2317.TW",
       "task_type": "review_monitoring_event",
-      "title": "Review conflict event for 2317.TW",
-      "status": "pending",
       "priority": "normal",
-      "created_at": "2026-04-17T07:49:19.823225+00:00",
-      "due_at": "",
-      "draft_id": "",
-      "event_ids": [
-        "event_0a7c3f1c6546"
-      ],
-      "metadata": {
-        "impact": "confirm",
-        "branch_id": "branch_1a52eb4799ce",
-        "leaf_id": "leaf_91fd3d113b6a",
-        "conflict": true
-      },
+      "status": "pending",
+      "title": "Review conflict event for 2317.TW",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "",
+      "rationale": "",
       "notes": [
         "Confirm: EPS 修正：↑ +0.03"
-      ]
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-17T07:49:19.823225+00:00"
     },
     {
       "task_id": "review_cd620c69da5e",
       "symbol": "2317.TW",
       "task_type": "review_monitoring_event",
-      "title": "Review conflict event for 2317.TW",
-      "status": "pending",
       "priority": "high",
-      "created_at": "2026-04-17T07:49:19.826123+00:00",
-      "due_at": "",
-      "draft_id": "",
-      "event_ids": [
-        "event_a31db2fc28b7"
-      ],
-      "metadata": {
-        "impact": "break",
-        "branch_id": "branch_1a52eb4799ce",
-        "leaf_id": "leaf_91fd3d113b6a",
-        "conflict": true
-      },
+      "status": "pending",
+      "title": "Review conflict event for 2317.TW",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "",
+      "rationale": "",
       "notes": [
         "Break: 目標價修正：↓ -0.4%"
-      ]
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-17T07:49:19.826123+00:00"
     },
     {
       "task_id": "review_c4845975a032",
       "symbol": "2317.TW",
       "task_type": "review_monitoring_event",
-      "title": "Review conflict event for 2317.TW",
-      "status": "pending",
       "priority": "normal",
-      "created_at": "2026-04-17T07:49:19.832894+00:00",
-      "due_at": "",
-      "draft_id": "",
-      "event_ids": [
-        "event_91068c2f7a5b"
-      ],
-      "metadata": {
-        "impact": "confirm",
-        "branch_id": "branch_1a52eb4799ce",
-        "leaf_id": "leaf_91fd3d113b6a",
-        "conflict": true
-      },
+      "status": "pending",
+      "title": "Review conflict event for 2317.TW",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "",
+      "rationale": "",
       "notes": [
         "Confirm: 法說會可用：法說可用"
-      ]
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-17T07:49:19.832894+00:00"
     },
     {
       "task_id": "review_3bccc3192e87",
       "symbol": "2317.TW",
       "task_type": "review_monitoring_event",
-      "title": "Review conflict event for 2317.TW",
-      "status": "pending",
       "priority": "normal",
-      "created_at": "2026-04-17T07:49:40.789893+00:00",
-      "due_at": "",
-      "draft_id": "",
-      "event_ids": [
-        "event_ad0c205981b9"
-      ],
-      "metadata": {
-        "impact": "confirm",
-        "branch_id": "branch_1a52eb4799ce",
-        "leaf_id": "leaf_91fd3d113b6a",
-        "conflict": true
-      },
+      "status": "pending",
+      "title": "Review conflict event for 2317.TW",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "",
+      "rationale": "",
       "notes": [
         "Confirm: EPS 修正：↑ +0.03"
-      ]
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-17T07:49:40.789893+00:00"
     },
     {
       "task_id": "review_eccc7112ff5a",
       "symbol": "2317.TW",
       "task_type": "review_monitoring_event",
-      "title": "Review conflict event for 2317.TW",
-      "status": "pending",
       "priority": "high",
-      "created_at": "2026-04-17T07:49:40.791571+00:00",
-      "due_at": "",
-      "draft_id": "",
-      "event_ids": [
-        "event_ad11012dd715"
-      ],
-      "metadata": {
-        "impact": "break",
-        "branch_id": "branch_1a52eb4799ce",
-        "leaf_id": "leaf_91fd3d113b6a",
-        "conflict": true
-      },
+      "status": "pending",
+      "title": "Review conflict event for 2317.TW",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "",
+      "rationale": "",
       "notes": [
         "Break: 目標價修正：↓ -0.4%"
-      ]
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-17T07:49:40.791571+00:00"
     },
     {
       "task_id": "review_e5d56632d3ae",
       "symbol": "2317.TW",
       "task_type": "review_monitoring_event",
-      "title": "Review conflict event for 2317.TW",
-      "status": "pending",
       "priority": "normal",
-      "created_at": "2026-04-17T07:49:40.798157+00:00",
-      "due_at": "",
-      "draft_id": "",
-      "event_ids": [
-        "event_d9f1f24190ad"
-      ],
-      "metadata": {
-        "impact": "confirm",
-        "branch_id": "branch_1a52eb4799ce",
-        "leaf_id": "leaf_91fd3d113b6a",
-        "conflict": true
-      },
+      "status": "pending",
+      "title": "Review conflict event for 2317.TW",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "",
+      "rationale": "",
       "notes": [
         "Confirm: 法說會可用：法說可用"
-      ]
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-17T07:49:40.798157+00:00"
     },
     {
       "task_id": "review_bdf86c320f6c",
       "symbol": "2317.TW",
       "task_type": "review_monitoring_event",
-      "title": "Review conflict event for 2317.TW",
-      "status": "pending",
       "priority": "normal",
-      "created_at": "2026-04-17T08:49:40.397227+00:00",
-      "due_at": "",
-      "draft_id": "",
-      "event_ids": [
-        "event_9f2673470fdf"
-      ],
-      "metadata": {
-        "impact": "confirm",
-        "branch_id": "branch_1a52eb4799ce",
-        "leaf_id": "leaf_91fd3d113b6a",
-        "conflict": true
-      },
+      "status": "pending",
+      "title": "Review conflict event for 2317.TW",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "",
+      "rationale": "",
       "notes": [
         "Confirm: EPS 修正：↑ +0.03"
-      ]
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-17T08:49:40.397227+00:00"
     },
     {
       "task_id": "review_6327215bb1b4",
       "symbol": "2317.TW",
       "task_type": "review_monitoring_event",
-      "title": "Review conflict event for 2317.TW",
-      "status": "pending",
       "priority": "high",
-      "created_at": "2026-04-17T08:49:40.399107+00:00",
-      "due_at": "",
-      "draft_id": "",
-      "event_ids": [
-        "event_e8961fd14029"
-      ],
-      "metadata": {
-        "impact": "break",
-        "branch_id": "branch_1a52eb4799ce",
-        "leaf_id": "leaf_91fd3d113b6a",
-        "conflict": true
-      },
+      "status": "pending",
+      "title": "Review conflict event for 2317.TW",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "",
+      "rationale": "",
       "notes": [
         "Break: 目標價修正：↓ -0.4%"
-      ]
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-17T08:49:40.399107+00:00"
     },
     {
       "task_id": "review_ffdb6e147edf",
       "symbol": "2317.TW",
       "task_type": "review_monitoring_event",
-      "title": "Review conflict event for 2317.TW",
-      "status": "pending",
       "priority": "normal",
-      "created_at": "2026-04-17T08:49:40.410314+00:00",
-      "due_at": "",
-      "draft_id": "",
-      "event_ids": [
-        "event_cd35df84780f"
-      ],
-      "metadata": {
-        "impact": "confirm",
-        "branch_id": "branch_1a52eb4799ce",
-        "leaf_id": "leaf_91fd3d113b6a",
-        "conflict": true
-      },
+      "status": "pending",
+      "title": "Review conflict event for 2317.TW",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "",
+      "rationale": "",
       "notes": [
         "Confirm: 法說會可用：法說可用"
-      ]
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-17T08:49:40.410314+00:00"
+    },
+    {
+      "task_id": "rtask_73f087fc5775",
+      "symbol": "ISO_TEST",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T09:58:02.545584+00:00"
+    },
+    {
+      "task_id": "rtask_878e1ad1018a",
+      "symbol": "TEST_PARTIAL",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T09:59:45.810142+00:00"
+    },
+    {
+      "task_id": "rtask_e118dd05ab4c",
+      "symbol": "TEST_SKIP",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T09:59:45.843554+00:00"
+    },
+    {
+      "task_id": "rtask_f2798ea2ce75",
+      "symbol": "FRESH",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T09:59:45.879947+00:00"
+    },
+    {
+      "task_id": "rtask_85b0a29b829a",
+      "symbol": "STALE",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T09:59:45.922681+00:00"
+    },
+    {
+      "task_id": "rtask_3642b8fba4b6",
+      "symbol": "FORCE",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T09:59:45.965801+00:00"
+    },
+    {
+      "task_id": "rtask_a93ee7e10ce7",
+      "symbol": "DOWNSTREAM",
+      "task_type": "contradicted_leaf",
+      "priority": "critical",
+      "status": "pending",
+      "title": "❌ 核心假設被否定：Revenue growing > 10% YoY",
+      "related_branch_ids": [
+        "b1"
+      ],
+      "related_leaf_ids": [
+        "l1"
+      ],
+      "summary": "Core hypothesis contradicted: Revenue growing > 10% YoY",
+      "rationale": "Revenue declined 20%.",
+      "notes": [
+        "Revenue declined 20%."
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-18T09:59:46.004943+00:00"
+    },
+    {
+      "task_id": "rtask_56c9c0c1ed8a",
+      "symbol": "DOWNSTREAM",
+      "task_type": "contradicted_leaf",
+      "priority": "high",
+      "status": "pending",
+      "title": "❌ 核心假設被否定：Margin recovery underway",
+      "related_branch_ids": [
+        "b1"
+      ],
+      "related_leaf_ids": [
+        "l2"
+      ],
+      "summary": "Core hypothesis contradicted: Margin recovery underway",
+      "rationale": "",
+      "notes": [
+        ""
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-18T09:59:46.004963+00:00"
+    },
+    {
+      "task_id": "rtask_a7df613e1f79",
+      "symbol": "DOWNSTREAM",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [
+        "Revenue Recovery"
+      ],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T09:59:46.004972+00:00"
+    },
+    {
+      "task_id": "rtask_aad372afedb5",
+      "symbol": "REBUILD",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T09:59:46.064013+00:00"
+    },
+    {
+      "task_id": "rtask_b0bf3b47e14e",
+      "symbol": "COHERENT",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T09:59:46.117179+00:00"
+    },
+    {
+      "task_id": "rtask_262cd6786239",
+      "symbol": "ISOLATED",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T09:59:46.151074+00:00"
+    },
+    {
+      "task_id": "rtask_43d8159d87fa",
+      "symbol": "CB_CRASH",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T09:59:46.187111+00:00"
+    },
+    {
+      "task_id": "rtask_7f633a7c5e2d",
+      "symbol": "CB_OK",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T09:59:46.224397+00:00"
+    },
+    {
+      "task_id": "rtask_d9982cbf8284",
+      "symbol": "GATE_YES",
+      "task_type": "contradicted_leaf",
+      "priority": "critical",
+      "status": "pending",
+      "title": "❌ 核心假設被否定：Revenue growing > 10% YoY",
+      "related_branch_ids": [
+        "b1"
+      ],
+      "related_leaf_ids": [
+        "l1"
+      ],
+      "summary": "Core hypothesis contradicted: Revenue growing > 10% YoY",
+      "rationale": "Revenue declined 20%.",
+      "notes": [
+        "Revenue declined 20%."
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-18T09:59:46.262095+00:00"
+    },
+    {
+      "task_id": "rtask_e11f331c853c",
+      "symbol": "GATE_YES",
+      "task_type": "contradicted_leaf",
+      "priority": "high",
+      "status": "pending",
+      "title": "❌ 核心假設被否定：Margin recovery underway",
+      "related_branch_ids": [
+        "b1"
+      ],
+      "related_leaf_ids": [
+        "l2"
+      ],
+      "summary": "Core hypothesis contradicted: Margin recovery underway",
+      "rationale": "",
+      "notes": [
+        ""
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-18T09:59:46.262112+00:00"
+    },
+    {
+      "task_id": "rtask_bf2430a09c02",
+      "symbol": "GATE_YES",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [
+        "Revenue Recovery"
+      ],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T09:59:46.262122+00:00"
+    },
+    {
+      "task_id": "rtask_1b02e5ecad1d",
+      "symbol": "GATE_NO",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T09:59:46.319723+00:00"
+    },
+    {
+      "task_id": "rtask_37e85831e5c3",
+      "symbol": "TEST_FULL",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T10:02:41.172452+00:00"
+    },
+    {
+      "task_id": "rtask_172d8a7e7133",
+      "symbol": "TEST_PARTIAL",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T10:02:41.208268+00:00"
+    },
+    {
+      "task_id": "rtask_966ad63c8691",
+      "symbol": "TEST_SKIP",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T10:02:41.237187+00:00"
+    },
+    {
+      "task_id": "rtask_6e2a5d473b2e",
+      "symbol": "FRESH",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T10:02:41.268795+00:00"
+    },
+    {
+      "task_id": "rtask_fd0ba0c439ce",
+      "symbol": "STALE",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T10:02:41.314801+00:00"
+    },
+    {
+      "task_id": "rtask_f10ba44cb407",
+      "symbol": "FORCE",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T10:02:41.354390+00:00"
+    },
+    {
+      "task_id": "rtask_f83a60d0932c",
+      "symbol": "DOWNSTREAM",
+      "task_type": "contradicted_leaf",
+      "priority": "critical",
+      "status": "pending",
+      "title": "❌ 核心假設被否定：Revenue growing > 10% YoY",
+      "related_branch_ids": [
+        "b1"
+      ],
+      "related_leaf_ids": [
+        "l1"
+      ],
+      "summary": "Core hypothesis contradicted: Revenue growing > 10% YoY",
+      "rationale": "Revenue declined 20%.",
+      "notes": [
+        "Revenue declined 20%."
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-18T10:02:41.389799+00:00"
+    },
+    {
+      "task_id": "rtask_b3916b18509b",
+      "symbol": "DOWNSTREAM",
+      "task_type": "contradicted_leaf",
+      "priority": "high",
+      "status": "pending",
+      "title": "❌ 核心假設被否定：Margin recovery underway",
+      "related_branch_ids": [
+        "b1"
+      ],
+      "related_leaf_ids": [
+        "l2"
+      ],
+      "summary": "Core hypothesis contradicted: Margin recovery underway",
+      "rationale": "",
+      "notes": [
+        ""
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-18T10:02:41.389819+00:00"
+    },
+    {
+      "task_id": "rtask_415585c3b4ce",
+      "symbol": "DOWNSTREAM",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [
+        "Revenue Recovery"
+      ],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T10:02:41.389828+00:00"
+    },
+    {
+      "task_id": "rtask_0ccc940194dc",
+      "symbol": "REBUILD",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T10:02:41.456051+00:00"
+    },
+    {
+      "task_id": "rtask_2704ed2c8012",
+      "symbol": "COHERENT",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T10:02:41.503669+00:00"
+    },
+    {
+      "task_id": "rtask_835e432c04d6",
+      "symbol": "ISOLATED",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T10:02:41.537583+00:00"
+    },
+    {
+      "task_id": "rtask_e3bbe484223b",
+      "symbol": "CB_CRASH",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T10:02:41.575845+00:00"
+    },
+    {
+      "task_id": "rtask_88a07db638b3",
+      "symbol": "CB_OK",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T10:02:41.618596+00:00"
+    },
+    {
+      "task_id": "rtask_964f533ff4e4",
+      "symbol": "GATE_YES",
+      "task_type": "contradicted_leaf",
+      "priority": "critical",
+      "status": "pending",
+      "title": "❌ 核心假設被否定：Revenue growing > 10% YoY",
+      "related_branch_ids": [
+        "b1"
+      ],
+      "related_leaf_ids": [
+        "l1"
+      ],
+      "summary": "Core hypothesis contradicted: Revenue growing > 10% YoY",
+      "rationale": "Revenue declined 20%.",
+      "notes": [
+        "Revenue declined 20%."
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-18T10:02:41.655385+00:00"
+    },
+    {
+      "task_id": "rtask_03bb26b140cd",
+      "symbol": "GATE_YES",
+      "task_type": "contradicted_leaf",
+      "priority": "high",
+      "status": "pending",
+      "title": "❌ 核心假設被否定：Margin recovery underway",
+      "related_branch_ids": [
+        "b1"
+      ],
+      "related_leaf_ids": [
+        "l2"
+      ],
+      "summary": "Core hypothesis contradicted: Margin recovery underway",
+      "rationale": "",
+      "notes": [
+        ""
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-18T10:02:41.655402+00:00"
+    },
+    {
+      "task_id": "rtask_424bd4882c94",
+      "symbol": "GATE_YES",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [
+        "Revenue Recovery"
+      ],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T10:02:41.655411+00:00"
+    },
+    {
+      "task_id": "rtask_8a70a7839b28",
+      "symbol": "GATE_NO",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T10:02:41.716402+00:00"
+    },
+    {
+      "task_id": "rtask_8cdf39f29242",
+      "symbol": "TEST_FULL",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T10:18:59.725148+00:00"
+    },
+    {
+      "task_id": "rtask_eb3ceb70fa15",
+      "symbol": "TEST_PARTIAL",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [
+        "Test"
+      ],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T10:18:59.957937+00:00"
+    },
+    {
+      "task_id": "rtask_cc7b3abd62f3",
+      "symbol": "TEST_SKIP",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T10:18:59.990084+00:00"
+    },
+    {
+      "task_id": "rtask_bed99e78da4c",
+      "symbol": "FRESH",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T10:19:00.027156+00:00"
+    },
+    {
+      "task_id": "rtask_a0d055a40e05",
+      "symbol": "STALE",
+      "task_type": "clustered_delay",
+      "priority": "high",
+      "status": "pending",
+      "title": "⏳ 叢集延遲：2 個項目",
+      "related_branch_ids": [
+        "b1"
+      ],
+      "related_leaf_ids": [
+        "l1",
+        "l2"
+      ],
+      "summary": "Clustered delays detected across 2 elements.",
+      "rationale": "Multiple mechanisms exhibit timing slips without structural negation. Analyst should review timeline.",
+      "notes": [
+        "Delayed leaves: l1, l2"
+      ],
+      "source_refs": [
+        "CLUSTER_TIMEOUT_RISK"
+      ],
+      "created_at": "2026-04-18T10:19:00.241056+00:00"
+    },
+    {
+      "task_id": "rtask_7913db46c157",
+      "symbol": "STALE",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [
+        "Revenue Recovery"
+      ],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T10:19:00.241074+00:00"
+    },
+    {
+      "task_id": "rtask_8e7fb225d529",
+      "symbol": "FORCE",
+      "task_type": "clustered_delay",
+      "priority": "high",
+      "status": "pending",
+      "title": "⏳ 叢集延遲：2 個項目",
+      "related_branch_ids": [
+        "b1"
+      ],
+      "related_leaf_ids": [
+        "l1",
+        "l2"
+      ],
+      "summary": "Clustered delays detected across 2 elements.",
+      "rationale": "Multiple mechanisms exhibit timing slips without structural negation. Analyst should review timeline.",
+      "notes": [
+        "Delayed leaves: l1, l2"
+      ],
+      "source_refs": [
+        "CLUSTER_TIMEOUT_RISK"
+      ],
+      "created_at": "2026-04-18T10:19:00.456034+00:00"
+    },
+    {
+      "task_id": "rtask_17ec1c5e93ea",
+      "symbol": "FORCE",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [
+        "Revenue Recovery"
+      ],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T10:19:00.456050+00:00"
+    },
+    {
+      "task_id": "rtask_c5a329f45773",
+      "symbol": "DOWNSTREAM",
+      "task_type": "contradicted_leaf",
+      "priority": "critical",
+      "status": "pending",
+      "title": "❌ 核心假設被否定：Revenue growing > 10% YoY",
+      "related_branch_ids": [
+        "b1"
+      ],
+      "related_leaf_ids": [
+        "l1"
+      ],
+      "summary": "Core hypothesis contradicted: Revenue growing > 10% YoY",
+      "rationale": "Revenue declined 20%.",
+      "notes": [
+        "Revenue declined 20%."
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-18T10:19:00.496211+00:00"
+    },
+    {
+      "task_id": "rtask_047a04502731",
+      "symbol": "DOWNSTREAM",
+      "task_type": "contradicted_leaf",
+      "priority": "high",
+      "status": "pending",
+      "title": "❌ 核心假設被否定：Margin recovery underway",
+      "related_branch_ids": [
+        "b1"
+      ],
+      "related_leaf_ids": [
+        "l2"
+      ],
+      "summary": "Core hypothesis contradicted: Margin recovery underway",
+      "rationale": "",
+      "notes": [
+        ""
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-18T10:19:00.496230+00:00"
+    },
+    {
+      "task_id": "rtask_3e29e958eeb1",
+      "symbol": "DOWNSTREAM",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [
+        "Revenue Recovery"
+      ],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T10:19:00.496239+00:00"
+    },
+    {
+      "task_id": "rtask_da961ad8beb6",
+      "symbol": "REBUILD",
+      "task_type": "clustered_delay",
+      "priority": "high",
+      "status": "pending",
+      "title": "⏳ 叢集延遲：4 個項目",
+      "related_branch_ids": [
+        "A",
+        "C",
+        "B"
+      ],
+      "related_leaf_ids": [
+        "A1",
+        "A2",
+        "B1",
+        "C1"
+      ],
+      "summary": "Clustered delays detected across 4 elements.",
+      "rationale": "Multiple mechanisms exhibit timing slips without structural negation. Analyst should review timeline.",
+      "notes": [
+        "Delayed leaves: A1, A2, B1, C1"
+      ],
+      "source_refs": [
+        "CLUSTER_TIMEOUT_RISK"
+      ],
+      "created_at": "2026-04-18T10:19:00.882740+00:00"
+    },
+    {
+      "task_id": "rtask_2b5ffbbd7888",
+      "symbol": "REBUILD",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [
+        "Inventory normalization",
+        "Margin recovery path",
+        "Market rerating path"
+      ],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T10:19:00.882755+00:00"
+    },
+    {
+      "task_id": "rtask_d27b19767dee",
+      "symbol": "COHERENT",
+      "task_type": "clustered_delay",
+      "priority": "high",
+      "status": "pending",
+      "title": "⏳ 叢集延遲：2 個項目",
+      "related_branch_ids": [
+        "b1"
+      ],
+      "related_leaf_ids": [
+        "l1",
+        "l2"
+      ],
+      "summary": "Clustered delays detected across 2 elements.",
+      "rationale": "Multiple mechanisms exhibit timing slips without structural negation. Analyst should review timeline.",
+      "notes": [
+        "Delayed leaves: l1, l2"
+      ],
+      "source_refs": [
+        "CLUSTER_TIMEOUT_RISK"
+      ],
+      "created_at": "2026-04-18T10:19:01.101534+00:00"
+    },
+    {
+      "task_id": "rtask_7a30e27021a9",
+      "symbol": "COHERENT",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [
+        "Revenue Recovery"
+      ],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T10:19:01.101551+00:00"
+    },
+    {
+      "task_id": "rtask_5a4c2956f371",
+      "symbol": "ISOLATED",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T10:19:01.141189+00:00"
+    },
+    {
+      "task_id": "rtask_d159f24ae5ec",
+      "symbol": "CB_CRASH",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T10:19:01.183617+00:00"
+    },
+    {
+      "task_id": "rtask_dc888c2ce628",
+      "symbol": "CB_OK",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T10:19:01.219083+00:00"
+    },
+    {
+      "task_id": "rtask_f701866d21c4",
+      "symbol": "GATE_YES",
+      "task_type": "contradicted_leaf",
+      "priority": "critical",
+      "status": "pending",
+      "title": "❌ 核心假設被否定：Revenue growing > 10% YoY",
+      "related_branch_ids": [
+        "b1"
+      ],
+      "related_leaf_ids": [
+        "l1"
+      ],
+      "summary": "Core hypothesis contradicted: Revenue growing > 10% YoY",
+      "rationale": "Revenue declined 20%.",
+      "notes": [
+        "Revenue declined 20%."
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-18T10:19:01.254501+00:00"
+    },
+    {
+      "task_id": "rtask_b4d27c8cab1f",
+      "symbol": "GATE_YES",
+      "task_type": "contradicted_leaf",
+      "priority": "high",
+      "status": "pending",
+      "title": "❌ 核心假設被否定：Margin recovery underway",
+      "related_branch_ids": [
+        "b1"
+      ],
+      "related_leaf_ids": [
+        "l2"
+      ],
+      "summary": "Core hypothesis contradicted: Margin recovery underway",
+      "rationale": "",
+      "notes": [
+        ""
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-18T10:19:01.254516+00:00"
+    },
+    {
+      "task_id": "rtask_8722762db029",
+      "symbol": "GATE_YES",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [
+        "Revenue Recovery"
+      ],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T10:19:01.254525+00:00"
+    },
+    {
+      "task_id": "rtask_39357421023b",
+      "symbol": "GATE_NO",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T10:19:01.310367+00:00"
+    },
+    {
+      "task_id": "rtask_752d0d438d27",
+      "symbol": "TEST_FULL",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T10:19:11.791770+00:00"
+    },
+    {
+      "task_id": "rtask_ebd1b8cf2dc6",
+      "symbol": "TEST_PARTIAL",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [
+        "Test"
+      ],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T10:19:12.023035+00:00"
+    },
+    {
+      "task_id": "rtask_a3eb5f72c7bc",
+      "symbol": "TEST_SKIP",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T10:19:12.050273+00:00"
+    },
+    {
+      "task_id": "rtask_817919966164",
+      "symbol": "FRESH",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T10:19:12.084763+00:00"
+    },
+    {
+      "task_id": "rtask_9cef125ec4a0",
+      "symbol": "STALE",
+      "task_type": "clustered_delay",
+      "priority": "high",
+      "status": "pending",
+      "title": "⏳ 叢集延遲：2 個項目",
+      "related_branch_ids": [
+        "b1"
+      ],
+      "related_leaf_ids": [
+        "l1",
+        "l2"
+      ],
+      "summary": "Clustered delays detected across 2 elements.",
+      "rationale": "Multiple mechanisms exhibit timing slips without structural negation. Analyst should review timeline.",
+      "notes": [
+        "Delayed leaves: l1, l2"
+      ],
+      "source_refs": [
+        "CLUSTER_TIMEOUT_RISK"
+      ],
+      "created_at": "2026-04-18T10:19:12.372877+00:00"
+    },
+    {
+      "task_id": "rtask_13f8a1f815f5",
+      "symbol": "STALE",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [
+        "Revenue Recovery"
+      ],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T10:19:12.372893+00:00"
+    },
+    {
+      "task_id": "rtask_2476e9928642",
+      "symbol": "FORCE",
+      "task_type": "clustered_delay",
+      "priority": "high",
+      "status": "pending",
+      "title": "⏳ 叢集延遲：2 個項目",
+      "related_branch_ids": [
+        "b1"
+      ],
+      "related_leaf_ids": [
+        "l1",
+        "l2"
+      ],
+      "summary": "Clustered delays detected across 2 elements.",
+      "rationale": "Multiple mechanisms exhibit timing slips without structural negation. Analyst should review timeline.",
+      "notes": [
+        "Delayed leaves: l1, l2"
+      ],
+      "source_refs": [
+        "CLUSTER_TIMEOUT_RISK"
+      ],
+      "created_at": "2026-04-18T10:19:12.611558+00:00"
+    },
+    {
+      "task_id": "rtask_4b99e797c44a",
+      "symbol": "FORCE",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [
+        "Revenue Recovery"
+      ],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T10:19:12.611572+00:00"
+    },
+    {
+      "task_id": "rtask_d2c82bdff9d1",
+      "symbol": "DOWNSTREAM",
+      "task_type": "contradicted_leaf",
+      "priority": "critical",
+      "status": "pending",
+      "title": "❌ 核心假設被否定：Revenue growing > 10% YoY",
+      "related_branch_ids": [
+        "b1"
+      ],
+      "related_leaf_ids": [
+        "l1"
+      ],
+      "summary": "Core hypothesis contradicted: Revenue growing > 10% YoY",
+      "rationale": "Revenue declined 20%.",
+      "notes": [
+        "Revenue declined 20%."
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-18T10:19:12.646001+00:00"
+    },
+    {
+      "task_id": "rtask_fe390f099c43",
+      "symbol": "DOWNSTREAM",
+      "task_type": "contradicted_leaf",
+      "priority": "high",
+      "status": "pending",
+      "title": "❌ 核心假設被否定：Margin recovery underway",
+      "related_branch_ids": [
+        "b1"
+      ],
+      "related_leaf_ids": [
+        "l2"
+      ],
+      "summary": "Core hypothesis contradicted: Margin recovery underway",
+      "rationale": "",
+      "notes": [
+        ""
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-18T10:19:12.646015+00:00"
+    },
+    {
+      "task_id": "rtask_751ae5ab87b2",
+      "symbol": "DOWNSTREAM",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [
+        "Revenue Recovery"
+      ],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T10:19:12.646024+00:00"
+    },
+    {
+      "task_id": "rtask_7796d50159a6",
+      "symbol": "REBUILD",
+      "task_type": "clustered_delay",
+      "priority": "high",
+      "status": "pending",
+      "title": "⏳ 叢集延遲：4 個項目",
+      "related_branch_ids": [
+        "A",
+        "C",
+        "B"
+      ],
+      "related_leaf_ids": [
+        "A1",
+        "A2",
+        "B1",
+        "C1"
+      ],
+      "summary": "Clustered delays detected across 4 elements.",
+      "rationale": "Multiple mechanisms exhibit timing slips without structural negation. Analyst should review timeline.",
+      "notes": [
+        "Delayed leaves: A1, A2, B1, C1"
+      ],
+      "source_refs": [
+        "CLUSTER_TIMEOUT_RISK"
+      ],
+      "created_at": "2026-04-18T10:19:12.903057+00:00"
+    },
+    {
+      "task_id": "rtask_cd3cbafb2adc",
+      "symbol": "REBUILD",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [
+        "Inventory normalization",
+        "Margin recovery path",
+        "Market rerating path"
+      ],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T10:19:12.903075+00:00"
+    },
+    {
+      "task_id": "rtask_b69ed4c7381f",
+      "symbol": "COHERENT",
+      "task_type": "clustered_delay",
+      "priority": "high",
+      "status": "pending",
+      "title": "⏳ 叢集延遲：2 個項目",
+      "related_branch_ids": [
+        "b1"
+      ],
+      "related_leaf_ids": [
+        "l1",
+        "l2"
+      ],
+      "summary": "Clustered delays detected across 2 elements.",
+      "rationale": "Multiple mechanisms exhibit timing slips without structural negation. Analyst should review timeline.",
+      "notes": [
+        "Delayed leaves: l1, l2"
+      ],
+      "source_refs": [
+        "CLUSTER_TIMEOUT_RISK"
+      ],
+      "created_at": "2026-04-18T10:19:13.145810+00:00"
+    },
+    {
+      "task_id": "rtask_d83b3b4cc4ba",
+      "symbol": "COHERENT",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [
+        "Revenue Recovery"
+      ],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T10:19:13.145825+00:00"
+    },
+    {
+      "task_id": "rtask_fe72854a3b8d",
+      "symbol": "ISOLATED",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T10:19:13.180751+00:00"
+    },
+    {
+      "task_id": "rtask_9c8dbd0fc835",
+      "symbol": "CB_CRASH",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T10:19:13.217340+00:00"
+    },
+    {
+      "task_id": "rtask_aab9b0b43ab4",
+      "symbol": "CB_OK",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T10:19:13.252206+00:00"
+    },
+    {
+      "task_id": "rtask_38ef63b84a6d",
+      "symbol": "GATE_YES",
+      "task_type": "contradicted_leaf",
+      "priority": "critical",
+      "status": "pending",
+      "title": "❌ 核心假設被否定：Revenue growing > 10% YoY",
+      "related_branch_ids": [
+        "b1"
+      ],
+      "related_leaf_ids": [
+        "l1"
+      ],
+      "summary": "Core hypothesis contradicted: Revenue growing > 10% YoY",
+      "rationale": "Revenue declined 20%.",
+      "notes": [
+        "Revenue declined 20%."
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-18T10:19:13.287137+00:00"
+    },
+    {
+      "task_id": "rtask_28377045ef59",
+      "symbol": "GATE_YES",
+      "task_type": "contradicted_leaf",
+      "priority": "high",
+      "status": "pending",
+      "title": "❌ 核心假設被否定：Margin recovery underway",
+      "related_branch_ids": [
+        "b1"
+      ],
+      "related_leaf_ids": [
+        "l2"
+      ],
+      "summary": "Core hypothesis contradicted: Margin recovery underway",
+      "rationale": "",
+      "notes": [
+        ""
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-18T10:19:13.287166+00:00"
+    },
+    {
+      "task_id": "rtask_aa1eecba0fe4",
+      "symbol": "GATE_YES",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [
+        "Revenue Recovery"
+      ],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T10:19:13.287187+00:00"
+    },
+    {
+      "task_id": "rtask_94eaefba84a6",
+      "symbol": "GATE_NO",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T10:19:13.343186+00:00"
+    },
+    {
+      "task_id": "rtask_3bc1731c72b8",
+      "symbol": "TEST_FULL",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T11:25:37.175744+00:00"
+    },
+    {
+      "task_id": "rtask_2c9d3c9a77eb",
+      "symbol": "TEST_PARTIAL",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [
+        "Test"
+      ],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T11:25:37.381565+00:00"
+    },
+    {
+      "task_id": "rtask_88ef1cda9fa4",
+      "symbol": "TEST_SKIP",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T11:25:37.412886+00:00"
+    },
+    {
+      "task_id": "rtask_d9e23868b57f",
+      "symbol": "FRESH",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T11:25:37.448523+00:00"
+    },
+    {
+      "task_id": "rtask_7fc1b24d00c7",
+      "symbol": "STALE",
+      "task_type": "clustered_delay",
+      "priority": "high",
+      "status": "pending",
+      "title": "⏳ 叢集延遲：2 個項目",
+      "related_branch_ids": [
+        "b1"
+      ],
+      "related_leaf_ids": [
+        "l1",
+        "l2"
+      ],
+      "summary": "Clustered delays detected across 2 elements.",
+      "rationale": "Multiple mechanisms exhibit timing slips without structural negation. Analyst should review timeline.",
+      "notes": [
+        "Delayed leaves: l1, l2"
+      ],
+      "source_refs": [
+        "CLUSTER_TIMEOUT_RISK"
+      ],
+      "created_at": "2026-04-18T11:25:37.653516+00:00"
+    },
+    {
+      "task_id": "rtask_b863aa35712b",
+      "symbol": "STALE",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [
+        "Revenue Recovery"
+      ],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T11:25:37.653531+00:00"
+    },
+    {
+      "task_id": "rtask_b36bcc961ab1",
+      "symbol": "FORCE",
+      "task_type": "clustered_delay",
+      "priority": "high",
+      "status": "pending",
+      "title": "⏳ 叢集延遲：2 個項目",
+      "related_branch_ids": [
+        "b1"
+      ],
+      "related_leaf_ids": [
+        "l1",
+        "l2"
+      ],
+      "summary": "Clustered delays detected across 2 elements.",
+      "rationale": "Multiple mechanisms exhibit timing slips without structural negation. Analyst should review timeline.",
+      "notes": [
+        "Delayed leaves: l1, l2"
+      ],
+      "source_refs": [
+        "CLUSTER_TIMEOUT_RISK"
+      ],
+      "created_at": "2026-04-18T11:25:37.878035+00:00"
+    },
+    {
+      "task_id": "rtask_f18e5adb6a58",
+      "symbol": "FORCE",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [
+        "Revenue Recovery"
+      ],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T11:25:37.878054+00:00"
+    },
+    {
+      "task_id": "rtask_675a3a1ec343",
+      "symbol": "DOWNSTREAM",
+      "task_type": "contradicted_leaf",
+      "priority": "critical",
+      "status": "pending",
+      "title": "❌ 核心假設被否定：Revenue growing > 10% YoY",
+      "related_branch_ids": [
+        "b1"
+      ],
+      "related_leaf_ids": [
+        "l1"
+      ],
+      "summary": "Core hypothesis contradicted: Revenue growing > 10% YoY",
+      "rationale": "Revenue declined 20%.",
+      "notes": [
+        "Revenue declined 20%."
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-18T11:25:37.921164+00:00"
+    },
+    {
+      "task_id": "rtask_ee93acd8a617",
+      "symbol": "DOWNSTREAM",
+      "task_type": "contradicted_leaf",
+      "priority": "high",
+      "status": "pending",
+      "title": "❌ 核心假設被否定：Margin recovery underway",
+      "related_branch_ids": [
+        "b1"
+      ],
+      "related_leaf_ids": [
+        "l2"
+      ],
+      "summary": "Core hypothesis contradicted: Margin recovery underway",
+      "rationale": "",
+      "notes": [
+        ""
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-18T11:25:37.921182+00:00"
+    },
+    {
+      "task_id": "rtask_ff0206831d9f",
+      "symbol": "DOWNSTREAM",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [
+        "Revenue Recovery"
+      ],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T11:25:37.921191+00:00"
+    },
+    {
+      "task_id": "rtask_86b15118ea68",
+      "symbol": "REBUILD",
+      "task_type": "clustered_delay",
+      "priority": "high",
+      "status": "pending",
+      "title": "⏳ 叢集延遲：4 個項目",
+      "related_branch_ids": [
+        "A",
+        "B",
+        "C"
+      ],
+      "related_leaf_ids": [
+        "A1",
+        "A2",
+        "B1",
+        "C1"
+      ],
+      "summary": "Clustered delays detected across 4 elements.",
+      "rationale": "Multiple mechanisms exhibit timing slips without structural negation. Analyst should review timeline.",
+      "notes": [
+        "Delayed leaves: A1, A2, B1, C1"
+      ],
+      "source_refs": [
+        "CLUSTER_TIMEOUT_RISK"
+      ],
+      "created_at": "2026-04-18T11:25:38.162027+00:00"
+    },
+    {
+      "task_id": "rtask_0de4f9aaa23c",
+      "symbol": "REBUILD",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [
+        "Inventory normalization",
+        "Margin recovery path",
+        "Market rerating path"
+      ],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T11:25:38.162044+00:00"
+    },
+    {
+      "task_id": "rtask_5ec259b5bf79",
+      "symbol": "COHERENT",
+      "task_type": "clustered_delay",
+      "priority": "high",
+      "status": "pending",
+      "title": "⏳ 叢集延遲：2 個項目",
+      "related_branch_ids": [
+        "b1"
+      ],
+      "related_leaf_ids": [
+        "l1",
+        "l2"
+      ],
+      "summary": "Clustered delays detected across 2 elements.",
+      "rationale": "Multiple mechanisms exhibit timing slips without structural negation. Analyst should review timeline.",
+      "notes": [
+        "Delayed leaves: l1, l2"
+      ],
+      "source_refs": [
+        "CLUSTER_TIMEOUT_RISK"
+      ],
+      "created_at": "2026-04-18T11:25:38.411718+00:00"
+    },
+    {
+      "task_id": "rtask_084c5af76725",
+      "symbol": "COHERENT",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [
+        "Revenue Recovery"
+      ],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T11:25:38.411735+00:00"
+    },
+    {
+      "task_id": "rtask_aba6b671c1b5",
+      "symbol": "ISOLATED",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T11:25:38.453668+00:00"
+    },
+    {
+      "task_id": "rtask_5322e93ceeef",
+      "symbol": "CB_CRASH",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T11:25:38.502648+00:00"
+    },
+    {
+      "task_id": "rtask_f34464457d75",
+      "symbol": "CB_OK",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T11:25:38.534448+00:00"
+    },
+    {
+      "task_id": "rtask_68b8084b878c",
+      "symbol": "GATE_YES",
+      "task_type": "contradicted_leaf",
+      "priority": "critical",
+      "status": "pending",
+      "title": "❌ 核心假設被否定：Revenue growing > 10% YoY",
+      "related_branch_ids": [
+        "b1"
+      ],
+      "related_leaf_ids": [
+        "l1"
+      ],
+      "summary": "Core hypothesis contradicted: Revenue growing > 10% YoY",
+      "rationale": "Revenue declined 20%.",
+      "notes": [
+        "Revenue declined 20%."
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-18T11:25:38.565400+00:00"
+    },
+    {
+      "task_id": "rtask_0f7582580dfe",
+      "symbol": "GATE_YES",
+      "task_type": "contradicted_leaf",
+      "priority": "high",
+      "status": "pending",
+      "title": "❌ 核心假設被否定：Margin recovery underway",
+      "related_branch_ids": [
+        "b1"
+      ],
+      "related_leaf_ids": [
+        "l2"
+      ],
+      "summary": "Core hypothesis contradicted: Margin recovery underway",
+      "rationale": "",
+      "notes": [
+        ""
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-18T11:25:38.565415+00:00"
+    },
+    {
+      "task_id": "rtask_8e80c9f51b7b",
+      "symbol": "GATE_YES",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [
+        "Revenue Recovery"
+      ],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T11:25:38.565423+00:00"
+    },
+    {
+      "task_id": "rtask_5ec2aaff8fd1",
+      "symbol": "GATE_NO",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T11:25:38.622776+00:00"
+    },
+    {
+      "task_id": "rtask_52ae8109f610",
+      "symbol": "TEST_FULL",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T11:35:33.941314+00:00"
+    },
+    {
+      "task_id": "rtask_78be36ee9d36",
+      "symbol": "TEST_PARTIAL",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [
+        "Test"
+      ],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T11:35:34.209065+00:00"
+    },
+    {
+      "task_id": "rtask_39003ab9f28c",
+      "symbol": "TEST_SKIP",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T11:35:34.246103+00:00"
+    },
+    {
+      "task_id": "rtask_f017f61841d4",
+      "symbol": "FRESH",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T11:35:34.286927+00:00"
+    },
+    {
+      "task_id": "rtask_e814bd8c2cff",
+      "symbol": "STALE",
+      "task_type": "clustered_delay",
+      "priority": "high",
+      "status": "pending",
+      "title": "⏳ 叢集延遲：2 個項目",
+      "related_branch_ids": [
+        "b1"
+      ],
+      "related_leaf_ids": [
+        "l1",
+        "l2"
+      ],
+      "summary": "Clustered delays detected across 2 elements.",
+      "rationale": "Multiple mechanisms exhibit timing slips without structural negation. Analyst should review timeline.",
+      "notes": [
+        "Delayed leaves: l1, l2"
+      ],
+      "source_refs": [
+        "CLUSTER_TIMEOUT_RISK"
+      ],
+      "created_at": "2026-04-18T11:35:34.517807+00:00"
+    },
+    {
+      "task_id": "rtask_9359dfef38cf",
+      "symbol": "STALE",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [
+        "Revenue Recovery"
+      ],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T11:35:34.517823+00:00"
+    },
+    {
+      "task_id": "rtask_3333df8d10e3",
+      "symbol": "FORCE",
+      "task_type": "clustered_delay",
+      "priority": "high",
+      "status": "pending",
+      "title": "⏳ 叢集延遲：2 個項目",
+      "related_branch_ids": [
+        "b1"
+      ],
+      "related_leaf_ids": [
+        "l1",
+        "l2"
+      ],
+      "summary": "Clustered delays detected across 2 elements.",
+      "rationale": "Multiple mechanisms exhibit timing slips without structural negation. Analyst should review timeline.",
+      "notes": [
+        "Delayed leaves: l1, l2"
+      ],
+      "source_refs": [
+        "CLUSTER_TIMEOUT_RISK"
+      ],
+      "created_at": "2026-04-18T11:35:34.792070+00:00"
+    },
+    {
+      "task_id": "rtask_bca41c00c16d",
+      "symbol": "FORCE",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [
+        "Revenue Recovery"
+      ],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T11:35:34.792083+00:00"
+    },
+    {
+      "task_id": "rtask_e0d03fe7d67d",
+      "symbol": "DOWNSTREAM",
+      "task_type": "contradicted_leaf",
+      "priority": "critical",
+      "status": "pending",
+      "title": "❌ 核心假設被否定：Revenue growing > 10% YoY",
+      "related_branch_ids": [
+        "b1"
+      ],
+      "related_leaf_ids": [
+        "l1"
+      ],
+      "summary": "Core hypothesis contradicted: Revenue growing > 10% YoY",
+      "rationale": "Revenue declined 20%.",
+      "notes": [
+        "Revenue declined 20%."
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-18T11:35:34.832540+00:00"
+    },
+    {
+      "task_id": "rtask_5835510c6922",
+      "symbol": "DOWNSTREAM",
+      "task_type": "contradicted_leaf",
+      "priority": "high",
+      "status": "pending",
+      "title": "❌ 核心假設被否定：Margin recovery underway",
+      "related_branch_ids": [
+        "b1"
+      ],
+      "related_leaf_ids": [
+        "l2"
+      ],
+      "summary": "Core hypothesis contradicted: Margin recovery underway",
+      "rationale": "",
+      "notes": [
+        ""
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-18T11:35:34.832555+00:00"
+    },
+    {
+      "task_id": "rtask_6da68583c63f",
+      "symbol": "DOWNSTREAM",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [
+        "Revenue Recovery"
+      ],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T11:35:34.832564+00:00"
+    },
+    {
+      "task_id": "rtask_cfbddbd6404e",
+      "symbol": "REBUILD",
+      "task_type": "clustered_delay",
+      "priority": "high",
+      "status": "pending",
+      "title": "⏳ 叢集延遲：4 個項目",
+      "related_branch_ids": [
+        "A",
+        "C",
+        "B"
+      ],
+      "related_leaf_ids": [
+        "A1",
+        "A2",
+        "B1",
+        "C1"
+      ],
+      "summary": "Clustered delays detected across 4 elements.",
+      "rationale": "Multiple mechanisms exhibit timing slips without structural negation. Analyst should review timeline.",
+      "notes": [
+        "Delayed leaves: A1, A2, B1, C1"
+      ],
+      "source_refs": [
+        "CLUSTER_TIMEOUT_RISK"
+      ],
+      "created_at": "2026-04-18T11:35:35.091435+00:00"
+    },
+    {
+      "task_id": "rtask_315172873283",
+      "symbol": "REBUILD",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [
+        "Inventory normalization",
+        "Margin recovery path",
+        "Market rerating path"
+      ],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T11:35:35.091450+00:00"
+    },
+    {
+      "task_id": "rtask_7c4ad7c0287c",
+      "symbol": "COHERENT",
+      "task_type": "clustered_delay",
+      "priority": "high",
+      "status": "pending",
+      "title": "⏳ 叢集延遲：2 個項目",
+      "related_branch_ids": [
+        "b1"
+      ],
+      "related_leaf_ids": [
+        "l1",
+        "l2"
+      ],
+      "summary": "Clustered delays detected across 2 elements.",
+      "rationale": "Multiple mechanisms exhibit timing slips without structural negation. Analyst should review timeline.",
+      "notes": [
+        "Delayed leaves: l1, l2"
+      ],
+      "source_refs": [
+        "CLUSTER_TIMEOUT_RISK"
+      ],
+      "created_at": "2026-04-18T11:35:35.357166+00:00"
+    },
+    {
+      "task_id": "rtask_c806810d0819",
+      "symbol": "COHERENT",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [
+        "Revenue Recovery"
+      ],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T11:35:35.357180+00:00"
+    },
+    {
+      "task_id": "rtask_1aaee97b921e",
+      "symbol": "ISOLATED",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T11:35:35.397633+00:00"
+    },
+    {
+      "task_id": "rtask_fdfa0616d0e3",
+      "symbol": "CB_CRASH",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T11:35:35.446508+00:00"
+    },
+    {
+      "task_id": "rtask_915668ee700d",
+      "symbol": "CB_OK",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T11:35:35.479696+00:00"
+    },
+    {
+      "task_id": "rtask_1ab27ba08bdc",
+      "symbol": "GATE_YES",
+      "task_type": "contradicted_leaf",
+      "priority": "critical",
+      "status": "pending",
+      "title": "❌ 核心假設被否定：Revenue growing > 10% YoY",
+      "related_branch_ids": [
+        "b1"
+      ],
+      "related_leaf_ids": [
+        "l1"
+      ],
+      "summary": "Core hypothesis contradicted: Revenue growing > 10% YoY",
+      "rationale": "Revenue declined 20%.",
+      "notes": [
+        "Revenue declined 20%."
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-18T11:35:35.543917+00:00"
+    },
+    {
+      "task_id": "rtask_60fb71b31a1a",
+      "symbol": "GATE_YES",
+      "task_type": "contradicted_leaf",
+      "priority": "high",
+      "status": "pending",
+      "title": "❌ 核心假設被否定：Margin recovery underway",
+      "related_branch_ids": [
+        "b1"
+      ],
+      "related_leaf_ids": [
+        "l2"
+      ],
+      "summary": "Core hypothesis contradicted: Margin recovery underway",
+      "rationale": "",
+      "notes": [
+        ""
+      ],
+      "source_refs": [],
+      "created_at": "2026-04-18T11:35:35.543931+00:00"
+    },
+    {
+      "task_id": "rtask_4f4436f45747",
+      "symbol": "GATE_YES",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [
+        "Revenue Recovery"
+      ],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T11:35:35.543940+00:00"
+    },
+    {
+      "task_id": "rtask_3c225b4bd1b5",
+      "symbol": "GATE_NO",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T11:35:35.599488+00:00"
+    },
+    {
+      "task_id": "d5bb2000-02cc-49fe-84be-c9541f2f71a4",
+      "symbol": "AAPL",
+      "task_type": "system_crash",
+      "priority": "high",
+      "status": "pending",
+      "title": "❌ Background Analysis Crashed",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Automated analysis pipeline crashed for AAPL.",
+      "rationale": "Error: 'NoneType' object has no attribute 'save_run_diagnostic'. The sidecar coverage sync is now stale. Please check orchestrator logs.",
+      "notes": [],
+      "source_refs": [],
+      "created_at": "2026-04-18T11:38:25.727204+00:00"
+    },
+    {
+      "task_id": "rtask_a2cb95157f3c",
+      "symbol": "6706.TW",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "approved",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T14:40:58.341438+00:00"
+    },
+    {
+      "task_id": "rtask_b8959935fc9d",
+      "symbol": "6706.TW",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "dismissed",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T14:49:52.366035+00:00"
+    },
+    {
+      "task_id": "rtask_a771283e3882",
+      "symbol": "4569.TW",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T14:50:05.488017+00:00"
+    },
+    {
+      "task_id": "rtask_6a358c60fae8",
+      "symbol": "4569.TW",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T14:50:46.035555+00:00"
+    },
+    {
+      "task_id": "rtask_57479b5e1d43",
+      "symbol": "2344.TW",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T15:03:25.132435+00:00"
+    },
+    {
+      "task_id": "rtask_c429edd9cc75",
+      "symbol": "2344.TW",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "pending",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T15:25:08.626075+00:00"
+    },
+    {
+      "task_id": "rtask_189e6ef844b0",
+      "symbol": "6706.TW",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "dismissed",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T15:46:39.131526+00:00"
+    },
+    {
+      "task_id": "rtask_7d1185025f3c",
+      "symbol": "6706.TW",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "dismissed",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T17:17:55.653763+00:00"
+    },
+    {
+      "task_id": "rtask_78cd23efa325",
+      "symbol": "AMD",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "dismissed",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T17:19:12.875327+00:00"
+    },
+    {
+      "task_id": "rtask_8c98f0e47cf9",
+      "symbol": "AMD",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "dismissed",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T17:24:33.657255+00:00"
+    },
+    {
+      "task_id": "rtask_961d53d9affa",
+      "symbol": "AMD",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "dismissed",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-18T17:57:15.897883+00:00"
+    },
+    {
+      "task_id": "rtask_a33a6761cd80",
+      "symbol": "AMD",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "dismissed",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-19T02:16:47.202830+00:00"
+    },
+    {
+      "task_id": "rtask_443b63ec920d",
+      "symbol": "AMD",
+      "task_type": "valuation_risk_escalation",
+      "priority": "high",
+      "status": "dismissed",
+      "title": "⚠ 估值風險升級",
+      "related_branch_ids": [],
+      "related_leaf_ids": [],
+      "summary": "Elevated expectation risk in valuation model.",
+      "rationale": "Model indicated risk level: high",
+      "notes": [
+        "Expectation risk: high"
+      ],
+      "source_refs": [
+        "VALUATION_SIDECAR"
+      ],
+      "created_at": "2026-04-19T02:19:16.233349+00:00"
     }
   ]
 }

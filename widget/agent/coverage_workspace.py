@@ -74,10 +74,34 @@ class CoverageWorkspace:
         return self._write_json(self.path_for(symbol, "review_tasks.json"), payload)
 
     def load_review_tasks(self, symbol: str) -> Optional[list[dict[str, Any]]]:
-        return self._read_json(self.path_for(symbol, "review_tasks.json"))
+        result = self._read_json_any(self.path_for(symbol, "review_tasks.json"))
+        if isinstance(result, list):
+            return result
+        return None
+
+    def save_evidence_summary(self, symbol: str, payload: dict[str, Any]) -> Path:
+        return self._write_json(self.path_for(symbol, "evidence_summary.json"), payload)
+
+    def load_evidence_summary(self, symbol: str) -> Optional[dict[str, Any]]:
+        return self._read_json(self.path_for(symbol, "evidence_summary.json"))
+
+    def save_evidence_records(self, symbol: str, payload: list[dict[str, Any]]) -> Path:
+        return self._write_json(self.path_for(symbol, "evidence_records.json"), payload)
+
+    def load_evidence_records(self, symbol: str) -> Optional[list[dict[str, Any]]]:
+        result = self._read_json_any(self.path_for(symbol, "evidence_records.json"))
+        if isinstance(result, list):
+            return result
+        return None
 
     def load_monitor_state(self, symbol: str) -> Optional[dict[str, Any]]:
         return self._read_json(self.path_for(symbol, "monitor_state.json"))
+
+    def save_run_diagnostic(self, symbol: str, payload: dict[str, Any]) -> Path:
+        return self._write_json(self.path_for(symbol, "run_diagnostic.json"), payload)
+
+    def load_run_diagnostic(self, symbol: str) -> Optional[dict[str, Any]]:
+        return self._read_json(self.path_for(symbol, "run_diagnostic.json"))
 
     def save_leaf_results(self, symbol: str, payload: dict[str, Any]) -> Path:
         return self._write_json(self.path_for(symbol, "leaf_results.json"), payload)
@@ -128,4 +152,14 @@ class CoverageWorkspace:
         except (json.JSONDecodeError, OSError):
             return None
         return payload if isinstance(payload, dict) else None
+
+    @staticmethod
+    def _read_json_any(path: Path) -> Any:
+        """Read JSON that may be a dict or list (e.g. review_tasks.json)."""
+        if not path.exists():
+            return None
+        try:
+            return json.loads(path.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError):
+            return None
 

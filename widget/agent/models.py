@@ -73,6 +73,7 @@ class TargetSpec:
     key_numeric_facts: list[NumericFact] = field(default_factory=list)
     tags: list[str] = field(default_factory=list)
     metadata: dict[str, Any] = field(default_factory=dict)
+    coverage_status: str = "active"  # active, watched, paused, archived
     created_at: str = ""
     updated_at: str = ""
 
@@ -561,10 +562,13 @@ class ReviewTask:
     symbol: str = ""
     task_type: str = ""  # e.g., contradicted_leaf, clustered_delay, belief_gap_shift, valuation_risk_escalation, critical_evidence_gap
     priority: str = "low"  # low, medium, high, critical
+    status: str = "pending"  # pending, approved, dismissed
+    title: str = ""  # human-readable title; falls back to task_type in UI
     related_branch_ids: list[str] = field(default_factory=list)
     related_leaf_ids: list[str] = field(default_factory=list)
     summary: str = ""
     rationale: str = ""
+    notes: list[str] = field(default_factory=list)  # analyst notes / context lines
     source_refs: list[str] = field(default_factory=list)
     created_at: str = ""
 
@@ -603,6 +607,51 @@ class ReviewSummarySidecar:
     def from_dict(cls, payload: dict[str, Any]) -> "ReviewSummarySidecar":
         known = {f.name for f in fields(cls)}
         return cls(**{k: v for k, v in payload.items() if k in known})
+
+
+@dataclass
+class AnalysisRequest:
+    """Input contract for the v1.6 Analysis Orchestrator."""
+
+    symbol: str = ""
+    mode: str = "full_analysis"  # full_analysis | refresh | rebuild
+    target_spec: Optional["TargetSpec"] = None
+    market_context: dict[str, Any] = field(default_factory=dict)
+    force: bool = False  # Skip freshness checks
+
+    def to_dict(self) -> dict[str, Any]:
+        d = _serialize(self)
+        if self.target_spec:
+            d["target_spec"] = self.target_spec.to_dict()
+        return d
+
+
+@dataclass
+class AnalysisResult:
+    """Output contract for the v1.6 Analysis Orchestrator."""
+
+    symbol: str = ""
+    mode: str = ""
+    status: str = "completed"  # completed | partial | failed
+    steps_completed: list[str] = field(default_factory=list)
+    steps_skipped: list[str] = field(default_factory=list)
+    steps_failed: dict[str, str] = field(default_factory=dict)
+    active_step: str = ""    # Current step name for real-time telemetry
+    active_detail: str = ""  # Current detailed status for live console
+    review_tasks_generated: int = 0
+    report_path: Optional[str] = None
+    report_state_path: Optional[str] = None
+    elapsed_seconds: float = 0.0
+    metadata: dict[str, Any] = field(default_factory=dict)
+    created_at: str = ""
+
+    def __post_init__(self) -> None:
+        if not self.created_at:
+            self.created_at = _utc_now_iso()
+
+    def to_dict(self) -> dict[str, Any]:
+        return _serialize(self)
+
 
 
 

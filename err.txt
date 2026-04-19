@@ -97,3 +97,6 @@
 2026-04-11 01:11:41 [AlphaMemo] open request: 2317.TW
 2026-04-11 01:11:41 [AlphaMemo] resolved 2317 to efb12983-3f37-48e0-a9a3-293fc80066e7 (2026-03-16)
 2026-04-11 01:11:41 [AlphaMemo] navigation complete
+2026-04-18 21:40:02 [AlphaMemo] open request: AMD
+2026-04-18 21:40:02 [AlphaMemo] resolved AMD to d9d2e4ec-fc87-4390-9d42-837571d8588f (2026-02-03)
+2026-04-18 21:40:02 [AlphaMemo] navigation complete

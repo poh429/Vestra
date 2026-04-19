@@ -1,16 +1,36 @@
-"""Sidecar tree builder for v1.4-b.
-
-This module turns framework-router branch skeletons into a formal tree/leaf
-contract without mutating live thesis state.
-"""
-
 from __future__ import annotations
-
 from typing import Any, Optional
-
 from .coverage_workspace import CoverageWorkspace
 from .framework_router import build_framework_plan
 from .models import TargetSpec
+
+SCHEMA_VERSION = 1
+
+def validate_tree_contract(tree: dict[str, Any]) -> tuple[bool, str]:
+    """Validate structure and freshness of a tree contract.
+    
+    Returns: (is_valid, reason)
+    Categories: legacy_tree, invalid_contract, builder_generation_failure
+    """
+    if not tree:
+        return False, "invalid_contract"
+        
+    # 1. Schema Check
+    sv = tree.get("schema_version")
+    if sv != SCHEMA_VERSION:
+        return False, "legacy_tree"
+        
+    # 2. Structural Check
+    branches = tree.get("branches", [])
+    if not branches:
+        return False, "invalid_contract"
+        
+    # 3. Content Check (Empty Shell Detection)
+    total_leaves = sum(len(b.get("leaves", [])) for b in branches)
+    if total_leaves == 0:
+        return False, "builder_generation_failure"
+        
+    return True, "valid"
 
 
 _FRAMEWORK_LEAF_LIBRARY: dict[str, list[dict[str, Any]]] = {
@@ -321,6 +341,17 @@ def _build_branch_contract(
 
     leaves: list[dict[str, Any]] = []
     selected_specs = leaf_specs[:2]
+    
+    # ENSURE AT LEAST ONE SPEC IF LIBRARY IS EMPTY (Safety Guardrail)
+    if not selected_specs:
+        selected_specs = [{
+            "hypothesis": f"{branch_name} has a measurable impact on terminal value.",
+            "data_required": ["financials", "guidance", "market share"],
+            "supporting_topics": ["more_specific"],
+            "kill_condition": f"{branch_name} logic is fundamentally flawed or debunked.",
+            "delayed_condition": "Evidence is positive but takes longer to materialize in financials.",
+        }]
+
     branch_topics = _resolve_branch_topics(branch, evidence_summary, selected_specs)
     for leaf_index, spec in enumerate(selected_specs, start=1):
         leaf_id = f"{branch_id}{leaf_index}"

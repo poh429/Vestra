@@ -1,0 +1,16 @@
+{
+  "symbol": "AMD",
+  "root_question": "",
+  "overall_assessment": "Drafting interrupted: Real LLM Engine Error: LLM returned empty response or all fallback models failed.",
+  "market_belief_gap": "",
+  "branch_under_question": [],
+  "bull_base_bear_summary": {},
+  "major_triggers": [],
+  "red_flags": [],
+  "must_watch_metrics": [],
+  "open_evidence_gaps": [],
+  "confidence": "low",
+  "llm_status": "error",
+  "metadata": {},
+  "created_at": "2026-04-19T02:28:59.664784+00:00"
+}
