@@ -1,0 +1,26 @@
+{
+  "symbol": "2330.TW",
+  "mode": "full_analysis",
+  "status": "completed",
+  "steps_completed": [
+    "framework_router",
+    "tree_builder",
+    "leaf_research_executor",
+    "search_agent",
+    "scenario_valuation",
+    "coverage_writer",
+    "review_queue_bridge"
+  ],
+  "steps_skipped": [],
+  "steps_failed": {},
+  "active_step": "review_queue_bridge",
+  "active_detail": "Calculating logic health and generating review tasks...",
+  "review_tasks_generated": 0,
+  "report_path": "C:\\stock_project\\Vestra\\coverage\\2330.TW\\report.md",
+  "report_state_path": "C:\\stock_project\\Vestra\\coverage\\2330.TW\\report_state.json",
+  "elapsed_seconds": 322.49,
+  "metadata": {
+    "tree_rebuild_reason": "legacy_tree"
+  },
+  "created_at": "2026-04-19T03:16:30.694751+00:00"
+}

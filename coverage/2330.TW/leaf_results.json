@@ -1,0 +1,25 @@
+{
+  "A1": {
+    "leaf_id": "A1",
+    "branch_id": "A",
+    "hypothesis": "The thesis has identifiable invalidation points that can be monitored before permanent damage occurs.",
+    "verdict": "unknown",
+    "confidence": "low",
+    "supporting_evidence_ids": [],
+    "missing_evidence_topics": [],
+    "delayed_progress": "",
+    "delayed_state": "none",
+    "falsification_progress": "",
+    "falsification_state": "none",
+    "notes": [
+      "Dual-Track Engine Error: All LLM providers failed. Log: NVIDIA NIM (Minimax) returned None.; Google SDK returned None.; OpenRouter chain failed (Likely 429/404)."
+    ],
+    "source_summary": "",
+    "reason_codes": [
+      "PROVIDER_ERROR"
+    ],
+    "llm_status": "error",
+    "metadata": {},
+    "created_at": "2026-04-19T03:19:35.187352+00:00"
+  }
+}

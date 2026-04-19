@@ -15,14 +15,18 @@ import sys
 from pathlib import Path
 from typing import Any, Optional
 
-# Add project root to sys.path to access llm_core
-_root = Path(__file__).resolve().parents[3]
+# Add project root to sys.path to access internal llm_core
+_root = Path(__file__).resolve().parents[2] 
 if str(_root) not in sys.path:
     sys.path.insert(0, str(_root))
 
 try:
     from llm_core import call_openrouter, call_google_sdk, call_nvidia_nim, initialize_services
-except ImportError:
+    print(f"  [Vestra-Adapter] Successfully loaded internal llm_core from: {_root}")
+except ImportError as e:
+    # Error diagnostic
+    print(f"  ❌ [Vestra-Adapter] FAILED to load llm_core from: {_root}")
+    print(f"  Trace: {e}")
     # Safe fallback if run out of root context
     call_openrouter = None
     call_google_sdk = None
